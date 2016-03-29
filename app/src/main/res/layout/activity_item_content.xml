@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_content_action_bar_layout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/colorBlue"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_content_title"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Title"
+            android:textColor="@color/colorWhite"
+            android:textAlignment="center"
+            android:singleLine="true"
+            android:layout_gravity="center_vertical"
+            android:textStyle="bold"
+            android:autoText="false"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/item_content_back_button"
+            android:layout_alignWithParentIfMissing="false"
+            android:layout_alignParentRight="false" />
+
+        <ImageButton
+            android:layout_width="120dp"
+            android:layout_height="45dp"
+            android:id="@+id/item_content_back_button"
+            android:background="@drawable/back_button_selector"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginRight="5dp" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/item_content_scroll_view"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+
+                <ImageView
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    android:id="@+id/item_content_image"
+                    android:src="@drawable/ic_no_thumbnail"
+                    android:maxHeight="125dp"
+                    android:maxWidth="125dp"
+                    android:layout_alignParentLeft="false"
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/item_content_subtitle"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Subtitle"
+                    android:layout_alignTop="@+id/item_content_image"
+                    android:layout_toRightOf="@+id/item_content_image"
+                    android:layout_toEndOf="@+id/item_content_image"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/item_content_pubdate"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Date"
+                    android:layout_below="@+id/item_content_subtitle"
+                    android:layout_alignLeft="@+id/item_content_subtitle"
+                    android:layout_alignStart="@+id/item_content_subtitle"
+                    android:textSize="10dp"
+                    android:layout_marginTop="10dp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_content_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+                android:layout_below="@+id/item_content_pubdate"
+                android:layout_alignLeft="@+id/item_content_pubdate"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="10dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

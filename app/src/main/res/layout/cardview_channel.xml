@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/channel_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    card_view:cardBackgroundColor="@color/colorGreyCardView"
+    card_view:cardMaxElevation="0dp"
+    card_view:cardElevation="0dp"
+    card_view:cardCornerRadius="4dp" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingRight="10dp"
+        android:clickable="true"
+        android:contextClickable="false"
+        android:id="@+id/channel_card_layout">
+
+            <TextView
+                android:id="@+id/channel_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Text"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:paddingLeft="5dp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:clickable="true"
+                android:contextClickable="false"
+                android:textAlignment="viewStart"
+                android:layout_toLeftOf="@+id/navigate_right_image"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/colorGreyText"
+                android:textStyle="bold"
+                android:layout_marginBottom="2dp" />
+
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:id="@+id/navigate_right_image"
+            android:background="@drawable/ic_navigate_right"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="false"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:paddingRight="10dp" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

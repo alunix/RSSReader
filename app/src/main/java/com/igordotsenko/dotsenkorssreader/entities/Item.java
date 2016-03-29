@@ -1,0 +1,176 @@
+package com.igordotsenko.dotsenkorssreader.entities;
+
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+@Table(name = "item")
+@XStreamAlias("item")
+public class Item extends Model implements Comparable<Item> {
+    public static final String ID = "id";
+    public static final String CHANNEL_ID = "item_channel_id";
+    public static final String TITLE = "item_title";
+    public static final String LINK = "item_link";
+    public static final String DESCRIPTION = "item_description";
+    public static final String PUBDATE = "item_pubdate";
+    public static final String PUBDATE_LONG = "item_pubdate_long";
+    public static final String THUMBNAIL = "item_thumbnail_url";
+    public static final String SUBTITLE = "item_subtitle";
+
+    @Column(name = ID)
+	private long id;
+
+    @Column(name = CHANNEL_ID)
+    private long channel;
+
+    @Column(name = TITLE)
+    @XStreamAlias("title")
+	private String title;
+
+    @Column(name = LINK)
+    @XStreamAlias("link")
+    private String link;
+
+    @Column(name = DESCRIPTION)
+    @XStreamAlias("description")
+    private String description;
+
+    @Column(name = PUBDATE)
+    @XStreamAlias("pubDate")
+    private String pubdate;
+
+    @Column(name = PUBDATE_LONG)
+    private long pubdateLong;
+
+    @Column(name = THUMBNAIL)
+    private String thumbNailURL;
+
+    public Item() {}
+
+    public Item(String title, String link, String description, String pubdate, String thumbNailURL) {
+        this.title = title;
+        this.link = link;
+        this.description = description;
+        this.pubdate = pubdate;
+        this.thumbNailURL = thumbNailURL;
+    }
+    public Item(Item item) {
+        this.id = item.id;
+        this.title = item.title;
+        this.link = item.link;
+        this.description = item.description;
+        this.pubdate = item.pubdate;
+        this.pubdateLong = item.pubdateLong;
+        this.thumbNailURL = item.thumbNailURL;
+    }
+
+    public void finishInitialization() {
+        try {
+            pubdateToLong();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //Parsing html parts for image link and item decritpion
+        parseDescription();
+    }
+
+    public long getID() {
+        return id;
+    }
+
+    public void setID(long id) { this.id = id; }
+
+    public void setChannel(long channel) {
+        this.channel = channel;
+    }
+
+    public String getTitle() {
+    	return title;
+    }
+
+    public String getLink() {
+    	return link;
+    }
+
+    public String getContent() {
+    	return description;
+    }
+
+    public String getPubdate(){
+    	return pubdate;
+    }
+
+    public long getPubdateLong() {
+    	return pubdateLong;
+    }
+
+    public String getThumbNailURL() {
+    	return thumbNailURL;
+    }
+
+    @Override
+    public int compareTo(Item another) {
+        if ( pubdateLong < another.pubdateLong ) {
+            return 1;
+        }
+        if ( pubdateLong > another.pubdateLong ) {
+            return -1;
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if ( obj == null ) return false;
+
+        if ( !(obj instanceof Item) ) return false;
+
+        Item another = (Item) obj;
+
+        return id == another.id || ( channel == another.channel &&  link.equals(another.link));
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", link='" + link + '\'' +
+                ", description='" + description + '\'' +
+                ", pubdate='" + pubdate + '\'' +
+                ", pubdateLong=" + pubdateLong +
+                ", thumbNailURL='" + thumbNailURL + '\'' +
+                '}';
+    }
+
+    private void pubdateToLong() throws ParseException {
+        if ( pubdate != null ) {
+            DateFormat forLongFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+            DateFormat forStringFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy hh:mm a", Locale.ENGLISH);
+            pubdateLong = forLongFormat.parse(pubdate).getTime();
+            pubdate = forStringFormat.format(new Date(pubdateLong));
+        }
+    }
+
+    private void parseDescription() {
+        if ( description != null ) {
+            Document doc = Jsoup.parse(description);
+            Element link = doc.select("img").first();
+            if ( link != null) {
+                thumbNailURL = link.attr("src");
+            }
+            description = doc.body().text();
+        }
+    }
+}
