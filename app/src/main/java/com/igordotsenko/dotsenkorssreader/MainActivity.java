@@ -7,26 +7,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
 import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
+import com.igordotsenko.dotsenkorssreader.util.DataBaseHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+    public static final String LOG_TAG = "rss_reader_log";
+
     private DialogFragment dialogFragment;
     private RecyclerView recyclerView;
     private SearchView searchView;
     private ImageButton addChannelButton;
     private List<Channel> channelList;
     private ChannelListRVAdapter rvAdapter;
+    private DataBaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +69,14 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(llm);
 
-        channelList = DBHandler.selectAllChannels();
+        dbHelper = new DataBaseHelper(MainActivity.this, "rss_reader.db", null, 1);
+
+        try {
+            channelList = dbHelper.selectAllChannels(); // TODO: change exception handling after debugging
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new Error(e.getMessage());
+        }
         rvAdapter = new ChannelListRVAdapter(this, channelList);
         recyclerView.setAdapter(rvAdapter);
     }
