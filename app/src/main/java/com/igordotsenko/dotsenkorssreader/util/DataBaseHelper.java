@@ -1,14 +1,19 @@
 package com.igordotsenko.dotsenkorssreader.util;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.igordotsenko.dotsenkorssreader.entities.Channel;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     private static String DB_PATH = "/data/data/com.com.igordotsenko.dotsenkorssreader/databases/";
@@ -49,6 +54,29 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             dataBaseConnetction.close();
         }
         super.close();
+    }
+
+    public List<Channel> selectAllChannels() throws IOException {
+        List<Channel> channelList = new ArrayList<>();
+        String order = "ORDER by id ASC";
+
+        // Retrieve rows from "channel" table
+        Cursor cursor = getDataBaseConnection().query(Channel.TABLE, null, null, null, null, null, order);
+
+        // If rows returned - fill channels list. Id and title are enough for MainActivity's RecyclerView
+        if ( cursor.moveToFirst() ) {
+            int idIndex = cursor.getColumnIndex(Channel.ID);
+            int titleIndex = cursor.getColumnIndex(Channel.TITLE);
+
+            while ( cursor.moveToNext() ) {
+                channelList.add(new Channel(cursor.getInt(idIndex), cursor.getString(titleIndex)));
+            }
+
+        }
+
+        cursor.close();
+
+        return channelList;
     }
 
     private void createDataBase() throws IOException {

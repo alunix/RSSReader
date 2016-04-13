@@ -13,40 +13,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-@Table(name = "channel")
 @XStreamAlias("channel")
-public class Channel extends Model {
+public class Channel {
+    public static final String TABLE = "channel";
     public static final String ID = "id";
     public static final String TITLE = "channel_title";
     public static final String LINK = "channel_link";
     public static final String LAST_BUILD_DATE = "channel_last_build_date_long";
     public static final String LAST_BUILD_DATE_LONG = "channel_last_build_date_long";
 
-    @Column(name = ID)
 	private long id;
 
-    @Column(name = TITLE, notNull = true)
     @XStreamAlias("title")
 	private String title;
 
-    @Column(name = LINK, notNull = true)
     @XStreamAlias("link")
     private String link;
 
-    @Column(name = LAST_BUILD_DATE)
     @XStreamAlias("lastBuildDate")
     private String lastBuildDate;
 
-    @Column(name = LAST_BUILD_DATE_LONG)
     private long lastBuildDateLong;
 
     @XStreamImplicit
     private List<Item> items;
-
-    public Channel() {
-        // call of activeandroid.Model constructor
-        super();
-    }
 
     public Channel(String title, String link, String lastBuildDate) {
     	this.title = title;
@@ -54,6 +44,11 @@ public class Channel extends Model {
         this.lastBuildDate = lastBuildDate;
         lastBuildDateToLong();
         this.items = new ArrayList<Item>();
+    }
+
+    public Channel(int id, String title) {
+        this.id = id;
+        this.title = title;
     }
 
     public Channel(Channel channel) {

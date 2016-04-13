@@ -15,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-@Table(name = "item")
 @XStreamAlias("item")
 public class Item extends Model implements Comparable<Item> {
     public static final String ID = "id";
@@ -28,32 +27,22 @@ public class Item extends Model implements Comparable<Item> {
     public static final String THUMBNAIL = "item_thumbnail_url";
     public static final String SUBTITLE = "item_subtitle";
 
-    @Column(name = ID)
 	private long id;
-
-    @Column(name = CHANNEL_ID)
     private long channel;
 
-    @Column(name = TITLE)
     @XStreamAlias("title")
 	private String title;
 
-    @Column(name = LINK)
     @XStreamAlias("link")
     private String link;
 
-    @Column(name = DESCRIPTION)
     @XStreamAlias("description")
     private String description;
 
-    @Column(name = PUBDATE)
     @XStreamAlias("pubDate")
     private String pubdate;
 
-    @Column(name = PUBDATE_LONG)
     private long pubdateLong;
-
-    @Column(name = THUMBNAIL)
     private String thumbNailURL;
 
     public Item() {}
