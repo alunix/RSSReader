@@ -112,7 +112,7 @@ public class RefreshService extends Service {
                 }
 
                 //Filter downloaded items by publication date, setting items' id
-                long lastId = DBHandler.lastIdInItem();
+                long lastId = MainActivity.dbHelper.lastIdInItem();
                 List<Item> filteredNewItemList = new ArrayList<>();
 
                 //Check if there are really new items in feed
@@ -130,7 +130,7 @@ public class RefreshService extends Service {
 
                 //Sort new itemList by pubdate and insert it into database
                 Collections.sort(filteredNewItemList);
-                DBHandler.insertIntoItem(filteredNewItemList, currentChannelId);
+                MainActivity.dbHelper.insertIntoItem(filteredNewItemList, currentChannelId);
 
                 //Send new itemList to ItemListActivity
                 ItemListWrapper wrapper = new ItemListWrapper(filteredNewItemList);

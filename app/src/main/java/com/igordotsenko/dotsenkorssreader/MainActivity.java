@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
 //import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
+import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
 import com.igordotsenko.dotsenkorssreader.util.DataBaseHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -33,13 +34,21 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private ImageButton addChannelButton;
     private List<Channel> channelList;
     private ChannelListRVAdapter rvAdapter;
-    private DataBaseHelper dbHelper;
+    public static DBHandler dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        // Establish database connection
+        try {
+            dbHelper = new DBHandler(MainActivity.this, "rss_reader.db", null, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new Error("Error during db connection establishing: " + e.getMessage());
+        }
 
         //Initialiazing image loader for thumbnails downloading
         ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(MainActivity.this)
@@ -69,15 +78,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(llm);
 
-        dbHelper = new DataBaseHelper(MainActivity.this, "rss_reader.db", null, 1);
-
-        try {
-            channelList = dbHelper.selectAllChannels(); // TODO: change exception handling after debugging
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.i(LOG_TAG, e.getMessage());
-            throw new Error(e.getMessage());
-        }
+        // Retrieve channel list from database and set adapter
+        channelList = dbHelper.selectAllChannels();
         rvAdapter = new ChannelListRVAdapter(this, channelList);
         recyclerView.setAdapter(rvAdapter);
     }
@@ -87,6 +89,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onResume();
         searchView.clearFocus();
         recyclerView.requestFocus();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dbHelper.close();
     }
 
     @Override

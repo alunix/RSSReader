@@ -22,7 +22,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private String dbName;
 
     private Context context;
-    private SQLiteDatabase dataBaseConnetction;
+    private SQLiteDatabase dataBaseConnection;
 
     public DataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -45,17 +45,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public SQLiteDatabase getDataBaseConnection() throws IOException {
-        if ( dataBaseConnetction == null ) {
+        if ( dataBaseConnection == null ) {
             createDataBase();
-            dataBaseConnetction = SQLiteDatabase.openDatabase(dbPath + dbName, null, SQLiteDatabase.OPEN_READWRITE);
+            dataBaseConnection = SQLiteDatabase.openDatabase(dbPath + dbName, null, SQLiteDatabase.OPEN_READWRITE);
         }
-        return dataBaseConnetction;
+        return dataBaseConnection;
     }
 
     @Override
     public synchronized void close() {
-        if ( dataBaseConnetction != null ) {
-            dataBaseConnetction.close();
+        if ( dataBaseConnection != null ) {
+            dataBaseConnection.close();
         }
         super.close();
     }
@@ -99,7 +99,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
 
         // Create empty database
-        SQLiteDatabase newDB = getReadableDatabase();
+        SQLiteDatabase newDB = getReadableDatabase(); // TODO: Remove newDB variable after LOG cleaning
         Log.i(MainActivity.LOG_TAG, "createDataBase: empty dbPath created");
         Log.i(MainActivity.LOG_TAG, "createDataBase: empty dbPath path: " + newDB.getPath());
 

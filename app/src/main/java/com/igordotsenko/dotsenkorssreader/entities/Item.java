@@ -17,6 +17,7 @@ import java.util.Locale;
 
 @XStreamAlias("item")
 public class Item extends Model implements Comparable<Item> {
+    public static final String TABLE = "item";
     public static final String ID = "id";
     public static final String CHANNEL_ID = "item_channel_id";
     public static final String TITLE = "item_title";

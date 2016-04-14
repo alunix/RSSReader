@@ -74,7 +74,7 @@ public class AddChannelFragment extends DialogFragment  {
                 }
 
                 //Check if feed has been already added
-                if ( DBHandler.channelIsAlreadyAdded(url) ) {
+                if ( MainActivity.dbHelper.channelIsAlreadyAdded(url) ) {
                     Toast.makeText(activity, FEED_EXIST_MESSAGE, Toast.LENGTH_SHORT).show();
                     addChannelTextView.setText("");
                     dismiss();
@@ -141,14 +141,13 @@ public class AddChannelFragment extends DialogFragment  {
             }
             if ( newChannel != null ) {
                 //Check if channel has been already added
-                if ( DBHandler.channelIsAlreadyAdded(newChannel) ) {
+                if ( MainActivity.dbHelper.channelIsAlreadyAdded(newChannel) ) {
                     return FEED_EXIST_MESSAGE;
                 }
 
-                //Saving channel and item in db
-                List<Item> items = new ArrayList<>(newChannel.getItems());
-                newChannel = DBHandler.insertIntoChannel(newChannel);
-                DBHandler.insertIntoItem(items, newChannel.getID());
+                //Saving channel (returns the same channel with id set) and item in db.
+                newChannel = MainActivity.dbHelper.insertIntoChannel(newChannel);
+                MainActivity.dbHelper.insertIntoItem(newChannel.getItems(), newChannel.getID());
 
                 //Update recyclerview
                 activity.addToChannelList(newChannel);

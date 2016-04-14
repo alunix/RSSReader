@@ -91,6 +91,10 @@ public class Channel extends Model {
         return items;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public void setLink(String link) {
         this.link = link;
     }

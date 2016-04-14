@@ -277,7 +277,7 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
             }
 
             //Filter downloaded items by publication date, setting items' id
-            long lastId = DBHandler.lastIdInItem();
+            long lastId = MainActivity.dbHelper.lastIdInItem();
             List<Item> filteredNewItemList = new ArrayList<>();
             for ( Item item : newItemList ) {
                 if ( item.getPubdateLong() > lastPubdateLong ) {
@@ -296,7 +296,7 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
 
             //Sort new itemList by pubdate and insert it into database and recyclerview
             Collections.sort(filteredNewItemList);
-            DBHandler.insertIntoItem(filteredNewItemList, currentChannelId);
+            MainActivity.dbHelper.insertIntoItem(filteredNewItemList, currentChannelId);
             addItemsToList(filteredNewItemList);
 
             //Update UI thread
