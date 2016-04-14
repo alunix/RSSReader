@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
-import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
+//import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
 import com.igordotsenko.dotsenkorssreader.util.DataBaseHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             channelList = dbHelper.selectAllChannels(); // TODO: change exception handling after debugging
         } catch (IOException e) {
             e.printStackTrace();
+            Log.i(LOG_TAG, e.getMessage());
             throw new Error(e.getMessage());
         }
         rvAdapter = new ChannelListRVAdapter(this, channelList);

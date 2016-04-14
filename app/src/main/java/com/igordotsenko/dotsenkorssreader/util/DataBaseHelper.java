@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
-    private static String DB_PATH = "/data/data/com.com.igordotsenko.dotsenkorssreader/databases/";
-    private static String DB_NAME = "rss_reader.db";
+    private String dbPath;
+    private String dbName;
 
     private Context context;
     private SQLiteDatabase dataBaseConnetction;
@@ -27,8 +27,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public DataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
 
-        // Keep context reference for access to assets
+        // Keep context reference for access to assets, get db path and name
         this.context = context;
+        dbPath = context.getFilesDir().getPath();
+        dbName = name;
     }
 
 
@@ -45,7 +47,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public SQLiteDatabase getDataBaseConnection() throws IOException {
         if ( dataBaseConnetction == null ) {
             createDataBase();
-            dataBaseConnetction = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READWRITE);
+            dataBaseConnetction = SQLiteDatabase.openDatabase(dbPath + dbName, null, SQLiteDatabase.OPEN_READWRITE);
         }
         return dataBaseConnetction;
     }
@@ -61,7 +63,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public List<Channel> selectAllChannels() throws IOException {
         Log.i(MainActivity.LOG_TAG, "selectAllChannels started");
         List<Channel> channelList = new ArrayList<>();
-        String order = "ORDER by id ASC";
+        String order = "id ASC";
 
         // Retrieve rows from "channel" table
         Cursor cursor = getDataBaseConnection().query(Channel.TABLE, null, null, null, null, null, order);
@@ -75,11 +77,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             int titleIndex = cursor.getColumnIndex(Channel.TITLE);
 
             Log.i(MainActivity.LOG_TAG, "Start filling channel list");
-            while ( cursor.moveToNext() ) {
+
+            do {
                 Log.i(MainActivity.LOG_TAG, "id = " + cursor.getInt(idIndex) + " title: " + cursor.getString(titleIndex));
                 channelList.add(new Channel(cursor.getInt(idIndex), cursor.getString(titleIndex)));
             }
-
+            while ( cursor.moveToNext() );
         }
 
         cursor.close();
@@ -89,25 +92,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     private void createDataBase() throws IOException {
         Log.i(MainActivity.LOG_TAG, "createDataBase started");
-        // If db exists already - do nothing
+        // If dbPath exists already - do nothing
         if ( dataBaseExists() ) {
-            Log.i(MainActivity.LOG_TAG, "createDataBase: db exists");
+            Log.i(MainActivity.LOG_TAG, "createDataBase: dbPath exists");
             return;
         }
 
         // Create empty database
-        getReadableDatabase();
-        Log.i(MainActivity.LOG_TAG, "createDataBase: empty db created");
+        SQLiteDatabase newDB = getReadableDatabase();
+        Log.i(MainActivity.LOG_TAG, "createDataBase: empty dbPath created");
+        Log.i(MainActivity.LOG_TAG, "createDataBase: empty dbPath path: " + newDB.getPath());
 
-        // Copy db from assets to just created empty db
+        // Copy dbPath from assets to just created empty dbPath
         copyDataBase();
     }
 
     private boolean dataBaseExists() {
-        String path = DB_PATH + DB_NAME;
+        String path = dbPath + dbName;
         SQLiteDatabase db_connection;
 
-        // Try to open db. If db does not exits - SQLiteException will be thrown
+        // Try to open dbPath. If dbPath does not exits - SQLiteException will be thrown
         try {
             db_connection = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
         } catch (SQLiteException e) {
@@ -120,16 +124,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             db_connection.close();
         }
 
-        // Returns true if db exists
+        // Returns true if dbPath exists
         return db_connection != null;
     }
 
     private void copyDataBase() throws IOException {
         Log.i(MainActivity.LOG_TAG, "copyDataBase started");
         // Open database from assets
-        InputStream is = context.getResources().getAssets().open(DB_NAME);
+        InputStream is = context.getResources().getAssets().open(dbName);
 
-        OutputStream os = new FileOutputStream(DB_PATH + DB_NAME);
+        OutputStream os = new FileOutputStream(dbPath + dbName);
         Log.i(MainActivity.LOG_TAG, "copyDataBase: streams opened");
         Log.i(MainActivity.LOG_TAG, "copyDataBase: coping started");
         byte[] buffer = new byte[1024];

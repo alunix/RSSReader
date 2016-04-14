@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Locale;
 
 @XStreamAlias("channel")
-public class Channel {
+public class Channel extends Model {
     public static final String TABLE = "channel";
     public static final String ID = "id";
     public static final String TITLE = "channel_title";
