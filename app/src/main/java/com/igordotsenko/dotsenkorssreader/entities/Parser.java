@@ -1,5 +1,6 @@
 package com.igordotsenko.dotsenkorssreader.entities;
 
+import com.igordotsenko.dotsenkorssreader.MainActivity;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -19,7 +20,7 @@ public class Parser {
     }
 
     public Channel updateExistChannel(long channelId) throws IOException {
-        Channel currentChannel = DBHandler.selectChannelById(channelId);
+        Channel currentChannel = MainActivity.dbHelper.selectChannelById(channelId);
         Channel newChannel = parseXML(downloadXML(currentChannel.getLink()));
         long currentChannelBuildDate = currentChannel.getLastBuildDateLong();
         long newChannelBuildDate = newChannel.getLastBuildDateLong();

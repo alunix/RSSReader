@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -120,7 +121,7 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
         welcomeMessage = (TextView) findViewById(R.id.item_list_empty_view);
 
         //Retrieving channel's itemList from database
-        itemList = DBHandler.selectItemsById(currentChannelId);
+        itemList = MainActivity.dbHelper.selectItemsById(currentChannelId);
 
         //If itemList empty - show welcome message
         if ( itemList == null || itemList.size() == 0 ) {
@@ -264,17 +265,11 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
             }
 
             //Update channel's last build date
-            DBHandler.updateChannelBuildDate(updatedChannel, currentChannelId);
+            MainActivity.dbHelper.updateChannelBuildDate(updatedChannel, currentChannelId);
 
             //Start handling downloaded itemList
             List<Item> newItemList = updatedChannel.getItems();
-            Item databaseNewestItem = DBHandler.selectNewestItem(currentChannelId);
-            long lastPubdateLong = 0;
-
-            //If last database item's pubdate is not specified - null returns
-            if ( databaseNewestItem != null ) {
-                lastPubdateLong = databaseNewestItem.getPubdateLong();
-            }
+            long lastPubdateLong = MainActivity.dbHelper.getLastPubdateLongInItem(currentChannelId);
 
             //Filter downloaded items by publication date, setting items' id
             long lastId = MainActivity.dbHelper.lastIdInItem();

@@ -48,11 +48,12 @@ public class Item extends Model implements Comparable<Item> {
 
     public Item() {}
 
-    public Item(String title, String link, String description, String pubdate, String thumbNailURL) {
+    public Item(String title, String link, String description, String pubdate, long pubdateLong, String thumbNailURL) {
         this.title = title;
         this.link = link;
         this.description = description;
         this.pubdate = pubdate;
+        this.pubdateLong = pubdateLong;
         this.thumbNailURL = thumbNailURL;
     }
     public Item(Item item) {

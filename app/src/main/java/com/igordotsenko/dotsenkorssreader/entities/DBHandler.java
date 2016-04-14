@@ -3,6 +3,7 @@ package com.igordotsenko.dotsenkorssreader.entities;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -71,15 +72,18 @@ public class DBHandler extends SQLiteOpenHelper {
 
         return channel;
     }
-    // TODO
-    public static void updateChannelBuildDate(Channel newChannel, long channelId) {
-//        if ( newChannel.getLastBuildDate() != null ) {
-//            new Update(Channel.class).set(Channel.LAST_BUILD_DATE + " = ?", newChannel.getLastBuildDate())
-//                    .where(Channel.ID + " = " + channelId).execute();
-//
-//            new Update(Channel.class).set(Channel.LAST_BUILD_DATE_LONG + " = ?", newChannel.getLastBuildDateLong())
-//                    .where(Channel.ID + " = " + channelId).execute();
-//        }
+
+    public void updateChannelBuildDate(Channel newChannel, long channelId) {
+        if ( newChannel.getLastBuildDate() != null) {
+            ContentValues contentValuesDateString = new ContentValues();
+            ContentValues contentValuesDateLong = new ContentValues();
+
+            contentValuesDateString.put(Channel.LAST_BUILD_DATE, newChannel.getLastBuildDate());
+            contentValuesDateLong.put(Channel.LAST_BUILD_DATE_LONG, newChannel.getLastBuildDateLong());
+
+            databaseConnection.update(Channel.TABLE, contentValuesDateString, Channel.ID + " = " + channelId, null);
+            databaseConnection.update(Channel.TABLE, contentValuesDateLong, Channel.ID + " = " + channelId, null );
+        }
     }
 
 	public List<Channel> selectAllChannels() {
@@ -108,10 +112,23 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.i(MainActivity.LOG_TAG, "selectAllChannels finished");
         return channelList;
     }
-    // TODO
-    public static Channel selectChannelById(long id) {
-//        return new Select().from(Channel.class).where(Channel.ID + " = ?", id).executeSingle();
-        return null;
+
+    public Channel selectChannelById(long id) {
+        String selection = Channel.ID + " = ?";
+        String[] selectionArgs = { "" + id};
+
+        Cursor cursor = databaseConnection.query(Channel.TABLE, null, selection, selectionArgs, null, null, null);
+
+        cursor.moveToFirst();
+
+        int titleIndex = cursor.getColumnIndex(Channel.TITLE);
+        int linkIndex = cursor.getColumnIndex(Channel.LINK);
+        int lastBuilDateIndex = cursor.getColumnIndex(Channel.LAST_BUILD_DATE);
+
+        Channel selectedChanndel = new Channel(cursor.getString(titleIndex), cursor.getString(linkIndex), cursor.getString(lastBuilDateIndex));
+
+        cursor.close();
+        return selectedChanndel;
     }
 
 
@@ -178,9 +195,16 @@ public class DBHandler extends SQLiteOpenHelper {
             sqlStatement.bindString(4, item.getContent());
             sqlStatement.bindString(5, item.getPubdate());
             sqlStatement.bindLong(6, item.getPubdateLong());
-            sqlStatement.bindString(7, item.getThumbNailURL());
-            sqlStatement.execute();
-            sqlStatement.clearBindings();
+            if (item.getThumbNailURL() != null ) sqlStatement.bindString(7, item.getThumbNailURL());
+            else sqlStatement.bindNull(7);
+
+            try {
+                sqlStatement.execute();
+            } catch ( SQLiteConstraintException e ) {
+                e.printStackTrace();
+            } finally {
+                sqlStatement.clearBindings();
+            }
         }
 
         databaseConnection.setTransactionSuccessful();
@@ -189,38 +213,77 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.i(MainActivity.LOG_TAG, "insertIntoItem started: method finished");
 
     }
-    // TODO
-	public static List<Item> selectItemsById(long channelId) {
-//        return new Select().from(Item.class).where(Item.CHANNEL_ID + " = ?", channelId).orderBy(Item.PUBDATE_LONG + " DESC").execute();
-    return null;
-    }
-    //TODO
-    public static Item selectNewestItem(long channelId) {
-       // return new Select().from(Item.class).where(Item.CHANNEL_ID + " = ?", channelId).orderBy(Item.PUBDATE_LONG + " DESC").executeSingle();
-        return null;
-    }
-    //TODO
-    public int lastIdInItem() {
-//        Item item = new Select().from(Item.class).orderBy(Item.ID + " DESC").executeSingle();
-//        if ( item == null ) {
-//            return 0;
-//        }
-//        return item.getID();
 
-//        String query = "SELECT MAX(?) AS ? FROM ?";
-//        String[] queryArgs = { Item.ID, Item.ID, Item.TABLE };
-//        Log.i(MainActivity.LOG_TAG, "getLastItemId: query: " + query);
-//        Cursor cursor = databaseConnection.rawQuery(query, queryArgs);
-//
-//        int idIndex = cursor.getColumnIndex(Item.ID);
-//
-//        cursor.moveToFirst();
-//        int id = cursor.getInt(idIndex);
-//        Log.i(MainActivity.LOG_TAG, "getLastChannelId: last id = " + id);
-//        cursor.close();
-//
-//        return id;
-        return 0;
+	public List<Item> selectItemsById(long channelId) {
+        List<Item> itemList = new ArrayList<>();
+
+        String selection = Item.CHANNEL_ID + " = ?";
+        String[] selectionArgs = { "" + channelId };
+        String order = Item.PUBDATE_LONG + " DESC";
+
+        Cursor cursor = databaseConnection.query(Item.TABLE, null, selection, selectionArgs, null, null, order);
+
+        if ( cursor.moveToFirst() ) {
+            int titleIndex = cursor.getColumnIndex(Item.TITLE);
+            int linkIndex = cursor.getColumnIndex(Item.LINK);
+            int descriptionIndex = cursor.getColumnIndex(Item.DESCRIPTION);
+            int pubdateIndex = cursor.getColumnIndex(Item.PUBDATE);
+            int pubdateLongIndex = cursor.getColumnIndex(Item.PUBDATE_LONG);
+            int thumbnailIndex = cursor.getColumnIndex(Item.THUMBNAIL);
+
+            do {
+                itemList.add(new Item(
+                        cursor.getString(titleIndex),
+                        cursor.getString(linkIndex),
+                        cursor.getString(descriptionIndex),
+                        cursor.getString(pubdateIndex),
+                        cursor.getLong(pubdateLongIndex),
+                        cursor.getString(thumbnailIndex)
+                ));
+            } while ( cursor.moveToNext() );
+        }
+
+        cursor.close();
+
+        return itemList;
+    }
+
+    public long getLastPubdateLongInItem(long channelId) {
+        String query = "SELECT MAX(" + Item.PUBDATE_LONG + ") AS "+ Item.PUBDATE_LONG + " FROM " + Item.TABLE
+                + " WHERE " + Item.CHANNEL_ID + " = " + channelId;
+
+        Cursor cursor = databaseConnection.rawQuery(query, null);
+
+        if ( !cursor.moveToFirst() ) {
+            return 0;
+        }
+
+        int pubdateLongIndex = cursor.getColumnIndex(Item.PUBDATE_LONG);
+        long lastPubdateLong = cursor.getLong(pubdateLongIndex);
+
+        cursor.close();
+
+        return lastPubdateLong;
+    }
+
+    public int lastIdInItem() {
+        String query = "SELECT MAX(" + Item.ID + ") AS " + Item.ID + " FROM " + Item.TABLE;
+
+        Log.i(MainActivity.LOG_TAG, "getLastItemId: query: " + query);
+        Cursor cursor = databaseConnection.rawQuery(query, null);
+
+        int idIndex = cursor.getColumnIndex(Item.ID);
+
+        // If table do not have items yet - return 0
+        if ( !cursor.moveToFirst() ) {
+            return 0;
+        }
+
+        int lastId = cursor.getInt(idIndex);
+        Log.i(MainActivity.LOG_TAG, "getLastChannelId: last id = " + lastId);
+        cursor.close();
+
+        return lastId;
     }
 
     private int getLastChannelId() {

@@ -99,17 +99,17 @@ public class RefreshService extends Service {
                 }
 
                 //Update channel's last build date
-                DBHandler.updateChannelBuildDate(updatedChannel, currentChannelId);
+                MainActivity.dbHelper.updateChannelBuildDate(updatedChannel, currentChannelId);
 
                 //Start handling downloaded itemList
                 List<Item> newItemList = updatedChannel.getItems();
-                Item databaseNewestItem = DBHandler.selectNewestItem(currentChannelId);
-                long lastPubdateLong = 0;
+                long lastPubdateLong = MainActivity.dbHelper.getLastPubdateLongInItem(currentChannelId);
 
+                // TODO remove
                 //If last database item's pubdate is not specified - null returns
-                if ( databaseNewestItem != null ) {
-                    lastPubdateLong = databaseNewestItem.getPubdateLong();
-                }
+//                if ( databaseNewestItem != null ) {
+//                    lastPubdateLong = databaseNewestItem.getPubdateLong();
+//                }
 
                 //Filter downloaded items by publication date, setting items' id
                 long lastId = MainActivity.dbHelper.lastIdInItem();
