@@ -3,7 +3,6 @@ package com.igordotsenko.dotsenkorssreader.entities;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -167,7 +166,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 	public void insertIntoItem(List<Item> items, long channelId) {
         Log.i(MainActivity.LOG_TAG, "insertIntoItem started");
-        String sqlString = "INSERT INTO " + Item.TABLE
+        String insertStatementString = "INSERT INTO " + Item.TABLE
                 + "("
                 + Item.CHANNEL_ID + ", "
                 + Item.TITLE + ", "
@@ -178,9 +177,10 @@ public class DBHandler extends SQLiteOpenHelper {
                 + Item.THUMBNAIL
                 + ") VALUES( ?, ?, ?, ?, ?, ?, ?)";
 
-        Log.i(MainActivity.LOG_TAG, "insertIntoItem started: sqlString: " + sqlString);
 
-        SQLiteStatement sqlStatement = databaseConnection.compileStatement(sqlString);
+        Log.i(MainActivity.LOG_TAG, "insertIntoItem started: sqlString: " + insertStatementString);
+
+        SQLiteStatement insertStatement = databaseConnection.compileStatement(insertStatementString);
         Log.i(MainActivity.LOG_TAG, "insertIntoItem started: sqlStatment compiled");
         databaseConnection.beginTransaction();
         Log.i(MainActivity.LOG_TAG, "insertIntoItem started: transaction began");
@@ -189,21 +189,24 @@ public class DBHandler extends SQLiteOpenHelper {
             Log.i(MainActivity.LOG_TAG, "insertIntoItem started: inserting item: set id: " + channelId);
             Log.i(MainActivity.LOG_TAG, item.toString());
 
-            sqlStatement.bindLong(1, channelId);
-            sqlStatement.bindString(2, item.getTitle());
-            sqlStatement.bindString(3, item.getLink());
-            sqlStatement.bindString(4, item.getContent());
-            sqlStatement.bindString(5, item.getPubdate());
-            sqlStatement.bindLong(6, item.getPubdateLong());
-            if (item.getThumbNailURL() != null ) sqlStatement.bindString(7, item.getThumbNailURL());
-            else sqlStatement.bindNull(7);
+            // If item with such url was added to database earlier - just update changed fields
+            if ( itemExists(item) ) {
+                updateItem(item);
+            } else {
+                insertStatement.bindLong(1, channelId);
+                insertStatement.bindString(2, item.getTitle());
+                insertStatement.bindString(3, item.getLink());
+                insertStatement.bindString(4, item.getContent());
+                insertStatement.bindString(5, item.getPubdate());
+                insertStatement.bindLong(6, item.getPubdateLong());
 
-            try {
-                sqlStatement.execute();
-            } catch ( SQLiteConstraintException e ) {
-                e.printStackTrace();
-            } finally {
-                sqlStatement.clearBindings();
+                // Some items might not have thumbnail - than insert null in thumbnail column
+                if (item.getThumbNailURL() != null)
+                    insertStatement.bindString(7, item.getThumbNailURL());
+                else insertStatement.bindNull(7);
+
+                insertStatement.execute();
+                insertStatement.clearBindings();
             }
         }
 
@@ -299,6 +302,34 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.close();
 
         return id;
+    }
+
+    private boolean itemExists(Item item) {
+        String selection = Item.LINK + " = ?";
+        String[] selectionArgs = { item.getLink() };
+
+        Cursor cursor = databaseConnection.query(Item.TABLE, null, selection, selectionArgs, null, null, null);
+
+        boolean itemExists = cursor.getCount() > 0;
+
+        cursor.close();
+
+        return itemExists;
+    }
+
+    private void updateItem(Item item) {
+        String where = Item.LINK + " = ?";
+        String[] whereArgs = { item.getLink() };
+
+        ContentValues cv = new ContentValues();
+
+        cv.put(Item.TITLE, item.getTitle());
+        cv.put(Item.DESCRIPTION, item.getContent());
+        cv.put(Item.PUBDATE, item.getPubdate());
+        cv.put(Item.PUBDATE_LONG, item.getPubdateLong());
+        cv.put(Item.THUMBNAIL, item.getThumbNailURL());
+
+        databaseConnection.update(Item.TABLE, cv, where, whereArgs);
     }
 
     private void establishConnection() throws IOException {
