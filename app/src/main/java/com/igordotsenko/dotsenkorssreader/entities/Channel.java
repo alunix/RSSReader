@@ -1,8 +1,5 @@
 package com.igordotsenko.dotsenkorssreader.entities;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
@@ -14,7 +11,7 @@ import java.util.List;
 import java.util.Locale;
 
 @XStreamAlias("channel")
-public class Channel extends Model {
+public class Channel {
     public static final String TABLE = "channel";
     public static final String ID = "id";
     public static final String TITLE = "channel_title";
@@ -49,14 +46,6 @@ public class Channel extends Model {
     public Channel(int id, String title) {
         this.id = id;
         this.title = title;
-    }
-
-    public Channel(Channel channel) {
-        this.title = channel.title;
-        this.link = channel.link;
-        this.lastBuildDate = channel.lastBuildDate;
-        this.lastBuildDateLong = channel.lastBuildDateLong;
-        this.items = new ArrayList<>(channel.items);
     }
 
     public void finishItemsInitializtion() {

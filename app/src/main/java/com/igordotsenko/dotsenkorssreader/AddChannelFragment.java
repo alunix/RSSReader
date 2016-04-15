@@ -17,14 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
-import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
-import com.igordotsenko.dotsenkorssreader.entities.Item;
 import com.igordotsenko.dotsenkorssreader.entities.Parser;
 
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class AddChannelFragment extends DialogFragment  {

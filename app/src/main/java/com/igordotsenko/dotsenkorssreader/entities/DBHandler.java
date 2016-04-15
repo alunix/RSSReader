@@ -33,16 +33,11 @@ public class DBHandler extends SQLiteOpenHelper {
         establishConnection();
     }
 
+    @Override
+    public void onCreate(SQLiteDatabase db) {}
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-    }
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 
 	public Channel insertIntoChannel(Channel channel) {
         Log.i(MainActivity.LOG_TAG, "insertIntoChannel started");
@@ -129,7 +124,6 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.close();
         return selectedChanndel;
     }
-
 
     public boolean channelIsAlreadyAdded(String url) {
         Log.i(MainActivity.LOG_TAG, "channelIsAlreadyAdded(url): started");

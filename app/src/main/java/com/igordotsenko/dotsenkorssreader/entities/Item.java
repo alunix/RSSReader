@@ -1,8 +1,5 @@
 package com.igordotsenko.dotsenkorssreader.entities;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.jsoup.Jsoup;
@@ -16,7 +13,7 @@ import java.util.Date;
 import java.util.Locale;
 
 @XStreamAlias("item")
-public class Item extends Model implements Comparable<Item> {
+public class Item implements Comparable<Item> {
     public static final String TABLE = "item";
     public static final String ID = "id";
     public static final String CHANNEL_ID = "item_channel_id";
@@ -46,8 +43,6 @@ public class Item extends Model implements Comparable<Item> {
     private long pubdateLong;
     private String thumbNailURL;
 
-    public Item() {}
-
     public Item(String title, String link, String description, String pubdate, long pubdateLong, String thumbNailURL) {
         this.title = title;
         this.link = link;
@@ -55,15 +50,6 @@ public class Item extends Model implements Comparable<Item> {
         this.pubdate = pubdate;
         this.pubdateLong = pubdateLong;
         this.thumbNailURL = thumbNailURL;
-    }
-    public Item(Item item) {
-        this.id = item.id;
-        this.title = item.title;
-        this.link = item.link;
-        this.description = item.description;
-        this.pubdate = item.pubdate;
-        this.pubdateLong = item.pubdateLong;
-        this.thumbNailURL = item.thumbNailURL;
     }
 
     public void finishInitialization() {
