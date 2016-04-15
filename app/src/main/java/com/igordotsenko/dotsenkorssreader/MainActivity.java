@@ -25,6 +25,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     public static final String LOG_TAG = "rss_reader_log";
+    public static final String DB_NAME = "rss_reader.db";
+    public static final int DB_VERSION = 1;
+
+    public static DBHandler dbHelper;
 
     private DialogFragment dialogFragment;
     private RecyclerView recyclerView;
@@ -32,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private ImageButton addChannelButton;
     private List<Channel> channelList;
     private ChannelListRVAdapter rvAdapter;
-    public static DBHandler dbHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         // Create DBHelper and establish database connection (connection permanently kept inside of DBHandler)
         try {
-            dbHelper = new DBHandler(MainActivity.this, "rss_reader.db", null, 1);
+            dbHelper = new DBHandler(MainActivity.this, DB_NAME, null, DB_VERSION);
             dbHelper.getDatabaseConnection();
         } catch (IOException e) {
             e.printStackTrace();

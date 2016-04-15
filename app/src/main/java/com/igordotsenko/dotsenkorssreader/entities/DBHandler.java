@@ -40,7 +40,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
 
-	public Channel insertIntoChannel(Channel channel) {
+	public synchronized Channel insertIntoChannel(Channel channel) {
         Log.i(MainActivity.LOG_TAG, "insertIntoChannel started");
         int id = getLastChannelId() + 1;
         Log.i(MainActivity.LOG_TAG, "insertIntoChannel started: new id = " + id);
@@ -68,7 +68,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return channel;
     }
 
-    public void updateChannelBuildDate(Channel newChannel, long channelId) {
+    public synchronized void updateChannelBuildDate(Channel newChannel, long channelId) {
         if ( newChannel.getLastBuildDate() != null) {
             ContentValues contentValuesDateString = new ContentValues();
             ContentValues contentValuesDateLong = new ContentValues();
@@ -81,7 +81,7 @@ public class DBHandler extends SQLiteOpenHelper {
         }
     }
 
-	public List<Channel> selectAllChannels() {
+	public synchronized List<Channel> selectAllChannels() {
         Log.i(MainActivity.LOG_TAG, "selectAllChannels started");
         List<Channel> channelList = new ArrayList<>();
         String orderBy = Channel.ID + " ASC";
@@ -108,7 +108,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return channelList;
     }
 
-    public Channel selectChannelById(long id) {
+    public synchronized Channel selectChannelById(long id) {
         String selection = Channel.ID + " = ?";
         String[] selectionArgs = { "" + id};
 
@@ -126,7 +126,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return selectedChanndel;
     }
 
-    public boolean channelIsAlreadyAdded(String url) {
+    public synchronized boolean channelIsAlreadyAdded(String url) {
         Log.i(MainActivity.LOG_TAG, "channelIsAlreadyAdded(url): started");
         String selection = Channel.LINK + " = ?";
         String[] selectionArgs = { url };
@@ -142,7 +142,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return recordExists;
     }
 
-    public boolean channelIsAlreadyAdded(Channel checkedChannel) {
+    public synchronized boolean channelIsAlreadyAdded(Channel checkedChannel) {
         Log.i(MainActivity.LOG_TAG, "channelIsAlreadyAdded(channel): started");
 
         String selection = Channel.TITLE + " = ?";
@@ -159,7 +159,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return recordExists;
     }
 
-	public void insertIntoItem(List<Item> items, long channelId) {
+	public synchronized void insertIntoItem(List<Item> items, long channelId) {
         Log.i(MainActivity.LOG_TAG, "insertIntoItem started");
         String insertStatementString = "INSERT INTO " + Item.TABLE
                 + "("
@@ -212,7 +212,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     }
 
-	public List<Item> selectItemsById(long channelId) {
+	public synchronized List<Item> selectItemsById(long channelId) {
         List<Item> itemList = new ArrayList<>();
 
         String selection = Item.CHANNEL_ID + " = ?";
@@ -246,7 +246,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return itemList;
     }
 
-    public long getLastPubdateLongInItem(long channelId) {
+    public synchronized long getLastPubdateLongInItem(long channelId) {
         String query = "SELECT MAX(" + Item.PUBDATE_LONG + ") AS "+ Item.PUBDATE_LONG + " FROM " + Item.TABLE
                 + " WHERE " + Item.CHANNEL_ID + " = " + channelId;
 
@@ -264,7 +264,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return lastPubdateLong;
     }
 
-    public int lastIdInItem() {
+    public synchronized int lastIdInItem() {
         String query = "SELECT MAX(" + Item.ID + ") AS " + Item.ID + " FROM " + Item.TABLE;
 
         Log.i(MainActivity.LOG_TAG, "getLastItemId: query: " + query);
