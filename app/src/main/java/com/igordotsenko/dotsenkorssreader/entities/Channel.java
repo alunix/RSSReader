@@ -13,7 +13,7 @@ import java.util.Locale;
 @XStreamAlias("channel")
 public class Channel {
     public static final String TABLE = "channel";
-    public static final String ID = "id";
+    public static final String ID = "_ID";
     public static final String TITLE = "channel_title";
     public static final String LINK = "channel_link";
     public static final String LAST_BUILD_DATE = "channel_last_build_date_long";

@@ -83,7 +83,7 @@ public class DBHandler extends SQLiteOpenHelper {
 	public List<Channel> selectAllChannels() {
         Log.i(MainActivity.LOG_TAG, "selectAllChannels started");
         List<Channel> channelList = new ArrayList<>();
-        String orderBy = "id ASC";
+        String orderBy = Channel.ID + " ASC";
 
         Cursor cursor = databaseConnection.query(Channel.TABLE, null, null, null, null, null, orderBy);
         Log.i(MainActivity.LOG_TAG, "Cursor retrieved");
@@ -96,7 +96,7 @@ public class DBHandler extends SQLiteOpenHelper {
             Log.i(MainActivity.LOG_TAG, "Start filling channel list");
 
             do {
-                Log.i(MainActivity.LOG_TAG, "id = " + cursor.getInt(idIndex) + " title: " + cursor.getString(titleIndex));
+                Log.i(MainActivity.LOG_TAG, Channel.ID + " = " + cursor.getInt(idIndex) + " title: " + cursor.getString(titleIndex));
                 channelList.add(new Channel(cursor.getInt(idIndex), cursor.getString(titleIndex)));
             } while ( cursor.moveToNext() );
 
