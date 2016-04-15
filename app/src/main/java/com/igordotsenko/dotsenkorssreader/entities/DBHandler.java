@@ -30,7 +30,6 @@ public class DBHandler extends SQLiteOpenHelper {
         this.context = context;
         this.db_path = context.getFilesDir().getPath();
         this.db_name = name;
-        establishConnection();
     }
 
     @Override
@@ -38,6 +37,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
+
+
 
 	public Channel insertIntoChannel(Channel channel) {
         Log.i(MainActivity.LOG_TAG, "insertIntoChannel started");
@@ -281,6 +282,13 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.close();
 
         return lastId;
+    }
+
+    public SQLiteDatabase getDatabaseConnection() throws IOException {
+        if ( databaseConnection == null ) {
+            establishConnection();
+        }
+        return databaseConnection;
     }
 
     private int getLastChannelId() {

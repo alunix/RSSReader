@@ -21,11 +21,11 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3ed5df21-6c0e-47c0-a7ac-f399df7b65d5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/rss_reader.db" afterPath="$PROJECT_DIR$/app/src/main/assets/rss_reader.db" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java" />
+    <list default="true" id="3ed5df21-6c0e-47c0-a7ac-f399df7b65d5" name="Default" comment="DBHandler's method getDatabaseConnection added">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Item.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Item.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="RSSReader.iws" />
@@ -74,26 +74,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RefreshService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/RefreshService.java">
+      <file leaf-file-name="DBHandler.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+            <state vertical-scroll-proportion="1.5574468">
+              <caret line="291" column="5" selection-start-line="291" selection-start-column="5" selection-end-line="291" selection-end-column="5" />
               <folding>
-                <element signature="imports" expanded="false" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DBHandler.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java">
+      <file leaf-file-name="ReaderContentProvider.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.961702">
-              <caret line="110" column="38" selection-start-line="110" selection-start-column="35" selection-end-line="110" selection-end-column="38" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0">
+              <caret line="25" column="54" selection-start-line="25" selection-start-column="54" selection-end-line="25" selection-end-column="54" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -118,6 +116,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="17" column="40" selection-start-line="17" selection-start-column="40" selection-end-line="17" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="42" column="99" selection-start-line="42" selection-start-column="99" selection-end-line="42" selection-end-column="99" />
               <folding />
             </state>
           </provider>
@@ -1617,13 +1625,13 @@
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/util/DataBaseHelper.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/AddChannelFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/RefreshService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Parser.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Item.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java" />
       </list>
     </option>
@@ -1736,50 +1744,6 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RSSReader" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dotsenkorssreader" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="entities" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RSSReader" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dotsenkorssreader" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adapters" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -1797,6 +1761,11 @@
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="015d2109ca13fa03" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_7_2012_API_19" />
     <property name="FullScreen" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="android.template.packageName">
+      <recent name="com.igordotsenko.dotsenkorssreader" />
+    </key>
   </component>
   <component name="RunManager" selected="Android Application.app">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -2044,7 +2013,13 @@
       <option name="project" value="LOCAL" />
       <updated>1460706564954</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Some changes at database design">
+      <created>1460709265939</created>
+      <option name="number" value="00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1460709265939</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2133,7 +2108,9 @@
     <MESSAGE value="DBHandler's method which are needed for ItemListActivity and RefreshService reimplementd with using of SQLiteDatabase" />
     <MESSAGE value="Item update bug fixed" />
     <MESSAGE value="Code cleaned" />
-    <option name="LAST_COMMIT_MESSAGE" value="Code cleaned" />
+    <MESSAGE value="Some changes at database design" />
+    <MESSAGE value="DBHandler's method getDatabaseConnection added" />
+    <option name="LAST_COMMIT_MESSAGE" value="DBHandler's method getDatabaseConnection added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2225,6 +2202,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="33" column="51" selection-start-line="33" selection-start-column="51" selection-end-line="33" selection-end-column="51" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2232,14 +2210,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3472454">
           <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="96" column="25" selection-start-line="96" selection-start-column="25" selection-end-line="96" selection-end-column="25" />
           <folding />
         </state>
       </provider>
@@ -2317,10 +2287,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="42" column="99" selection-start-line="42" selection-start-column="99" selection-end-line="42" selection-end-column="99" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="54" selection-start-line="25" selection-start-column="54" selection-end-line="25" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.961702">
-          <caret line="110" column="38" selection-start-line="110" selection-start-column="35" selection-end-line="110" selection-end-column="38" />
+        <state vertical-scroll-proportion="1.5574468">
+          <caret line="291" column="5" selection-start-line="291" selection-start-column="5" selection-end-line="291" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

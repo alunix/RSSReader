@@ -40,9 +40,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        // Establish database connection
+        // Create DBHelper and establish database connection (connection permanently kept inside of DBHandler)
         try {
             dbHelper = new DBHandler(MainActivity.this, "rss_reader.db", null, 1);
+            dbHelper.getDatabaseConnection();
         } catch (IOException e) {
             e.printStackTrace();
             throw new Error("Error during db connection establishing: " + e.getMessage());
