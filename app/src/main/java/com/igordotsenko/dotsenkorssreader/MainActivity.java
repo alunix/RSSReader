@@ -1,5 +1,8 @@
 package com.igordotsenko.dotsenkorssreader;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.ContentResolver;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -7,12 +10,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
 import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
 import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
+import com.igordotsenko.dotsenkorssreader.syncadapter.ReaderSyncAdapter;
+import com.igordotsenko.dotsenkorssreader.syncadapter.SyncService;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -30,12 +36,19 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     public static DBHandler dbHelper;
 
+    private static String AUTHORITY = ReaderContentProvider.ReaderRawData.AUTHORITY;
+    public static final String ACCOUNT_TYPE = "dummy.com";
+    public static final String ACCOUNT = "dummyaccount";
+    public static final String DUMMY_ACCOUNT_NAME = "name";
+    public static final String DUMMY_ACCOUNT_PASS = "name";
+
     private DialogFragment dialogFragment;
     private RecyclerView recyclerView;
     private SearchView searchView;
     private ImageButton addChannelButton;
     private List<Channel> channelList;
     private ChannelListRVAdapter rvAdapter;
+    private Account account;
 
 
     @Override
@@ -52,6 +65,18 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             e.printStackTrace();
             throw new Error("Error during db connection establishing: " + e.getMessage());
         }
+
+        // Creating account for SyncAdapter
+        Log.i(ReaderSyncAdapter.SA_LOG, "Log works");
+        account = new Account(ACCOUNT, ACCOUNT_TYPE);
+        AccountManager accountManager = (AccountManager) MainActivity.this.getSystemService(ACCOUNT_SERVICE);
+
+        if (!accountManager.addAccountExplicitly(account, null, null)) {
+            Log.i(ReaderSyncAdapter.SA_LOG, "Some error during account creating");
+        }
+        Log.i(ReaderSyncAdapter.SA_LOG, "Account added");
+        //Running SyncAdapter
+        ContentResolver.addPeriodicSync(account, AUTHORITY, Bundle.EMPTY, 3);
 
         //Initialiazing image loader for thumbnails downloading
         ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(MainActivity.this)

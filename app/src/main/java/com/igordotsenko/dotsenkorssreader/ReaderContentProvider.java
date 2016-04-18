@@ -15,9 +15,9 @@ import com.igordotsenko.dotsenkorssreader.entities.Item;
 import java.io.IOException;
 
 public class ReaderContentProvider extends ContentProvider {
-    private static final String AUTHORITY = "com.igordotsenko.dotsenkorssreader";
-    private static final Uri CHANNEL_CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + ReaderRawData.CHANNEL_TABLE);
-    private static final Uri ITEM_CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + ReaderRawData.ITEM_TABLE);
+
+    private static final Uri CHANNEL_CONTENT_URI = Uri.parse("content://" + ReaderRawData.AUTHORITY + "/" + ReaderRawData.CHANNEL_TABLE);
+    private static final Uri ITEM_CONTENT_URI = Uri.parse("content://" + ReaderRawData.AUTHORITY + "/" + ReaderRawData.ITEM_TABLE);
     private static final int CHANNEL = 1;
     private static final int ITEM = 2;
     private static final UriMatcher uriMatcher= new UriMatcher(UriMatcher.NO_MATCH);
@@ -26,8 +26,8 @@ public class ReaderContentProvider extends ContentProvider {
     private SQLiteDatabase databaseConnection;
 
     static {
-        uriMatcher.addURI(AUTHORITY, ReaderRawData.CHANNEL_TABLE, CHANNEL);
-        uriMatcher.addURI(AUTHORITY, ReaderRawData.ITEM_TABLE, ITEM);
+        uriMatcher.addURI(ReaderRawData.AUTHORITY, ReaderRawData.CHANNEL_TABLE, CHANNEL);
+        uriMatcher.addURI(ReaderRawData.AUTHORITY, ReaderRawData.ITEM_TABLE, ITEM);
     }
 
 
@@ -138,6 +138,8 @@ public class ReaderContentProvider extends ContentProvider {
     }
 
     public static class ReaderRawData {
+        public static final String AUTHORITY = "com.igordotsenko.dotsenkorssreader";
+
         public static String CHANNEL_TABLE = Channel.TABLE;
         public static final String CHANNEL_ID = Channel.ID;
         public static final String CHANNEL_TITLE = Channel.TITLE;
