@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private List<Channel> channelList;
     private ChannelListRVAdapter rvAdapter;
     private Account account;
+    private ContentResolver contentResolver;
 
 
     @Override
@@ -67,16 +68,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         }
 
         // Creating account for SyncAdapter
-        Log.i(ReaderSyncAdapter.SA_LOG, "Log works");
         account = new Account(ACCOUNT, ACCOUNT_TYPE);
         AccountManager accountManager = (AccountManager) MainActivity.this.getSystemService(ACCOUNT_SERVICE);
+        accountManager.addAccountExplicitly(account, null, null);
 
-        if (!accountManager.addAccountExplicitly(account, null, null)) {
-            Log.i(ReaderSyncAdapter.SA_LOG, "Some error during account creating");
-        }
-        Log.i(ReaderSyncAdapter.SA_LOG, "Account added");
-        //Running SyncAdapter
-        ContentResolver.addPeriodicSync(account, AUTHORITY, Bundle.EMPTY, 3);
+        ContentResolver.setIsSyncable(account, AUTHORITY, 1);
+        ContentResolver.setSyncAutomatically(account, AUTHORITY, true);
+        ContentResolver.addPeriodicSync(account, AUTHORITY, Bundle.EMPTY, 120);
 
         //Initialiazing image loader for thumbnails downloading
         ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(MainActivity.this)
@@ -117,6 +115,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onResume();
         searchView.clearFocus();
         recyclerView.requestFocus();
+
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        ContentResolver.requestSync(account, AUTHORITY, bundle);
     }
 
     @Override

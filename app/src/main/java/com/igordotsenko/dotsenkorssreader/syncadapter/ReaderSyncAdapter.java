@@ -24,12 +24,10 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final Uri ITEM_CONTENT_URI = Uri.parse(
             "content://" + AUTHORITY + "/" + ReaderContentProvider.ReaderRawData.ITEM_TABLE);
 
-    ContentResolver contentResolver;
 
     public ReaderSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
-
-        this.contentResolver = context.getContentResolver();
+        Log.i(SA_LOG, "ReaderSyncAdapter created");
     }
 
 
@@ -37,38 +35,24 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         Log.i(SA_LOG, "onPerformSync started");
 
-        Cursor channelContentCuresor = null;
-        try {
-            channelContentCuresor = provider.query(CHANNEL_CONTENT_URI, null, null, null, null, null);
-            logCursor(channelContentCuresor);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        Log.i(SA_LOG, "onPerformSync finished");
-    }
+        Cursor cursor = getContext().getContentResolver().query(CHANNEL_CONTENT_URI, null, null, null, null, null);
 
-    private void logCursor(Cursor cursor) {
-        Log.i(SA_LOG, "logCursor started");
-        String[] columns = cursor.getColumnNames();
-        int columnCount = cursor.getColumnCount();
-        int[] columnIndexes = new int[columnCount];
+        if ( cursor.moveToFirst()) {
+            Log.i(SA_LOG, "cursor is not empty");
+            String[] columns = cursor.getColumnNames();
+            int[] columnIndexes;
 
-        for ( String column : columns ) {
-            Log.i(SA_LOG, String.format("%20s ", column));
-        }
-
-        if ( cursor.moveToFirst() ) {
-            for ( int i = 0; i < columnCount; i++ ) {
-                columnIndexes[i] = cursor.getColumnIndex(columns[i]);
+            for ( int i = 0; i < columns.length; i++ ) {
+                Log.i(SA_LOG, columns[i]);
             }
 
-            do {
-                for (int index : columnIndexes) {
-                    Log.i(SA_LOG, String.format("%20s ", cursor.getString(index)));
-                }
-                Log.i(SA_LOG, "\n");
-            } while ( cursor.moveToNext() );
+
+
+            for ( String column : columns ) {
+                Log.i(SA_LOG, "" + cursor.getString(cursor.getColumnIndex(column)));
+            }
         }
-        Log.i(SA_LOG, "logCursor finished");
+
+        Log.i(SA_LOG, "onPerformSync finished");
     }
 }
