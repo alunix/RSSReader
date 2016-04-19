@@ -1,40 +1,26 @@
 package com.igordotsenko.dotsenkorssreader;
 
 import android.app.LoaderManager;
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.CursorLoader;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.Loader;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.igordotsenko.dotsenkorssreader.adapters.ItemListRVAdapter;
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
 import com.igordotsenko.dotsenkorssreader.entities.Item;
-import com.igordotsenko.dotsenkorssreader.entities.Parser;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 

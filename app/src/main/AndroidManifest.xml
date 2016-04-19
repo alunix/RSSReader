@@ -28,8 +28,6 @@
         <activity android:name=".ItemContentActivity" >
         </activity>
 
-        <service android:name=".RefreshService" />
-
         <provider
             android:name=".ReaderContentProvider"
             android:authorities="com.igordotsenko.dotsenkorssreader"

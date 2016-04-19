@@ -6,14 +6,11 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SyncResult;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import com.igordotsenko.dotsenkorssreader.ReaderContentProvider;
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
@@ -21,10 +18,10 @@ import com.igordotsenko.dotsenkorssreader.entities.Item;
 import com.igordotsenko.dotsenkorssreader.entities.Parser;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 
 public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
     //TODO move to RawData class
@@ -45,7 +42,6 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
         this.context = context;
         this.contentResolver = context.getContentResolver();
     }
-
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {

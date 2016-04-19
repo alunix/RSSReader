@@ -2,9 +2,6 @@ package com.igordotsenko.dotsenkorssreader.adapters;
 
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-
-import com.igordotsenko.dotsenkorssreader.ItemListActivity;
 
 public abstract class RecyclerViewCursorAdapter<VH extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<VH>
