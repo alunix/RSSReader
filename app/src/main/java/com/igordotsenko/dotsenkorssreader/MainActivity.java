@@ -2,8 +2,12 @@ package com.igordotsenko.dotsenkorssreader;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.LoaderManager;
 import android.content.ContentResolver;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -24,12 +28,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
+    private static final String QUERY_TEXT = "query text";
+    private static final int LOADER_CHANNEL_LIST = 1;
+    private static final int LOADER_CHANNEL_LIST_REFRESH = 2;
     public static final String LOG_TAG = "rss_reader_log";
     public static final String DB_NAME = "rss_reader.db";
     public static final int DB_VERSION = 1;
     public static final String ACCOUNT_TYPE = "dummy.com";
     public static final String ACCOUNT = "dummyaccount";
+
 
     public static DBHandler dbHelper;
     public static Account account;
@@ -99,6 +107,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         channelList = dbHelper.selectAllChannels();
         rvAdapter = new ChannelListRVAdapter(this, channelList);
         recyclerView.setAdapter(rvAdapter);
+
+        //Start Loader
+        this.getLoaderManager().initLoader(LOADER_CHANNEL_LIST, null, this).forceLoad();
     }
 
     @Override
@@ -122,9 +133,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextChange(String queryText) {
         //Filtration of channel by titles and recyclerView updating
-        List<Channel> filteredChannelsList = new ArrayList<>();
-        filterByQuery(filteredChannelsList, queryText);
-        updateChannelList(filteredChannelsList);
+//        List<Channel> filteredChannelsList = new ArrayList<>();
+//        filterByQuery(filteredChannelsList, queryText);
+//        updateChannelList(filteredChannelsList);
+        Bundle bundle = new Bundle();
+        bundle.putString(QUERY_TEXT, queryText);
+        this.getLoaderManager().restartLoader(LOADER_CHANNEL_LIST_REFRESH, bundle, this).forceLoad();
         return false;
     }
 
@@ -150,4 +164,36 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             }
         }
     }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String order = ReaderContentProvider.ReaderRawData.CHANNEL_ID + " ASC";
+
+        switch (id) {
+            case LOADER_CHANNEL_LIST:
+                return new CursorLoader(this, ReaderContentProvider.ReaderRawData.CHANNEL_CONTENT_URI, null, null, null, order);
+            case LOADER_CHANNEL_LIST_REFRESH:
+                String selection = ReaderContentProvider.ReaderRawData.CHANNEL_TITLE
+                        + " LIKE '%" + args.getString(QUERY_TEXT) + "%'";
+                return new CursorLoader(this, ReaderContentProvider.ReaderRawData.CHANNEL_CONTENT_URI, null, selection, null, order);
+        }
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+            if ( loader.getId() == LOADER_CHANNEL_LIST || loader.getId() == LOADER_CHANNEL_LIST_REFRESH ) {
+                this.rvAdapter.swapCursor(data);
+            }
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        if ( loader.getId() == LOADER_CHANNEL_LIST ) {
+            this.rvAdapter.swapCursor(null);
+        }
+
+    }
+
 }

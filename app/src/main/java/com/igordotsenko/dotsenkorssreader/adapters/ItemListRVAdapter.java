@@ -45,8 +45,7 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
     }
 
     @Override
-    public void onBindViewHolder(final ItemViewHolder holder, final Cursor cursor)
-    {
+    public void onBindViewHolder(final ItemViewHolder holder, final Cursor cursor) {
         holder.bindData(cursor);
 
         //Setting OnClickListeners

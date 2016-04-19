@@ -121,8 +121,7 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
         String[] selectionArgs = { "" + currentChannelId };
         String order = ReaderContentProvider.ReaderRawData.ITEM_PUBDATE_LONG + " DESC";
 
-        switch (id)
-        {
+        switch (id) {
             case LOADER_ITEM_LIST:
                 selection = ReaderContentProvider.ReaderRawData.ITEM_CHANNEL_ID + " = ?";
                 return new CursorLoader(this, ReaderContentProvider.ReaderRawData.ITEM_CONTENT_URI, null, selection, selectionArgs, order);
