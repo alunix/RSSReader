@@ -82,11 +82,9 @@ public class ReaderContentProvider extends ContentProvider {
         switch ( uriMatcher.match(uri) ) {
             case CHANNEL:
                 tableName = ReaderRawData.CHANNEL_TABLE;
-                Log.i(ItemListActivity.ITEM_LIST_TAG, "Content provider query() match channel");
                 break;
             case ITEM:
                 tableName = ReaderRawData.ITEM_TABLE;
-                Log.i(ItemListActivity.ITEM_LIST_TAG, "Content provider query() match item");
                 break;
             default:
                 throw new IllegalArgumentException("Wrong URI: " + uri);

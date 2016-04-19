@@ -20,7 +20,6 @@ import com.igordotsenko.dotsenkorssreader.adapters.ItemListRVAdapter;
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
 import com.igordotsenko.dotsenkorssreader.entities.Item;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

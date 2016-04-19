@@ -18,28 +18,25 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
-import com.igordotsenko.dotsenkorssreader.entities.Channel;
 import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
     private static final String QUERY_TEXT = "query text";
     private static final int LOADER_CHANNEL_LIST = 1;
     private static final int LOADER_CHANNEL_LIST_REFRESH = 2;
+
     public static final String LOG_TAG = "rss_reader_log";
     public static final String DB_NAME = "rss_reader.db";
     public static final int DB_VERSION = 1;
     public static final String ACCOUNT_TYPE = "dummy.com";
     public static final String ACCOUNT = "dummyaccount";
 
-
-    public static DBHandler dbHelper;
+//    public static DBHandler dbHelper;
     public static Account account;
 
     private static String AUTHORITY = ReaderContentProvider.ReaderRawData.AUTHORITY;
@@ -58,7 +55,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         // Create DBHelper and establish database connection (connection permanently kept inside of DBHandler)
         try {
-            dbHelper = new DBHandler(MainActivity.this, DB_NAME, null, DB_VERSION);
+//            dbHelper =
+                    new DBHandler(MainActivity.this, DB_NAME, null, DB_VERSION);
         } catch (IOException e) {
             e.printStackTrace();
             throw new Error("Error during db connection establishing: " + e.getMessage());
@@ -120,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        dbHelper.close();
+//        dbHelper.close();
     }
 
     @Override

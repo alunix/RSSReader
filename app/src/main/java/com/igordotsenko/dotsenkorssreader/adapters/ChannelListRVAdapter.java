@@ -14,11 +14,6 @@ import com.igordotsenko.dotsenkorssreader.ItemListActivity;
 import com.igordotsenko.dotsenkorssreader.R;
 import com.igordotsenko.dotsenkorssreader.ReaderContentProvider;
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
-import com.ocpsoft.pretty.time.PrettyTime;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class ChannelListRVAdapter extends RecyclerViewCursorAdapter<ChannelListRVAdapter.ChannelViewHolder>{
     private Context context;
