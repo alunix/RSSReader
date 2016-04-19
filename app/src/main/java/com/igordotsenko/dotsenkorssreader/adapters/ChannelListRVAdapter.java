@@ -26,7 +26,7 @@ public class ChannelListRVAdapter extends RecyclerViewCursorAdapter<ChannelListR
 
     public ChannelListRVAdapter(Context context, List<Channel> channelList) {
         this.context = context;
-        this.channelList = new ArrayList<>(channelList);
+//        this.channelList = new ArrayList<>(channelList);
     }
 
     @Override

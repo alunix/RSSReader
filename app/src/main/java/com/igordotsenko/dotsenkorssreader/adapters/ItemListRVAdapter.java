@@ -32,7 +32,7 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
 
     public ItemListRVAdapter(Context context, List<Item> items, String channelTitle) {
         this.context = context;
-        this.items = new ArrayList<>(items);
+//        this.items = new ArrayList<>(items);
         this.imageLoader = ImageLoader.getInstance();
         this.displayImageOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
         this.parentChannelTitle = channelTitle;

@@ -78,14 +78,14 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
         //Welcome Message textView initializtion
         welcomeMessage = (TextView) findViewById(R.id.item_list_empty_view);
 
-        //Retrieving channel's itemList from database
-        itemList = MainActivity.dbHelper.selectItemsById(currentChannelId);
-
-        //If itemList empty - show welcome message
-        if ( itemList == null || itemList.size() == 0 ) {
-            itemList = new ArrayList<>();
-            setWelcomeMessageVisible();
-        }
+//        //Retrieving channel's itemList from database
+//        itemList = MainActivity.dbHelper.selectItemsById(currentChannelId);
+//
+//        //If itemList empty - show welcome message
+//        if ( itemList == null || itemList.size() == 0 ) {
+//            itemList = new ArrayList<>();
+//            setWelcomeMessageVisible();
+//        }
 
         //Setting adapter on recyclerView
         rvAdapter = new ItemListRVAdapter(ItemListActivity.this, itemList, getIntent().getStringExtra(Channel.TITLE));

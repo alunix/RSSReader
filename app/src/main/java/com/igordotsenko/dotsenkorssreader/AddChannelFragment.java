@@ -2,13 +2,18 @@ package com.igordotsenko.dotsenkorssreader;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteStatement;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.ClipboardManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
+import com.igordotsenko.dotsenkorssreader.entities.Item;
 import com.igordotsenko.dotsenkorssreader.entities.Parser;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class AddChannelFragment extends DialogFragment  {
@@ -69,7 +76,7 @@ public class AddChannelFragment extends DialogFragment  {
                 }
 
                 //Check if feed has been already added
-                if ( MainActivity.dbHelper.channelIsAlreadyAdded(url) ) {
+                if ( channelIsAlreadyAdded(url) ) {
                     Toast.makeText(activity, FEED_EXIST_MESSAGE, Toast.LENGTH_SHORT).show();
                     addChannelTextView.setText("");
                     dismiss();
@@ -124,10 +131,15 @@ public class AddChannelFragment extends DialogFragment  {
         protected String doInBackground(String... params) {
             Parser parser = new Parser();
             Channel newChannel;
+            String channelUrl = params[0];
+
+            if ( channelIsAlreadyAdded(channelUrl) ) {
+                return FEED_EXIST_MESSAGE;
+            }
 
             //Start downloading and parsing
             try {
-                newChannel = parser.parseNewChannel(params[0]);
+                newChannel = parser.parseNewChannel(channelUrl);
             } catch ( IOException e ) {
                 if ( !e.getMessage().equals("")) {
                     return e.getMessage();
@@ -136,16 +148,16 @@ public class AddChannelFragment extends DialogFragment  {
             }
             if ( newChannel != null ) {
                 //Check if channel has been already added
-                if ( MainActivity.dbHelper.channelIsAlreadyAdded(newChannel) ) {
+                if ( channelIsAlreadyAdded(newChannel) ) {
                     return FEED_EXIST_MESSAGE;
                 }
 
                 //Saving channel (returns the same channel with id set) and item in db.
-                newChannel = MainActivity.dbHelper.insertIntoChannel(newChannel);
-                MainActivity.dbHelper.insertIntoItem(newChannel.getItems(), newChannel.getID());
+                newChannel = insertIntoChannel(newChannel);
+                insertIntoItem(newChannel.getItems(), newChannel.getID());
 
                 //Update recyclerview
-                activity.addToChannelList(newChannel);
+//                activity.addToChannelList(newChannel);
                 return SUCCESS_MESSAGE;
             }
 
@@ -157,8 +169,88 @@ public class AddChannelFragment extends DialogFragment  {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             progressDialog.dismiss();
-            activity.updateChannelList();
+//            activity.updateChannelList();
             Toast.makeText(activity, result, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private Channel insertIntoChannel(Channel channel) {
+        long id = getLastChannelId() + 1;
+        channel.setId(id);
+
+        ContentValues cv = new ContentValues();
+
+        cv.put(Channel.ID, id);
+        cv.put(Channel.TITLE, channel.getTitle());
+        cv.put(Channel.LINK, channel.getLink());
+        cv.put(Channel.LAST_BUILD_DATE, channel.getLastBuildDate());
+        cv.put(Channel.LAST_BUILD_DATE_LONG, channel.getLastBuildDateLong());
+
+        activity.getContentResolver().insert(ReaderContentProvider.ReaderRawData.CHANNEL_CONTENT_URI, cv);
+
+        return channel;
+    }
+
+    private boolean channelIsAlreadyAdded(String url){
+        String selection = Channel.LINK + " = ?";
+        String[] selectionArgs = { url };
+
+        Cursor cursor = activity.getContentResolver().query(ReaderContentProvider.ReaderRawData.CHANNEL_CONTENT_URI, null, selection, selectionArgs, null);
+
+        // If records exists - cursor has more than 0 rows
+        boolean recordExists = cursor.getCount() > 0;
+        cursor.close();
+
+        return recordExists;
+    }
+
+    private boolean channelIsAlreadyAdded(Channel channel){
+        String selection = Channel.TITLE + " = ?";
+        String[] selectionArgs = { channel.getTitle() };
+
+        Cursor cursor = activity.getContentResolver().query(ReaderContentProvider.ReaderRawData.CHANNEL_CONTENT_URI, null, selection, selectionArgs, null);
+
+        // If records exists - cursor has more than 0 rows
+        boolean recordExists = cursor.getCount() > 0;
+
+        cursor.close();
+
+        return recordExists;
+    }
+
+    private long getLastChannelId() {
+        String[] projection = { ReaderContentProvider.ReaderRawData.CHANNEL_ID };
+        String order = ReaderContentProvider.ReaderRawData.CHANNEL_ID + " DESC";
+        Cursor cursor = activity.getContentResolver().query(
+                ReaderContentProvider.ReaderRawData.CHANNEL_CONTENT_URI,
+                projection, null, null, order);
+
+        int idIndex = cursor.getColumnIndex(Channel.ID);
+
+        cursor.moveToFirst();
+        long id = cursor.getLong(idIndex);
+
+        cursor.close();
+
+        return id;
+    }
+
+    private void insertIntoItem(List<Item> items, long channelId) {
+        ContentValues[] values = new ContentValues[items.size()];
+
+        for ( int i = 0; i < items.size(); i++ ) {
+            ContentValues cv = new ContentValues();
+
+            cv.put(Item.CHANNEL_ID, channelId);
+            cv.put(Item.LINK, items.get(i).getLink());
+            cv.put(Item.TITLE, items.get(i).getTitle());
+            cv.put(Item.DESCRIPTION, items.get(i).getContent());
+            cv.put(Item.PUBDATE, items.get(i).getPubdate());
+            cv.put(Item.PUBDATE_LONG, items.get(i).getPubdateLong());
+
+            values[i] = cv;
+        }
+
+        activity.getContentResolver().bulkInsert(ReaderContentProvider.ReaderRawData.ITEM_CONTENT_URI, values);
     }
 }

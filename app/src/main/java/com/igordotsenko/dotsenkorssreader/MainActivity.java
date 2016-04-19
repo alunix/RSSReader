@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         // Create DBHelper and establish database connection (connection permanently kept inside of DBHandler)
         try {
             dbHelper = new DBHandler(MainActivity.this, DB_NAME, null, DB_VERSION);
-            dbHelper.getDatabaseConnection();
+//            dbHelper.getDatabaseConnection();
         } catch (IOException e) {
             e.printStackTrace();
             throw new Error("Error during db connection establishing: " + e.getMessage());
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         recyclerView.setLayoutManager(llm);
 
         // Retrieve channel list from database and set adapter
-        channelList = dbHelper.selectAllChannels();
+//        channelList = dbHelper.selectAllChannels();
         rvAdapter = new ChannelListRVAdapter(this, channelList);
         recyclerView.setAdapter(rvAdapter);
 
@@ -142,28 +142,28 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         return false;
     }
 
-    public void updateChannelList(List<Channel> channelsList) {
-        rvAdapter.setChannelList(channelsList);
-        updateChannelList();
-    }
+//    public void updateChannelList(List<Channel> channelsList) {
+//        rvAdapter.setChannelList(channelsList);
+//        updateChannelList();
+//    }
 
-    public void updateChannelList() {
-        rvAdapter.notifyDataSetChanged();
-        recyclerView.scrollToPosition(0);
-    }
+//    public void updateChannelList() {
+//        rvAdapter.notifyDataSetChanged();
+//        recyclerView.scrollToPosition(0);
+//    }
 
-    public void addToChannelList(Channel channel) {
-        channelList.add(channel);
-        rvAdapter.addChannel(channel);
-    }
+//    public void addToChannelList(Channel channel) {
+//        channelList.add(channel);
+//        rvAdapter.addChannel(channel);
+//    }
 
-    private void filterByQuery(List<Channel> filteredChannelsList, String queryText) {
-        for ( Channel ch : channelList ) {
-            if ( ch.getTitle().toLowerCase().contains(queryText.toLowerCase()) ) {
-                filteredChannelsList.add(ch);
-            }
-        }
-    }
+//    private void filterByQuery(List<Channel> filteredChannelsList, String queryText) {
+//        for ( Channel ch : channelList ) {
+//            if ( ch.getTitle().toLowerCase().contains(queryText.toLowerCase()) ) {
+//                filteredChannelsList.add(ch);
+//            }
+//        }
+//    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -195,5 +195,4 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         }
 
     }
-
 }
