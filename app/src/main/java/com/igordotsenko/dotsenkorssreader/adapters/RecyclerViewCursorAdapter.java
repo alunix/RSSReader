@@ -18,14 +18,11 @@ public abstract class RecyclerViewCursorAdapter<VH extends RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        return this.cursor != null
-                ? this.cursor.getCount()
-                : 0;
+        return this.cursor != null ? this.cursor.getCount() : 0;
     }
 
     public Cursor getItem(final int position) {
-        if (this.cursor != null && !this.cursor.isClosed())
-        {
+        if (this.cursor != null && !this.cursor.isClosed()) {
             this.cursor.moveToPosition(position);
         }
 

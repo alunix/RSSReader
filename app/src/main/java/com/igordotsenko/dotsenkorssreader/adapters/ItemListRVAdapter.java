@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapter.ItemViewHolder> {
     private Context context;
     private List<Item> items;
@@ -50,7 +51,7 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
     {
         holder.bindData(cursor);
 
-        //Seting OnClickListeners
+        //Setting OnClickListeners
         holder.itemThumbnail.setOnClickListener(new ItemOnClickListener(cursor));
         holder.itemTitle.setOnClickListener(new ItemOnClickListener(cursor));
         holder.itemPubdate.setOnClickListener(new ItemOnClickListener(cursor));
@@ -60,19 +61,6 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-    }
-
-    public void setItemsList(List<Item> items) {
-        this.items = new ArrayList(items);
-    }
-    //This method can be called from different threads: when refreshing by pull and autorefreshinsh by service
-    public synchronized void addItems(List<Item> items) {
-        for ( int i = items.size()-1; i >= 0; i-- ) {
-            //Check if item has been added from another thread
-            if ( !this.items.contains(items.get(i)) ) {
-                this.items.add(0, items.get(i));
-            }
-        }
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {

@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 public class ItemListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
     private static final int LOADER_ITEM_LIST = 1;
     private static final int LOADER_ITEM_LIST_REFRESH = 2;
@@ -51,8 +52,6 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
     private List<Item> itemList;
     private ItemListRVAdapter rvAdapter;
     private long currentChannelId;
-    private LocalBroadcastManager localBroadcastManager;
-    private BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,51 +60,11 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         currentChannelId = getIntent().getLongExtra(Channel.ID, -1);
 
-        //Broadcast reciever initialization
-        localBroadcastManager = LocalBroadcastManager.getInstance(this);
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                //Show toast with message from RefreshService
-                if ( intent.getAction().equals(RefreshService.AUTOREFRESH_MESSAGE_ACTION + currentChannelId ) ) {
-                    handleAutoRefreshMessage(intent);
-                }
-                //Get filtered list of new items, add them to list, update recyclerview
-                if ( intent.getAction().equals(RefreshService.AUTOREFRESH_RESULT_ACTION + currentChannelId) ) {
-                    handleAutoRefreshResult(intent);
-                }
-            }
-        };
-
-        //Intent filter for interacting with RefreshService initialization
-        // TODO remove
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction(RefreshService.AUTOREFRESH_RESULT_ACTION + currentChannelId);
-//        filter.addAction(RefreshService.AUTOREFRESH_MESSAGE_ACTION + currentChannelId);
-//        localBroadcastManager.registerReceiver(broadcastReceiver, filter);
-
-        //Start RefreshSercive
-        Intent intent = new Intent(ItemListActivity.this, RefreshService.class);
-        // TODO remove
-//        startService(intent.putExtra(Channel.ID, currentChannelId));
-
         //SwipeRefreshLayout initialization
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.item_list_swiperefresh_layout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-//                Handler handler = new Handler(Looper.getMainLooper()) {
-//                    @Override
-//                    public void handleMessage(Message message) {
-//                        super.handleMessage(message);
-//                        Toast.makeText(getBaseContext(), message.getData().getString(RefreshingRunnable.MESSAGE_TAG), Toast.LENGTH_SHORT).show();
-//                        updateItemList();
-//                        swipeRefreshLayout.setRefreshing(false);
-//                    }
-//                };
-//
-//                Thread thread = new Thread(new RefreshingRunnable(handler.obtainMessage()));
-//                thread.start();
                 ContentResolver.requestSync(MainActivity.account, ReaderContentProvider.ReaderRawData.AUTHORITY, Bundle.EMPTY);
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -153,7 +112,6 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i(ItemListActivity.ITEM_LIST_TAG, "onResumeStarted");
         searchView.clearFocus();
         recyclerView.requestFocus();
     }
@@ -165,75 +123,18 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
 
     @Override
     public boolean onQueryTextChange(String queryText) {
-//        //Filtration of item titles and recyclerView updating
-//        List<Item> filteredItemsList = new ArrayList<>();
-//        filterByQuery(filteredItemsList, queryText);
-//        updateItemList(filteredItemsList);
         Bundle bundle = new Bundle();
         bundle.putString(QUERY_TEXT, queryText);
         this.getLoaderManager().restartLoader(LOADER_ITEM_LIST_REFRESH, bundle, this).forceLoad();
         return false;
     }
 
-    public void updateItemList(List<Item> itemsList) {
-        rvAdapter.setItemsList(itemsList);
-        updateItemList();
-    }
-
-    public void updateItemList() {
-        if ( recyclerView.getVisibility() != View.VISIBLE ) {
-            setRecyclerViewVisible();
-        }
-        rvAdapter.notifyDataSetChanged();
-        recyclerView.scrollToPosition(0);
-    }
-
-    public void addItemsToList(List<Item> itemsList) {
-        rvAdapter.addItems(itemsList);
-    }
-
-    private void handleAutoRefreshMessage(Intent intent) {
-        String message = intent.getStringExtra(RefreshService.AUTOREFRESH_MESSAGE);
-        Toast.makeText(ItemListActivity.this, message, Toast.LENGTH_SHORT).show();
-
-        //Updating pubdate
-        if ( message.equals(RefreshService.UPDATE_START_MESSAGE) ) {
-            rvAdapter.notifyDataSetChanged();
-        }
-    }
-
-    private void handleAutoRefreshResult(Intent intent) {
-        RefreshService.ItemListWrapper wrapper =
-                (RefreshService.ItemListWrapper) intent.getExtras().get(RefreshService.AUTOREFRESH_WRAPPER);
-        addItemsToList(wrapper.getItems());
-        updateItemList();
-        Toast.makeText(ItemListActivity.this, "" + wrapper.getItems().size() + " news added",
-                Toast.LENGTH_SHORT).show();
-    }
-
-    private void setWelcomeMessageVisible() {
-        recyclerView.setVisibility(View.GONE);
-        welcomeMessage.setVisibility(View.VISIBLE);
-    }
-
-    private void setRecyclerViewVisible() {
-        recyclerView.setVisibility(View.VISIBLE);
-        welcomeMessage.setVisibility(View.GONE);
-    }
-
-    private void filterByQuery(List<Item> filteredItemsList, String queryText) {
-        for ( Item item : itemList) {
-            if ( item.getTitle().toLowerCase().contains(queryText.toLowerCase()) ) {
-                filteredItemsList.add(item);
-            }
-        }
-    }
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String selection;
-        String[] selectionArgs = {"" + currentChannelId};
+        String[] selectionArgs = { "" + currentChannelId };
         String order = ReaderContentProvider.ReaderRawData.ITEM_PUBDATE_LONG + " DESC";
+
         switch (id)
         {
             case LOADER_ITEM_LIST:
@@ -250,110 +151,29 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.i(ITEM_LIST_TAG, "onLoadFinished");
-        switch (loader.getId())
-        {
-            case LOADER_ITEM_LIST:
+        if ( loader.getId() == LOADER_ITEM_LIST || loader.getId() == LOADER_ITEM_LIST_REFRESH ) {
             this.rvAdapter.swapCursor(data);
-            break;
-            case LOADER_ITEM_LIST_REFRESH:
-                this.rvAdapter.swapCursor(data);
-                break;
+
+            if ( data.getCount() > 0 ) {
+                setRecyclerViewVisible();
+            }
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        switch (loader.getId())
-        {
-            case LOADER_ITEM_LIST:
-                this.rvAdapter.swapCursor(null);
-                break;
+        if ( loader.getId() == LOADER_ITEM_LIST || loader.getId() == LOADER_ITEM_LIST_REFRESH) {
+            this.rvAdapter.swapCursor(null);
         }
     }
 
-    private class RefreshingRunnable implements Runnable {
-        private final String INTERNET_UNAVAILABLE_MESSAGE = "Internet connection is not available";
-        private final String SUCCESS_MESSAGE = "Feed updated";
-        private final String UP_TO_DATE_MESSAGE = "Feed is up to date";
-        public static final String MESSAGE_TAG = "message";
+    private void setWelcomeMessageVisible() {
+        recyclerView.setVisibility(View.GONE);
+        welcomeMessage.setVisibility(View.VISIBLE);
+    }
 
-        private Message message;
-
-        public RefreshingRunnable(Message message) {
-            this.message = message;
-        }
-
-        @Override
-        public void run() {
-            Parser parser = new Parser();
-            Channel updatedChannel;
-            long currentChannelId = ItemListActivity.this.getIntent().getLongExtra(Channel.ID, -1);
-
-            Bundle bundle = new Bundle();
-            ConnectivityManager connectivityManager
-                    = (ConnectivityManager) ItemListActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            //Check if Internet connection available
-            if ( connectivityManager.getActiveNetworkInfo() == null ) {
-                bundle.putString(MESSAGE_TAG, INTERNET_UNAVAILABLE_MESSAGE);
-                message.setData(bundle);
-                message.sendToTarget();
-                return;
-            }
-
-            //Try to update feed
-            try {
-                updatedChannel = parser.updateExistChannel(currentChannelId);
-            } catch (IOException e) {
-                bundle.putString(MESSAGE_TAG, e.getMessage());
-                message.setData(bundle);
-                message.sendToTarget();
-                return;
-            }
-
-            //If feed is up to date - null returns
-            if ( updatedChannel == null) {
-                bundle.putString(MESSAGE_TAG, UP_TO_DATE_MESSAGE);
-                message.setData(bundle);
-                message.sendToTarget();
-                return;
-            }
-
-            //Update channel's last build date
-            MainActivity.dbHelper.updateChannelBuildDate(updatedChannel, currentChannelId);
-
-            //Start handling downloaded itemList
-            List<Item> newItemList = updatedChannel.getItems();
-            long lastPubdateLong = MainActivity.dbHelper.getLastPubdateLongInItem(currentChannelId);
-
-            //Filter downloaded items by publication date, setting items' id
-            long lastId = MainActivity.dbHelper.lastIdInItem();
-            List<Item> filteredNewItemList = new ArrayList<>();
-            for ( Item item : newItemList ) {
-                if ( item.getPubdateLong() > lastPubdateLong ) {
-                    item.setID(++lastId);
-                    filteredNewItemList.add(item);
-                }
-            }
-
-            //Check if there are really new items in feed
-            if ( filteredNewItemList.size() == 0 ) {
-                bundle.putString(MESSAGE_TAG, UP_TO_DATE_MESSAGE);
-                message.setData(bundle);
-                message.sendToTarget();
-                return;
-            }
-
-            //Sort new itemList by pubdate and insert it into database and recyclerview
-            Collections.sort(filteredNewItemList);
-            MainActivity.dbHelper.insertIntoItem(filteredNewItemList, currentChannelId);
-            addItemsToList(filteredNewItemList);
-
-            //Update UI thread
-            bundle.putString(MESSAGE_TAG, SUCCESS_MESSAGE + ": " + filteredNewItemList.size() + " added");
-            message.setData(bundle);
-            message.sendToTarget();
-        }
+    private void setRecyclerViewVisible() {
+        recyclerView.setVisibility(View.VISIBLE);
+        welcomeMessage.setVisibility(View.GONE);
     }
 }

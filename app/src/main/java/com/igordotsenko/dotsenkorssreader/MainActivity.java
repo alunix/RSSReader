@@ -26,22 +26,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-//import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
-
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     public static final String LOG_TAG = "rss_reader_log";
     public static final String DB_NAME = "rss_reader.db";
     public static final int DB_VERSION = 1;
+    public static final String ACCOUNT_TYPE = "dummy.com";
+    public static final String ACCOUNT = "dummyaccount";
 
     public static DBHandler dbHelper;
     public static Account account;
 
     private static String AUTHORITY = ReaderContentProvider.ReaderRawData.AUTHORITY;
-    public static final String ACCOUNT_TYPE = "dummy.com";
-    public static final String ACCOUNT = "dummyaccount";
-    public static final String DUMMY_ACCOUNT_NAME = "name";
-    public static final String DUMMY_ACCOUNT_PASS = "name";
 
     private DialogFragment dialogFragment;
     private RecyclerView recyclerView;
@@ -49,9 +45,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private ImageButton addChannelButton;
     private List<Channel> channelList;
     private ChannelListRVAdapter rvAdapter;
-
-    private ContentResolver contentResolver;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,11 +109,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onResume();
         searchView.clearFocus();
         recyclerView.requestFocus();
-
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        ContentResolver.requestSync(account, AUTHORITY, bundle);
     }
 
     @Override
@@ -148,11 +136,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         updateChannelList();
     }
 
-    public void updateChannelList(Channel channel) {
-        rvAdapter.addChannel(channel);
-        updateChannelList();
-    }
-
     public void updateChannelList() {
         rvAdapter.notifyDataSetChanged();
         recyclerView.scrollToPosition(0);
@@ -171,4 +154,3 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         }
     }
 }
-

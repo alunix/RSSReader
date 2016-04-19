@@ -35,7 +35,6 @@ public class Parser {
     }
 
     public Channel updateExistChannel(Channel currentChannel, long channelId) throws IOException {
-//        Channel currentChannel = MainActivity.dbHelper.selectChannelById(channelId);
         Channel newChannel = parseXML(downloadXML(currentChannel.getLink()));
         long currentChannelBuildDate = currentChannel.getLastBuildDateLong();
         long newChannelBuildDate = newChannel.getLastBuildDateLong();

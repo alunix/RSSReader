@@ -16,8 +16,6 @@ import com.igordotsenko.dotsenkorssreader.entities.Item;
 import java.io.IOException;
 
 public class ReaderContentProvider extends ContentProvider {
-//    private static final Uri CHANNEL_CONTENT_URI = Uri.parse("content://" + ReaderRawData.AUTHORITY + "/" + ReaderRawData.CHANNEL_TABLE);
-//    private static final Uri ITEM_CONTENT_URI = Uri.parse("content://" + ReaderRawData.AUTHORITY + "/" + ReaderRawData.ITEM_TABLE);
     private static final int CHANNEL = 1;
     private static final int ITEM = 2;
     private static final UriMatcher uriMatcher= new UriMatcher(UriMatcher.NO_MATCH);
@@ -29,7 +27,6 @@ public class ReaderContentProvider extends ContentProvider {
         uriMatcher.addURI(ReaderRawData.AUTHORITY, ReaderRawData.CHANNEL_TABLE, CHANNEL);
         uriMatcher.addURI(ReaderRawData.AUTHORITY, ReaderRawData.ITEM_TABLE, ITEM);
     }
-
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
@@ -63,7 +60,6 @@ public class ReaderContentProvider extends ContentProvider {
         establishDatabaseConnection();
         rowID = databaseConnection.insert(tableName, null, values);
         resultUri = ContentUris.withAppendedId(contentUri, rowID);
-        // Notify content resolver that data changes in resultUri address occured
         getContext().getContentResolver().notifyChange(uri, null);
         return resultUri;
     }
@@ -98,7 +94,6 @@ public class ReaderContentProvider extends ContentProvider {
 
         establishDatabaseConnection();
         Cursor cursor = databaseConnection.query(tableName, projection, selection, selectionArgs, null, null, sortOrder);
-        // Ask ContentReslover to notify this cursor about any data changes in ITEM_CONTENT_URI
         cursor.setNotificationUri(getContext().getContentResolver(), ReaderRawData.ITEM_CONTENT_URI);
 
         return cursor;
@@ -122,7 +117,6 @@ public class ReaderContentProvider extends ContentProvider {
 
         establishDatabaseConnection();
         rowsUpdatedCount = databaseConnection.update(tableName, values, selection, selectionArgs);
-        // Notify content resolver, that data by uri address was changed
         getContext().getContentResolver().notifyChange(uri, null);
 
         return rowsUpdatedCount;

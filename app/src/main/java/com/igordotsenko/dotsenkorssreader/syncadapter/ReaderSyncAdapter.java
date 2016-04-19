@@ -27,15 +27,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
-    public  static final String SA_LOG = "syncAdapter_log";
-    public static final String AUTOREFRESH_RESULT_ACTION = "auto refresh action";
-    public static final String AUTOREFRESH_MESSAGE_ACTION = "auto refresh message";
-    public static final String AUTOREFRESH_WRAPPER = "auto refresh wrapper";
-    public static final String AUTOREFRESH_MESSAGE = "auto refresh message";
-    public static final String UPDATE_START_MESSAGE = "Start updating...";
-
-    private final String UP_TO_DATE_MESSAGE = "Feed is up to date";
-    private final String INTERNET_UNAVAILABLE_MESSAGE = "Internet connetction is not available";
+    //TODO move to RawData class
     private static final String AUTHORITY = "com.igordotsenko.dotsenkorssreader";
     private static final Uri CHANNEL_CONTENT_URI = Uri.parse(
             "content://" + AUTHORITY + "/" + ReaderContentProvider.ReaderRawData.CHANNEL_TABLE);
@@ -52,38 +44,28 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
         this.localBroadcastManager = LocalBroadcastManager.getInstance(context);
         this.context = context;
         this.contentResolver = context.getContentResolver();
-        Log.i(SA_LOG, "ReaderSyncAdapter created");
     }
 
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        Log.i(SA_LOG, "onPerformSync started");
         Parser parser = new Parser();
         Channel updatedChannel;
         List<Integer> ids;
 
         // Retrieve ids of channels that should be updated
         ids = getChannelIds();
-        Log.i(SA_LOG, "ids size: " + ids.size());
 
 
         //Try to update feeds
         for ( int channelId : ids ) {
             try {
-                Log.i(SA_LOG, "start parsing channel: " + channelId);
                 updateChannel(channelId, parser);
             } catch (IOException e) {
                 e.printStackTrace();
                 continue;
             }
         }
-    }
-
-    public void sendMessage(String message) {
-        Intent intent = new Intent(AUTOREFRESH_MESSAGE_ACTION);
-        intent.putExtra(AUTOREFRESH_MESSAGE, message);
-        localBroadcastManager.sendBroadcast(intent);
     }
 
     private List<Integer> getChannelIds() {
@@ -93,7 +75,6 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
 
         if ( cursor.moveToFirst() ) {
             int idColumnIndex = cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.CHANNEL_ID);
-            int rowCount = cursor.getCount();
 
             ids = new ArrayList<>();
 
@@ -134,6 +115,7 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
         Channel selectedChanndel = new Channel(cursor.getString(titleIndex), cursor.getString(linkIndex), cursor.getString(lastBuilDateIndex));
 
         cursor.close();
+
         return selectedChanndel;
     }
 
@@ -144,28 +126,21 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
         contentValuesDateString.put(ReaderContentProvider.ReaderRawData.CHANNEL_LAST_BUILD_DATE, updatedChannel.getLastBuildDate());
         contentValuesDateLong.put(ReaderContentProvider.ReaderRawData.CHANNEL_LAST_BUILD_DATE_LONG, updatedChannel.getLastBuildDateLong());
 
-        context.getContentResolver().update(CHANNEL_CONTENT_URI, contentValuesDateString, ReaderContentProvider.ReaderRawData.CHANNEL_ID + " = " + channelId, null);
-        context.getContentResolver().update(CHANNEL_CONTENT_URI, contentValuesDateLong, ReaderContentProvider.ReaderRawData.CHANNEL_ID + " = " + channelId, null);
+        contentResolver.update(CHANNEL_CONTENT_URI, contentValuesDateString, ReaderContentProvider.ReaderRawData.CHANNEL_ID + " = " + channelId, null);
+        contentResolver.update(CHANNEL_CONTENT_URI, contentValuesDateLong, ReaderContentProvider.ReaderRawData.CHANNEL_ID + " = " + channelId, null);
     }
 
     private void handleNewItems(Channel updatedChannel, long channelId) {
         List<Item> newItemList = updatedChannel.getItems();
-        Log.i(SA_LOG, "new item list size = " + newItemList.size());
-
         long lastPubdateLong = getLastItemPubdateLong();
-        Log.i(SA_LOG, "lastPubdateLong = " + lastPubdateLong);
-
         long lastItemId = getLastItemId();
-        Log.i(SA_LOG, "lastItemId = " + lastItemId);
 
         // Returns filtered itemList with set IDs
         newItemList = filterItemList(newItemList, lastPubdateLong, lastItemId);
-        Log.i(SA_LOG, "filtered item list size = " + newItemList.size());
 
         if ( newItemList.size() > 0 ) {
             insertNewItems(newItemList, channelId);
         }
-
     }
 
     private long getLastItemPubdateLong() {
@@ -221,27 +196,14 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
 
         for ( Item item : newItemList ) {
             contentValues.put(ReaderContentProvider.ReaderRawData.ITEM_ID, item.getID());
-            Log.i(SA_LOG, "inserting item id = " + item.getID());
-
             contentValues.put(ReaderContentProvider.ReaderRawData.ITEM_CHANNEL_ID, channelId);
-            Log.i(SA_LOG, "inserting item channel = " + channelId);
-
             contentValues.put(ReaderContentProvider.ReaderRawData.ITEM_TITLE, item.getTitle());
-            Log.i(SA_LOG, "inserting item title = " + item.getTitle());
-
             contentValues.put(ReaderContentProvider.ReaderRawData.ITEM_LINK, item.getLink());
-            Log.i(SA_LOG, "inserting item link = " + item.getLink());
-
             contentValues.put(ReaderContentProvider.ReaderRawData.ITEM_DESCRIPTION, item.getContent());
-            Log.i(SA_LOG, "inserting item content = " + item.getContent());
-
             contentValues.put(ReaderContentProvider.ReaderRawData.ITEM_PUBDATE, item.getPubdate());
-            Log.i(SA_LOG, "inserting item pubdate = " + item.getPubdate());
-
             contentValues.put(ReaderContentProvider.ReaderRawData.ITEM_PUBDATE_LONG, item.getPubdateLong());
             if ( item.getThumbNailURL() != null ) {
                 contentValues.put(ReaderContentProvider.ReaderRawData.ITEM_THUMBNAIL, item.getThumbNailURL());
-                Log.i(SA_LOG, "inserting item thumbnail = " + item.getThumbNailURL());
             }
 
             contentResolver.insert(ITEM_CONTENT_URI, contentValues);
@@ -249,5 +211,4 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
             contentValues.clear();
         }
     }
-
 }
