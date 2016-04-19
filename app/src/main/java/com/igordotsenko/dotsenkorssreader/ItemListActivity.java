@@ -20,8 +20,6 @@ import com.igordotsenko.dotsenkorssreader.adapters.ItemListRVAdapter;
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
 import com.igordotsenko.dotsenkorssreader.entities.Item;
 
-import java.util.List;
-
 
 public class ItemListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
     private static final int LOADER_ITEM_LIST = 1;
@@ -34,7 +32,6 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
     private SearchView searchView;
     private ImageButton backButton;
     private TextView welcomeMessage;
-    private List<Item> itemList;
     private ItemListRVAdapter rvAdapter;
     private long currentChannelId;
 
@@ -50,7 +47,7 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                ContentResolver.requestSync(MainActivity.account, ReaderContentProvider.ReaderRawData.AUTHORITY, Bundle.EMPTY);
+                ContentResolver.requestSync(MainActivity.account, ReaderContentProvider.ContractClass.AUTHORITY, Bundle.EMPTY);
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -110,17 +107,17 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String selection;
         String[] selectionArgs = { "" + currentChannelId };
-        String order = ReaderContentProvider.ReaderRawData.ITEM_PUBDATE_LONG + " DESC";
+        String order = ReaderContentProvider.ContractClass.ITEM_PUBDATE_LONG + " DESC";
 
         switch (id) {
             case LOADER_ITEM_LIST:
-                selection = ReaderContentProvider.ReaderRawData.ITEM_CHANNEL_ID + " = ?";
-                return new CursorLoader(this, ReaderContentProvider.ReaderRawData.ITEM_CONTENT_URI, null, selection, selectionArgs, order);
+                selection = ReaderContentProvider.ContractClass.ITEM_CHANNEL_ID + " = ?";
+                return new CursorLoader(this, ReaderContentProvider.ContractClass.ITEM_CONTENT_URI, null, selection, selectionArgs, order);
             case LOADER_ITEM_LIST_REFRESH:
-                selection = ReaderContentProvider.ReaderRawData.ITEM_CHANNEL_ID + " = ? AND "
-                        + ReaderContentProvider.ReaderRawData.ITEM_TITLE
+                selection = ReaderContentProvider.ContractClass.ITEM_CHANNEL_ID + " = ? AND "
+                        + ReaderContentProvider.ContractClass.ITEM_TITLE
                         + " LIKE '%" + args.getString(QUERY_TEXT) + "%'";
-                return new CursorLoader(this, ReaderContentProvider.ReaderRawData.ITEM_CONTENT_URI, null, selection, selectionArgs, order);
+                return new CursorLoader(this, ReaderContentProvider.ContractClass.ITEM_CONTENT_URI, null, selection, selectionArgs, order);
         }
         return null;
     }
@@ -128,11 +125,10 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if ( loader.getId() == LOADER_ITEM_LIST || loader.getId() == LOADER_ITEM_LIST_REFRESH ) {
-            this.rvAdapter.swapCursor(data);
-
             if ( data.getCount() > 0 ) {
                 setRecyclerViewVisible();
             }
+            this.rvAdapter.swapCursor(data);
         }
     }
 
@@ -157,10 +153,12 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
         String selection = Item.CHANNEL_ID + " = ?";
         String[] selectionArgs = { "" + currentChannelId };
 
-        Cursor cursor = getContentResolver().query(ReaderContentProvider.ReaderRawData.ITEM_CONTENT_URI, null, selection, selectionArgs, null);
+        Cursor cursor = getContentResolver().query(ReaderContentProvider.ContractClass.ITEM_CONTENT_URI, null, selection, selectionArgs, null);
 
         if ( cursor.getCount() == 0 ) {
             setWelcomeMessageVisible();
+        } else {
+            setRecyclerViewVisible();
         }
 
         cursor.close();

@@ -16,7 +16,7 @@ public class Channel {
     public static final String ID = "_ID";
     public static final String TITLE = "channel_title";
     public static final String LINK = "channel_link";
-    public static final String LAST_BUILD_DATE = "channel_last_build_date_long";
+    public static final String LAST_BUILD_DATE = "channel_last_build_date";
     public static final String LAST_BUILD_DATE_LONG = "channel_last_build_date_long";
 
 	private long id;

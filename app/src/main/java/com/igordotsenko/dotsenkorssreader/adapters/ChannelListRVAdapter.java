@@ -54,7 +54,7 @@ public class ChannelListRVAdapter extends RecyclerViewCursorAdapter<ChannelListR
         }
 
         public void bindData(final Cursor cursor) {
-            channelTitle.setText(cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.CHANNEL_TITLE)));
+            channelTitle.setText(cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.CHANNEL_TITLE)));
         }
     }
 
@@ -64,8 +64,8 @@ public class ChannelListRVAdapter extends RecyclerViewCursorAdapter<ChannelListR
         private String title;
 
         public  ChannelOnClickListener(Cursor cursor) {
-            this.id = cursor.getLong(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.CHANNEL_ID));
-            this.title = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.CHANNEL_TITLE));
+            this.id = cursor.getLong(cursor.getColumnIndex(ReaderContentProvider.ContractClass.CHANNEL_ID));
+            this.title = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.CHANNEL_TITLE));
         }
 
         @Override

@@ -7,7 +7,6 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.util.Log;
 
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
 import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
@@ -24,8 +23,8 @@ public class ReaderContentProvider extends ContentProvider {
     private SQLiteDatabase databaseConnection;
 
     static {
-        uriMatcher.addURI(ReaderRawData.AUTHORITY, ReaderRawData.CHANNEL_TABLE, CHANNEL);
-        uriMatcher.addURI(ReaderRawData.AUTHORITY, ReaderRawData.ITEM_TABLE, ITEM);
+        uriMatcher.addURI(ContractClass.AUTHORITY, ContractClass.CHANNEL_TABLE, CHANNEL);
+        uriMatcher.addURI(ContractClass.AUTHORITY, ContractClass.ITEM_TABLE, ITEM);
     }
 
     @Override
@@ -46,12 +45,12 @@ public class ReaderContentProvider extends ContentProvider {
         Uri contentUri;
         switch (uriMatcher.match(uri)) {
             case CHANNEL:
-                tableName = ReaderRawData.CHANNEL_TABLE;
-                contentUri = ReaderRawData.CHANNEL_CONTENT_URI;
+                tableName = ContractClass.CHANNEL_TABLE;
+                contentUri = ContractClass.CHANNEL_CONTENT_URI;
                 break;
             case ITEM:
-                tableName = ReaderRawData.ITEM_TABLE;
-                contentUri = ReaderRawData.ITEM_CONTENT_URI;
+                tableName = ContractClass.ITEM_TABLE;
+                contentUri = ContractClass.ITEM_CONTENT_URI;
                 break;
             default:
                 throw new IllegalArgumentException("Wrong URI: " + uri);
@@ -81,10 +80,10 @@ public class ReaderContentProvider extends ContentProvider {
 
         switch ( uriMatcher.match(uri) ) {
             case CHANNEL:
-                tableName = ReaderRawData.CHANNEL_TABLE;
+                tableName = ContractClass.CHANNEL_TABLE;
                 break;
             case ITEM:
-                tableName = ReaderRawData.ITEM_TABLE;
+                tableName = ContractClass.ITEM_TABLE;
                 break;
             default:
                 throw new IllegalArgumentException("Wrong URI: " + uri);
@@ -92,7 +91,7 @@ public class ReaderContentProvider extends ContentProvider {
 
         establishDatabaseConnection();
         Cursor cursor = databaseConnection.query(tableName, projection, selection, selectionArgs, null, null, sortOrder);
-        cursor.setNotificationUri(getContext().getContentResolver(), ReaderRawData.ITEM_CONTENT_URI);
+        cursor.setNotificationUri(getContext().getContentResolver(), ContractClass.ITEM_CONTENT_URI);
 
         return cursor;
     }
@@ -104,10 +103,10 @@ public class ReaderContentProvider extends ContentProvider {
 
         switch ( uriMatcher.match(uri) ) {
             case CHANNEL:
-                tableName = ReaderRawData.CHANNEL_TABLE;
+                tableName = ContractClass.CHANNEL_TABLE;
                 break;
             case ITEM:
-                tableName = ReaderRawData.ITEM_TABLE;
+                tableName = ContractClass.ITEM_TABLE;
                 break;
             default:
                 throw new IllegalArgumentException("Wrong URI: " + uri);
@@ -131,7 +130,7 @@ public class ReaderContentProvider extends ContentProvider {
         }
     }
 
-    public static class ReaderRawData {
+    public static class ContractClass {
         public static final String AUTHORITY = "com.igordotsenko.dotsenkorssreader";
 
         public static String CHANNEL_TABLE = Channel.TABLE;

@@ -178,7 +178,7 @@ public class AddChannelFragment extends DialogFragment  {
         cv.put(Channel.LAST_BUILD_DATE, channel.getLastBuildDate());
         cv.put(Channel.LAST_BUILD_DATE_LONG, channel.getLastBuildDateLong());
 
-        activity.getContentResolver().insert(ReaderContentProvider.ReaderRawData.CHANNEL_CONTENT_URI, cv);
+        activity.getContentResolver().insert(ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI, cv);
 
         return channel;
     }
@@ -187,7 +187,7 @@ public class AddChannelFragment extends DialogFragment  {
         String selection = Channel.LINK + " = ?";
         String[] selectionArgs = { url };
 
-        Cursor cursor = activity.getContentResolver().query(ReaderContentProvider.ReaderRawData.CHANNEL_CONTENT_URI, null, selection, selectionArgs, null);
+        Cursor cursor = activity.getContentResolver().query(ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI, null, selection, selectionArgs, null);
 
         // If records exists - cursor has more than 0 rows
         boolean recordExists = cursor.getCount() > 0;
@@ -200,7 +200,7 @@ public class AddChannelFragment extends DialogFragment  {
         String selection = Channel.TITLE + " = ?";
         String[] selectionArgs = { channel.getTitle() };
 
-        Cursor cursor = activity.getContentResolver().query(ReaderContentProvider.ReaderRawData.CHANNEL_CONTENT_URI, null, selection, selectionArgs, null);
+        Cursor cursor = activity.getContentResolver().query(ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI, null, selection, selectionArgs, null);
 
         // If records exists - cursor has more than 0 rows
         boolean recordExists = cursor.getCount() > 0;
@@ -211,10 +211,10 @@ public class AddChannelFragment extends DialogFragment  {
     }
 
     private long getLastChannelId() {
-        String[] projection = { ReaderContentProvider.ReaderRawData.CHANNEL_ID };
-        String order = ReaderContentProvider.ReaderRawData.CHANNEL_ID + " DESC";
+        String[] projection = { ReaderContentProvider.ContractClass.CHANNEL_ID };
+        String order = ReaderContentProvider.ContractClass.CHANNEL_ID + " DESC";
         Cursor cursor = activity.getContentResolver().query(
-                ReaderContentProvider.ReaderRawData.CHANNEL_CONTENT_URI,
+                ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI,
                 projection, null, null, order);
 
         int idIndex = cursor.getColumnIndex(Channel.ID);
@@ -243,6 +243,6 @@ public class AddChannelFragment extends DialogFragment  {
             values[i] = cv;
         }
 
-        activity.getContentResolver().bulkInsert(ReaderContentProvider.ReaderRawData.ITEM_CONTENT_URI, values);
+        activity.getContentResolver().bulkInsert(ReaderContentProvider.ContractClass.ITEM_CONTENT_URI, values);
     }
 }

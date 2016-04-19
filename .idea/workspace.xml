@@ -35,18 +35,19 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_LOG_LEVEL" value="INFO" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="item_list_tag" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3ed5df21-6c0e-47c0-a7ac-f399df7b65d5" name="Default" comment="">
+    <list default="true" id="3ed5df21-6c0e-47c0-a7ac-f399df7b65d5" name="Default" comment="Minimal enhancements">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/AddChannelFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/AddChannelFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ChannelListRVAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ChannelListRVAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ItemListRVAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ItemListRVAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Parser.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Parser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="RSSReader.iws" />
@@ -75,14 +76,49 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="ItemListActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="11" column="53" selection-start-line="11" selection-start-column="53" selection-end-line="11" selection-end-column="53" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReaderSyncAdapter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="135" column="42" selection-start-line="135" selection-start-column="42" selection-end-line="135" selection-end-column="42" />
+              <folding>
+                <element signature="e#2893#2902#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Parser.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Parser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="28" column="30" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="120" column="0" selection-start-line="120" selection-start-column="2" selection-end-line="120" selection-end-column="27" />
+              <caret line="88" column="62" selection-start-line="88" selection-start-column="62" selection-end-line="88" selection-end-column="62" />
               <folding>
-                <element signature="e#4949#4950#0" expanded="true" />
-                <element signature="e#4976#4977#0" expanded="true" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#4235#4236#0" expanded="true" />
+                <element signature="e#4268#4269#0" expanded="true" />
+                <element signature="e#4336#4337#0" expanded="true" />
+                <element signature="e#4363#4364#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -91,8 +127,8 @@
       <file leaf-file-name="ReaderContentProvider.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="86" column="53" selection-start-line="86" selection-start-column="53" selection-end-line="86" selection-end-column="53" />
+            <state vertical-scroll-proportion="22.551723">
+              <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -101,9 +137,32 @@
       <file leaf-file-name="DBHandler.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7878788">
-              <caret line="26" column="28" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+            <state vertical-scroll-proportion="3.5416667">
+              <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Channel.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="18" column="73" selection-start-line="18" selection-start-column="73" selection-end-line="18" selection-end-column="73" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Item.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Item.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="71" column="23" selection-start-line="71" selection-start-column="23" selection-end-line="71" selection-end-column="23" />
+              <folding>
+                <element signature="e#2055#2056#0" expanded="true" />
+                <element signature="e#2085#2086#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1601,7 +1660,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/util/DataBaseHelper.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/util/ReaderSyncAdapter.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderAccountAuthenticator.java" />
@@ -1613,17 +1671,18 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/CursorRecyclerAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/SyncService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/AuthenticatorService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/RefreshService.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ItemListRVAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ChannelListRVAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/AddChannelFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/RecyclerViewCursorAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Parser.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java" />
       </list>
     </option>
@@ -1699,6 +1758,72 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="dotsenkorssreader" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RSSReader" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dotsenkorssreader" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="syncadapter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RSSReader" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dotsenkorssreader" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="entities" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RSSReader" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dotsenkorssreader" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adapters" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -2070,7 +2195,13 @@
       <option name="project" value="LOCAL" />
       <updated>1461091881903</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Minimal enhancements">
+      <created>1461092732380</created>
+      <option name="number" value="00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1461092732380</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2172,7 +2303,8 @@
     <MESSAGE value="MainActivity with using of ContentProvider implemented. &quot;BBC news&quot; opening bug should be fixed" />
     <MESSAGE value="AddFeedFragment reimplmented with using of ContentProvider" />
     <MESSAGE value="Code cleaned. Some bugs fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Code cleaned. Some bugs fixed" />
+    <MESSAGE value="Minimal enhancements" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minimal enhancements" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2186,7 +2318,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="17" column="81" selection-start-line="17" selection-start-column="81" selection-end-line="17" selection-end-column="81" />
           <folding>
-            <element signature="e#2642#2651#0" expanded="true" />
+            <element signature="e#2893#2902#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2204,8 +2336,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="21" column="50" selection-start-line="21" selection-start-column="50" selection-end-line="21" selection-end-column="50" />
           <folding>
-            <element signature="e#633#634#0" expanded="true" />
-            <element signature="e#690#691#0" expanded="true" />
+            <element signature="e#633#634#0" expanded="false" />
+            <element signature="e#690#691#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2239,8 +2371,8 @@
           <folding>
             <element signature="e#1948#1949#0" expanded="false" />
             <element signature="e#1973#1974#0" expanded="false" />
-            <element signature="e#2055#2056#0" expanded="false" />
-            <element signature="e#2085#2086#0" expanded="false" />
+            <element signature="e#2055#2056#0" expanded="true" />
+            <element signature="e#2085#2086#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2250,8 +2382,11 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="48" column="81" selection-start-line="48" selection-start-column="81" selection-end-line="48" selection-end-column="81" />
           <folding>
-            <element signature="e#4949#4950#0" expanded="true" />
-            <element signature="e#4976#4977#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#4235#4236#0" expanded="true" />
+            <element signature="e#4268#4269#0" expanded="true" />
+            <element signature="e#4336#4337#0" expanded="true" />
+            <element signature="e#4363#4364#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2300,8 +2435,8 @@
           <folding>
             <element signature="e#1948#1949#0" expanded="false" />
             <element signature="e#1973#1974#0" expanded="false" />
-            <element signature="e#2055#2056#0" expanded="false" />
-            <element signature="e#2085#2086#0" expanded="false" />
+            <element signature="e#2055#2056#0" expanded="true" />
+            <element signature="e#2085#2086#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2311,8 +2446,11 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="48" column="81" selection-start-line="48" selection-start-column="81" selection-end-line="48" selection-end-column="81" />
           <folding>
-            <element signature="e#4949#4950#0" expanded="true" />
-            <element signature="e#4976#4977#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#4235#4236#0" expanded="true" />
+            <element signature="e#4268#4269#0" expanded="true" />
+            <element signature="e#4336#4337#0" expanded="true" />
+            <element signature="e#4363#4364#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2354,8 +2492,8 @@
           <folding>
             <element signature="e#1948#1949#0" expanded="false" />
             <element signature="e#1973#1974#0" expanded="false" />
-            <element signature="e#2055#2056#0" expanded="false" />
-            <element signature="e#2085#2086#0" expanded="false" />
+            <element signature="e#2055#2056#0" expanded="true" />
+            <element signature="e#2085#2086#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2373,8 +2511,11 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
           <folding>
-            <element signature="e#4949#4950#0" expanded="true" />
-            <element signature="e#4976#4977#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#4235#4236#0" expanded="true" />
+            <element signature="e#4268#4269#0" expanded="true" />
+            <element signature="e#4336#4337#0" expanded="true" />
+            <element signature="e#4363#4364#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2545,19 +2686,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Item.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="71" column="23" selection-start-line="71" selection-start-column="23" selection-end-line="71" selection-end-column="23" />
-          <folding>
-            <element signature="e#1948#1949#0" expanded="false" />
-            <element signature="e#1973#1974#0" expanded="false" />
-            <element signature="e#2055#2056#0" expanded="false" />
-            <element signature="e#2085#2086#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../sdk/sources/android-23/android/app/ActivityThread.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3323782">
@@ -2604,14 +2732,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.1919866">
-          <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2625,8 +2745,8 @@
         <state vertical-scroll-proportion="0.11352254">
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
-            <element signature="e#633#634#0" expanded="true" />
-            <element signature="e#690#691#0" expanded="true" />
+            <element signature="e#633#634#0" expanded="false" />
+            <element signature="e#690#691#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2636,24 +2756,6 @@
         <state vertical-scroll-proportion="53.03448">
           <caret line="130" column="42" selection-start-line="130" selection-start-column="42" selection-end-line="130" selection-end-column="42" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Parser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.312187">
-          <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.5789473">
-          <caret line="96" column="5" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
-          <folding>
-            <element signature="e#2642#2651#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2684,42 +2786,77 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Item.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.5789474">
-          <caret line="78" column="31" selection-start-line="78" selection-start-column="31" selection-end-line="78" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="71" column="23" selection-start-line="71" selection-start-column="23" selection-end-line="71" selection-end-column="23" />
           <folding>
-            <element signature="e#2026#2339#0" expanded="true" />
-            <element signature="e#2338#2339#0" expanded="true" />
-            <element signature="e#3782#3783#0" expanded="true" />
-            <element signature="e#3810#3811#0" expanded="true" />
+            <element signature="e#2055#2056#0" expanded="true" />
+            <element signature="e#2085#2086#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="18" column="73" selection-start-line="18" selection-start-column="73" selection-end-line="18" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="22.551723">
+          <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="120" column="0" selection-start-line="120" selection-start-column="2" selection-end-line="120" selection-end-column="27" />
+          <caret line="88" column="62" selection-start-line="88" selection-start-column="62" selection-end-line="88" selection-end-column="62" />
           <folding>
-            <element signature="e#4949#4950#0" expanded="true" />
-            <element signature="e#4976#4977#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#4235#4236#0" expanded="true" />
+            <element signature="e#4268#4269#0" expanded="true" />
+            <element signature="e#4336#4337#0" expanded="true" />
+            <element signature="e#4363#4364#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Parser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="86" column="53" selection-start-line="86" selection-start-column="53" selection-end-line="86" selection-end-column="53" />
+          <caret line="28" column="30" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="135" column="42" selection-start-line="135" selection-start-column="42" selection-end-line="135" selection-end-column="42" />
+          <folding>
+            <element signature="e#2893#2902#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="53" selection-start-line="11" selection-start-column="53" selection-end-line="11" selection-end-column="53" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7878788">
-          <caret line="26" column="28" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+        <state vertical-scroll-proportion="3.5416667">
+          <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
           <folding />
         </state>
       </provider>

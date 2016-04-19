@@ -2,16 +2,9 @@ package com.igordotsenko.dotsenkorssreader.entities;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import com.igordotsenko.dotsenkorssreader.MainActivity;
-
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 public class DBHandler extends SQLiteOpenHelper {
     private String db_path;
@@ -25,56 +18,44 @@ public class DBHandler extends SQLiteOpenHelper {
         this.context = context;
         this.db_path = context.getFilesDir().getPath();
         this.db_name = name;
+        databaseConnection = getWritableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        String createChannelTable = "CREATE TABLE " + Channel.TABLE + "("
+                + Channel.ID + " INTEGER PRIMARY KEY, "
+                + Channel.TITLE + " TEXT NOT NULL, "
+                + Channel.LINK + " TEXT NOT NULL, "
+                + Channel.LAST_BUILD_DATE + " TEXT,"
+                + Channel.LAST_BUILD_DATE_LONG + " INTEGER, "
+                + "unique(channel_link));";
+
+        String createItemTable = "CREATE TABLE " + Item.TABLE + "("
+                + Item.ID + " INTEGER PRIMARY KEY, "
+                + Item.CHANNEL_ID + " INTEGER NOT NULL, "
+                + Item.TITLE + " TEXT NOT NULL, "
+                + Item.LINK + " TEXT NOT NULL, "
+                + Item.DESCRIPTION + " TEXT NOT NULL, "
+                + Item.PUBDATE + " TEXT, "
+                + Item.PUBDATE_LONG + " INTEGER, "
+                + Item.THUMBNAIL + " TEXT, "
+                + "FOREIGN KEY("+ Item.CHANNEL_ID + ") REFERENCES " + Channel.TABLE + "(" + Channel.ID +"));";
+
+        String inserIntoChannel = "INSERT INTO " + Channel.TABLE
+                + "(" + Channel.ID + ", " + Channel.TITLE + ", " + Channel.LINK + ") "
+                + "VALUES (1, \"BBC NEWS\", \"http://feeds.bbci.co.uk/news/rss.xml\");";
+
+        db.execSQL(createChannelTable);
+        db.execSQL(createItemTable);
+        db.execSQL(inserIntoChannel);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 
     public SQLiteDatabase getDatabaseConnection() throws IOException {
-        if ( databaseConnection == null ) {
-            establishConnection();
-        }
         return databaseConnection;
     }
 
-    private void establishConnection() throws IOException {
-        try {
-            databaseConnection = SQLiteDatabase.openDatabase(db_path + db_name, null, SQLiteDatabase.OPEN_READWRITE);
-        } catch ( SQLiteException e ) {
-            Log.i(MainActivity.LOG_TAG, "establishConnetcion: db does not exist");
-            createDatabase();
-            databaseConnection = SQLiteDatabase.openDatabase(db_path + db_name, null, SQLiteDatabase.OPEN_READWRITE);
-        }
-        if ( databaseConnection == null ) {
-            throw new SQLiteException("DB Connection was not established");
-        }
-    }
-
-    private void createDatabase() throws IOException {
-        // Create empty database
-        getReadableDatabase();
-
-        // Copy existing database from assets to empty database
-        InputStream is = context.getAssets().open(db_name);
-        OutputStream os = new FileOutputStream(db_path + db_name);
-
-        byte[] buffer = new byte[1024];
-        int bytesRead;
-
-        try {
-            for ( ; (bytesRead = is.read(buffer)) > 0; ) {
-                os.write(buffer, 0, bytesRead);
-            }
-        } catch (IOException e) {
-            throw new IOException("Error during file coping");
-        } finally {
-            is.close();
-            os.flush();
-            os.close();
-        }
-    }
 }

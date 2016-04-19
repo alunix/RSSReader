@@ -18,11 +18,8 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
-import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
-import java.io.IOException;
 
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -36,10 +33,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public static final String ACCOUNT_TYPE = "dummy.com";
     public static final String ACCOUNT = "dummyaccount";
 
-//    public static DBHandler dbHelper;
     public static Account account;
 
-    private static String AUTHORITY = ReaderContentProvider.ReaderRawData.AUTHORITY;
+    private static String AUTHORITY = ReaderContentProvider.ContractClass.AUTHORITY;
 
     private DialogFragment dialogFragment;
     private RecyclerView recyclerView;
@@ -52,15 +48,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        // Create DBHelper and establish database connection (connection permanently kept inside of DBHandler)
-        try {
-//            dbHelper =
-                    new DBHandler(MainActivity.this, DB_NAME, null, DB_VERSION);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new Error("Error during db connection establishing: " + e.getMessage());
-        }
 
         // Creating account for SyncAdapter
         account = new Account(ACCOUNT, ACCOUNT_TYPE);
@@ -100,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         recyclerView.setLayoutManager(llm);
 
         // Retrieve channel list from database and set adapter
-//        channelList = dbHelper.selectAllChannels();
         rvAdapter = new ChannelListRVAdapter(this);
         recyclerView.setAdapter(rvAdapter);
 
@@ -118,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        dbHelper.close();
     }
 
     @Override
@@ -136,15 +121,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String order = ReaderContentProvider.ReaderRawData.CHANNEL_ID + " ASC";
+        String order = ReaderContentProvider.ContractClass.CHANNEL_ID + " ASC";
 
         switch (id) {
             case LOADER_CHANNEL_LIST:
-                return new CursorLoader(this, ReaderContentProvider.ReaderRawData.CHANNEL_CONTENT_URI, null, null, null, order);
+                return new CursorLoader(this, ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI, null, null, null, order);
             case LOADER_CHANNEL_LIST_REFRESH:
-                String selection = ReaderContentProvider.ReaderRawData.CHANNEL_TITLE
+                String selection = ReaderContentProvider.ContractClass.CHANNEL_TITLE
                         + " LIKE '%" + args.getString(QUERY_TEXT) + "%'";
-                return new CursorLoader(this, ReaderContentProvider.ReaderRawData.CHANNEL_CONTENT_URI, null, selection, null, order);
+                return new CursorLoader(this, ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI, null, selection, null, order);
         }
         return null;
     }

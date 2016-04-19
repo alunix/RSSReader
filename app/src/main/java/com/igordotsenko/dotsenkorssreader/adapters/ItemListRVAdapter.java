@@ -71,7 +71,7 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
         }
 
         public void bindData(final Cursor cursor) {
-            final String thumbnailUrl = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_THUMBNAIL));
+            final String thumbnailUrl = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.ITEM_THUMBNAIL));
 
             if (thumbnailUrl != null) {
                 imageLoader.displayImage(thumbnailUrl, this.itemThumbnail, displayImageOptions);
@@ -79,10 +79,10 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
 
             //Format pubdate to readable
             PrettyTime dateFormatter = new PrettyTime();
-            Date pubdate = new Date(cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_PUBDATE)));
+            Date pubdate = new Date(cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.ITEM_PUBDATE)));
 
             //Content setting
-            this.itemTitle.setText(cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_TITLE)));
+            this.itemTitle.setText(cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.ITEM_TITLE)));
             this.itemPubdate.setText(dateFormatter.format(pubdate));
         }
     }
@@ -94,10 +94,10 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
         private String description;
 
         public  ItemOnClickListener(Cursor cursor) {
-            this.thumbnailURL = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_THUMBNAIL));
-            this.subtitle = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_TITLE));
-            this.pubdate = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_PUBDATE));
-            this.description = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_DESCRIPTION));
+            this.thumbnailURL = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.ITEM_THUMBNAIL));
+            this.subtitle = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.ITEM_TITLE));
+            this.pubdate = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.ITEM_PUBDATE));
+            this.description = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.ITEM_DESCRIPTION));
         }
 
         @Override
