@@ -19,8 +19,23 @@ public class Parser {
         return channel;
     }
 
+    //TODO try to optimize two methods updateExistChannel()
     public Channel updateExistChannel(long channelId) throws IOException {
         Channel currentChannel = MainActivity.dbHelper.selectChannelById(channelId);
+        Channel newChannel = parseXML(downloadXML(currentChannel.getLink()));
+        long currentChannelBuildDate = currentChannel.getLastBuildDateLong();
+        long newChannelBuildDate = newChannel.getLastBuildDateLong();
+
+        // Channel should be updated if its last build date is not specified
+        // or if just downloaded feed version is newer then current
+        if ( currentChannelBuildDate == 0 || currentChannelBuildDate < newChannelBuildDate ) {
+            return newChannel;
+        }
+        return null;
+    }
+
+    public Channel updateExistChannel(Channel currentChannel, long channelId) throws IOException {
+//        Channel currentChannel = MainActivity.dbHelper.selectChannelById(channelId);
         Channel newChannel = parseXML(downloadXML(currentChannel.getLink()));
         long currentChannelBuildDate = currentChannel.getLastBuildDateLong();
         long newChannelBuildDate = newChannel.getLastBuildDateLong();

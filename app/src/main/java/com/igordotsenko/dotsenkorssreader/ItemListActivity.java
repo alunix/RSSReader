@@ -67,14 +67,16 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
         };
 
         //Intent filter for interacting with RefreshService initialization
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(RefreshService.AUTOREFRESH_RESULT_ACTION + currentChannelId);
-        filter.addAction(RefreshService.AUTOREFRESH_MESSAGE_ACTION + currentChannelId);
-        localBroadcastManager.registerReceiver(broadcastReceiver, filter);
+        // TODO remove
+//        IntentFilter filter = new IntentFilter();
+//        filter.addAction(RefreshService.AUTOREFRESH_RESULT_ACTION + currentChannelId);
+//        filter.addAction(RefreshService.AUTOREFRESH_MESSAGE_ACTION + currentChannelId);
+//        localBroadcastManager.registerReceiver(broadcastReceiver, filter);
 
         //Start RefreshSercive
         Intent intent = new Intent(ItemListActivity.this, RefreshService.class);
-        startService(intent.putExtra(Channel.ID, currentChannelId));
+        // TODO remove
+//        startService(intent.putExtra(Channel.ID, currentChannelId));
 
         //SwipeRefreshLayout initialization
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.item_list_swiperefresh_layout);
@@ -143,8 +145,9 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
     @Override
     public void onDestroy() {
         super.onDestroy();
-        stopService(new Intent(ItemListActivity.this, RefreshService.class));
-        localBroadcastManager.unregisterReceiver(broadcastReceiver);
+        // TODO remove
+//        stopService(new Intent(ItemListActivity.this, RefreshService.class));
+//        localBroadcastManager.unregisterReceiver(broadcastReceiver);
     }
     @Override
     public boolean onQueryTextSubmit(String query) {

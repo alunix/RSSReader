@@ -68,6 +68,10 @@ public class Item implements Comparable<Item> {
 
     public void setID(long id) { this.id = id; }
 
+    public long getChannel() {
+        return channel;
+    }
+
     public void setChannel(long channel) {
         this.channel = channel;
     }
