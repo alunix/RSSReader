@@ -25,14 +25,12 @@ import java.util.List;
 
 public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapter.ItemViewHolder> {
     private Context context;
-    private List<Item> items;
     private ImageLoader imageLoader;
     private DisplayImageOptions displayImageOptions;
     private String parentChannelTitle;
 
-    public ItemListRVAdapter(Context context, List<Item> items, String channelTitle) {
+    public ItemListRVAdapter(Context context, String channelTitle) {
         this.context = context;
-//        this.items = new ArrayList<>(items);
         this.imageLoader = ImageLoader.getInstance();
         this.displayImageOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
         this.parentChannelTitle = channelTitle;

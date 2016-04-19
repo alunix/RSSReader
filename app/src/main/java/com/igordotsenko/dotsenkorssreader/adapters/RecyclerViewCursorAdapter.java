@@ -3,9 +3,7 @@ package com.igordotsenko.dotsenkorssreader.adapters;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 
-public abstract class RecyclerViewCursorAdapter<VH extends RecyclerView.ViewHolder>
-        extends RecyclerView.Adapter<VH>
-{
+public abstract class RecyclerViewCursorAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
     private Cursor cursor;
 
     public void swapCursor(final Cursor cursor) {

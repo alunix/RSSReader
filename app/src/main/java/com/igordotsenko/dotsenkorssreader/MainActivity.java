@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private RecyclerView recyclerView;
     private SearchView searchView;
     private ImageButton addChannelButton;
-    private List<Channel> channelList;
     private ChannelListRVAdapter rvAdapter;
 
     @Override
@@ -60,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         // Create DBHelper and establish database connection (connection permanently kept inside of DBHandler)
         try {
             dbHelper = new DBHandler(MainActivity.this, DB_NAME, null, DB_VERSION);
-//            dbHelper.getDatabaseConnection();
         } catch (IOException e) {
             e.printStackTrace();
             throw new Error("Error during db connection establishing: " + e.getMessage());
@@ -105,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         // Retrieve channel list from database and set adapter
 //        channelList = dbHelper.selectAllChannels();
-        rvAdapter = new ChannelListRVAdapter(this, channelList);
+        rvAdapter = new ChannelListRVAdapter(this);
         recyclerView.setAdapter(rvAdapter);
 
         //Start Loader
@@ -132,38 +130,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextChange(String queryText) {
-        //Filtration of channel by titles and recyclerView updating
-//        List<Channel> filteredChannelsList = new ArrayList<>();
-//        filterByQuery(filteredChannelsList, queryText);
-//        updateChannelList(filteredChannelsList);
         Bundle bundle = new Bundle();
         bundle.putString(QUERY_TEXT, queryText);
         this.getLoaderManager().restartLoader(LOADER_CHANNEL_LIST_REFRESH, bundle, this).forceLoad();
         return false;
     }
-
-//    public void updateChannelList(List<Channel> channelsList) {
-//        rvAdapter.setChannelList(channelsList);
-//        updateChannelList();
-//    }
-
-//    public void updateChannelList() {
-//        rvAdapter.notifyDataSetChanged();
-//        recyclerView.scrollToPosition(0);
-//    }
-
-//    public void addToChannelList(Channel channel) {
-//        channelList.add(channel);
-//        rvAdapter.addChannel(channel);
-//    }
-
-//    private void filterByQuery(List<Channel> filteredChannelsList, String queryText) {
-//        for ( Channel ch : channelList ) {
-//            if ( ch.getTitle().toLowerCase().contains(queryText.toLowerCase()) ) {
-//                filteredChannelsList.add(ch);
-//            }
-//        }
-//    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -193,6 +164,5 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         if ( loader.getId() == LOADER_CHANNEL_LIST ) {
             this.rvAdapter.swapCursor(null);
         }
-
     }
 }

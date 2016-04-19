@@ -21,12 +21,10 @@ import java.util.Date;
 import java.util.List;
 
 public class ChannelListRVAdapter extends RecyclerViewCursorAdapter<ChannelListRVAdapter.ChannelViewHolder>{
-    private List<Channel> channelList;
     private Context context;
 
-    public ChannelListRVAdapter(Context context, List<Channel> channelList) {
+    public ChannelListRVAdapter(Context context) {
         this.context = context;
-//        this.channelList = new ArrayList<>(channelList);
     }
 
     @Override
@@ -35,32 +33,9 @@ public class ChannelListRVAdapter extends RecyclerViewCursorAdapter<ChannelListR
         return new ChannelViewHolder(v);
     }
 
-//    @Override
-//    public void onBindViewHolder(final ChannelViewHolder holder, final Cursor cursor) {
-//
-//    }
-
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-    }
-
-//    @Override
-//    public int getItemCount() {
-//        return channelList.size();
-//    }
-
-//    @Override
-//    public void onBindViewHolder(ItemListRVAdapter.ItemViewHolder holder, Cursor cursor) {
-//
-//    }
-
-    public void setChannelList(List<Channel> channelList) {
-        this.channelList = new ArrayList(channelList);
-    }
-
-    public void addChannel(Channel channel) {
-        channelList.add(channel);
     }
 
     @Override

@@ -77,18 +77,10 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
 
         //Welcome Message textView initializtion
         welcomeMessage = (TextView) findViewById(R.id.item_list_empty_view);
-
-//        //Retrieving channel's itemList from database
-//        itemList = MainActivity.dbHelper.selectItemsById(currentChannelId);
-//
-//        //If itemList empty - show welcome message
-//        if ( itemList == null || itemList.size() == 0 ) {
-//            itemList = new ArrayList<>();
-//            setWelcomeMessageVisible();
-//        }
+        handleWelcomeMessage();
 
         //Setting adapter on recyclerView
-        rvAdapter = new ItemListRVAdapter(ItemListActivity.this, itemList, getIntent().getStringExtra(Channel.TITLE));
+        rvAdapter = new ItemListRVAdapter(ItemListActivity.this, getIntent().getStringExtra(Channel.TITLE));
         recyclerView.setAdapter(rvAdapter);
 
         //Start Loader
@@ -160,5 +152,18 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
     private void setRecyclerViewVisible() {
         recyclerView.setVisibility(View.VISIBLE);
         welcomeMessage.setVisibility(View.GONE);
+    }
+
+    private void handleWelcomeMessage() {
+        String selection = Item.CHANNEL_ID + " = ?";
+        String[] selectionArgs = { "" + currentChannelId };
+
+        Cursor cursor = getContentResolver().query(ReaderContentProvider.ReaderRawData.ITEM_CONTENT_URI, null, selection, selectionArgs, null);
+
+        if ( cursor.getCount() == 0 ) {
+            setWelcomeMessageVisible();
+        }
+
+        cursor.close();
     }
 }

@@ -133,10 +133,6 @@ public class AddChannelFragment extends DialogFragment  {
             Channel newChannel;
             String channelUrl = params[0];
 
-            if ( channelIsAlreadyAdded(channelUrl) ) {
-                return FEED_EXIST_MESSAGE;
-            }
-
             //Start downloading and parsing
             try {
                 newChannel = parser.parseNewChannel(channelUrl);
@@ -157,7 +153,6 @@ public class AddChannelFragment extends DialogFragment  {
                 insertIntoItem(newChannel.getItems(), newChannel.getID());
 
                 //Update recyclerview
-//                activity.addToChannelList(newChannel);
                 return SUCCESS_MESSAGE;
             }
 
