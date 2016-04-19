@@ -1,10 +1,14 @@
 package com.igordotsenko.dotsenkorssreader;
 
+import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.Loader;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -31,7 +36,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ItemListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class ItemListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
+    private static final int LOADER_ITEM_LIST = 1;
+    public static final String ITEM_LIST_TAG = "item_list_tag";
+
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private SearchView searchView;
@@ -132,23 +140,19 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
         //Setting adapter on recyclerView
         rvAdapter = new ItemListRVAdapter(ItemListActivity.this, itemList, getIntent().getStringExtra(Channel.TITLE));
         recyclerView.setAdapter(rvAdapter);
+
+        //Start Loader
+        this.getLoaderManager().initLoader(LOADER_ITEM_LIST, null, this).forceLoad();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i(ItemListActivity.ITEM_LIST_TAG, "onResumeStarted");
         searchView.clearFocus();
         recyclerView.requestFocus();
-        rvAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        // TODO remove
-//        stopService(new Intent(ItemListActivity.this, RefreshService.class));
-//        localBroadcastManager.unregisterReceiver(broadcastReceiver);
-    }
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
@@ -214,6 +218,41 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
             if ( item.getTitle().toLowerCase().contains(queryText.toLowerCase()) ) {
                 filteredItemsList.add(item);
             }
+        }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String selection = ReaderContentProvider.ReaderRawData.ITEM_CHANNEL_ID + " = ?";
+        String[] selectionArgs = { "" + currentChannelId };
+        String order = ReaderContentProvider.ReaderRawData.ITEM_PUBDATE_LONG + " DESC";
+        switch (id)
+        {
+            case LOADER_ITEM_LIST:
+                //TODO with using projection
+                return new CursorLoader(this, ReaderContentProvider.ReaderRawData.ITEM_CONTENT_URI, null, selection, selectionArgs, order);
+        }
+
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        switch (loader.getId())
+        {
+            case LOADER_ITEM_LIST:
+                this.rvAdapter.swapCursor(data);
+                break;
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        switch (loader.getId())
+        {
+            case LOADER_ITEM_LIST:
+                this.rvAdapter.swapCursor(null);
+                break;
         }
     }
 

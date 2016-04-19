@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
 import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
@@ -15,9 +16,8 @@ import com.igordotsenko.dotsenkorssreader.entities.Item;
 import java.io.IOException;
 
 public class ReaderContentProvider extends ContentProvider {
-
-    private static final Uri CHANNEL_CONTENT_URI = Uri.parse("content://" + ReaderRawData.AUTHORITY + "/" + ReaderRawData.CHANNEL_TABLE);
-    private static final Uri ITEM_CONTENT_URI = Uri.parse("content://" + ReaderRawData.AUTHORITY + "/" + ReaderRawData.ITEM_TABLE);
+//    private static final Uri CHANNEL_CONTENT_URI = Uri.parse("content://" + ReaderRawData.AUTHORITY + "/" + ReaderRawData.CHANNEL_TABLE);
+//    private static final Uri ITEM_CONTENT_URI = Uri.parse("content://" + ReaderRawData.AUTHORITY + "/" + ReaderRawData.ITEM_TABLE);
     private static final int CHANNEL = 1;
     private static final int ITEM = 2;
     private static final UriMatcher uriMatcher= new UriMatcher(UriMatcher.NO_MATCH);
@@ -50,11 +50,11 @@ public class ReaderContentProvider extends ContentProvider {
         switch (uriMatcher.match(uri)) {
             case CHANNEL:
                 tableName = ReaderRawData.CHANNEL_TABLE;
-                contentUri = CHANNEL_CONTENT_URI;
+                contentUri = ReaderRawData.CHANNEL_CONTENT_URI;
                 break;
             case ITEM:
                 tableName = ReaderRawData.ITEM_TABLE;
-                contentUri = ITEM_CONTENT_URI;
+                contentUri = ReaderRawData.ITEM_CONTENT_URI;
                 break;
             default:
                 throw new IllegalArgumentException("Wrong URI: " + uri);
@@ -64,7 +64,7 @@ public class ReaderContentProvider extends ContentProvider {
         rowID = databaseConnection.insert(tableName, null, values);
         resultUri = ContentUris.withAppendedId(contentUri, rowID);
         // Notify content resolver that data changes in resultUri address occured
-        getContext().getContentResolver().notifyChange(resultUri, null);
+        getContext().getContentResolver().notifyChange(uri, null);
         return resultUri;
     }
 
@@ -86,9 +86,11 @@ public class ReaderContentProvider extends ContentProvider {
         switch ( uriMatcher.match(uri) ) {
             case CHANNEL:
                 tableName = ReaderRawData.CHANNEL_TABLE;
+                Log.i(ItemListActivity.ITEM_LIST_TAG, "Content provider query() match channel");
                 break;
             case ITEM:
                 tableName = ReaderRawData.ITEM_TABLE;
+                Log.i(ItemListActivity.ITEM_LIST_TAG, "Content provider query() match item");
                 break;
             default:
                 throw new IllegalArgumentException("Wrong URI: " + uri);
@@ -97,7 +99,7 @@ public class ReaderContentProvider extends ContentProvider {
         establishDatabaseConnection();
         Cursor cursor = databaseConnection.query(tableName, projection, selection, selectionArgs, null, null, sortOrder);
         // Ask ContentReslover to notify this cursor about any data changes in ITEM_CONTENT_URI
-        cursor.setNotificationUri(getContext().getContentResolver(), ITEM_CONTENT_URI);
+        cursor.setNotificationUri(getContext().getContentResolver(), ReaderRawData.ITEM_CONTENT_URI);
 
         return cursor;
     }
@@ -156,5 +158,8 @@ public class ReaderContentProvider extends ContentProvider {
         public static final String ITEM_PUBDATE = Item.PUBDATE;
         public static final String ITEM_PUBDATE_LONG = Item.PUBDATE_LONG;
         public static final String ITEM_THUMBNAIL = Item.THUMBNAIL;
+
+        public static final Uri CHANNEL_CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + CHANNEL_TABLE);
+        public static final Uri ITEM_CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + ITEM_TABLE);
     }
 }

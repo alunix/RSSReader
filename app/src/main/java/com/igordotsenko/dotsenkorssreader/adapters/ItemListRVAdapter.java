@@ -2,7 +2,9 @@ package com.igordotsenko.dotsenkorssreader.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.igordotsenko.dotsenkorssreader.ItemContentActivity;
+import com.igordotsenko.dotsenkorssreader.ItemListActivity;
 import com.igordotsenko.dotsenkorssreader.R;
+import com.igordotsenko.dotsenkorssreader.ReaderContentProvider;
 import com.igordotsenko.dotsenkorssreader.entities.Item;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -20,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ItemListRVAdapter extends RecyclerView.Adapter<ItemListRVAdapter.ItemViewHolder> {
+public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapter.ItemViewHolder> {
     private Context context;
     private List<Item> items;
     private ImageLoader imageLoader;
@@ -42,26 +46,15 @@ public class ItemListRVAdapter extends RecyclerView.Adapter<ItemListRVAdapter.It
     }
 
     @Override
-    public void onBindViewHolder(ItemViewHolder viewHodler, int position) {
-        //Thumbnail downloading, saving it in memory and disk cache
-        String thumbnailUrl = items.get(position).getThumbNailURL();
-        if ( thumbnailUrl != null) {
-            imageLoader.displayImage(thumbnailUrl, viewHodler.itemThumbnail, displayImageOptions);
-        }
-
-        //Format pubdate to readable
-        PrettyTime dateFormatter = new PrettyTime();
-        Date pubdate = new Date(items.get(position).getPubdateLong());
-
-        //Content setting
-        viewHodler.itemTitle.setText(items.get(position).getTitle());
-        viewHodler.itemPubdate.setText(dateFormatter.format(pubdate));
+    public void onBindViewHolder(final ItemViewHolder holder, final Cursor cursor)
+    {
+        holder.bindData(cursor);
 
         //Seting OnClickListeners
-        viewHodler.itemThumbnail.setOnClickListener(new ItemOnClickListener(position));
-        viewHodler.itemTitle.setOnClickListener(new ItemOnClickListener(position));
-        viewHodler.itemPubdate.setOnClickListener(new ItemOnClickListener(position));
-        viewHodler.navigationImage.setOnClickListener(new ItemOnClickListener(position));
+        holder.itemThumbnail.setOnClickListener(new ItemOnClickListener(cursor));
+        holder.itemTitle.setOnClickListener(new ItemOnClickListener(cursor));
+        holder.itemPubdate.setOnClickListener(new ItemOnClickListener(cursor));
+        holder.navigationImage.setOnClickListener(new ItemOnClickListener(cursor));
     }
 
     @Override
@@ -69,10 +62,10 @@ public class ItemListRVAdapter extends RecyclerView.Adapter<ItemListRVAdapter.It
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
+//    @Override
+//    public int getItemCount() {
+//        return items.size();
+//    }
 
     public void setItemsList(List<Item> items) {
         this.items = new ArrayList(items);
@@ -100,13 +93,30 @@ public class ItemListRVAdapter extends RecyclerView.Adapter<ItemListRVAdapter.It
             itemPubdate = (TextView) view.findViewById(R.id.item_pubdate);
             navigationImage = (ImageView) view.findViewById(R.id.item_navigate_right_image);
         }
+
+        public void bindData(final Cursor cursor) {
+            final String thumbnailUrl = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_THUMBNAIL));
+
+            if (thumbnailUrl != null) {
+                imageLoader.displayImage(thumbnailUrl, this.itemThumbnail, displayImageOptions);
+            }
+
+            //Format pubdate to readable
+            PrettyTime dateFormatter = new PrettyTime();
+            Date pubdate = new Date(cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_PUBDATE)));
+
+            //Content setting
+            this.itemTitle.setText(cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_TITLE)));
+            this.itemPubdate.setText(dateFormatter.format(pubdate));
+        }
     }
 
     private class ItemOnClickListener implements View.OnClickListener {
-        private final int position;
+//        private final int position;
+        private Cursor cursor;
 
-        public  ItemOnClickListener(int position) {
-            this.position = position;
+        public  ItemOnClickListener(Cursor cursor) {
+            this.cursor = cursor;
         }
 
         @Override
@@ -114,10 +124,10 @@ public class ItemListRVAdapter extends RecyclerView.Adapter<ItemListRVAdapter.It
             //Starting ItemContentActivity
             Intent intent = new Intent(context, ItemContentActivity.class);
             intent.putExtra(Item.TITLE, parentChannelTitle);
-            intent.putExtra(Item.THUMBNAIL, items.get(position).getThumbNailURL());
-            intent.putExtra(Item.SUBTITLE, items.get(position).getTitle());
-            intent.putExtra(Item.PUBDATE, items.get(position).getPubdate());
-            intent.putExtra(Item.DESCRIPTION, items.get(position).getContent());
+            intent.putExtra(Item.THUMBNAIL, cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_THUMBNAIL)));
+            intent.putExtra(Item.SUBTITLE, cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_TITLE)));
+            intent.putExtra(Item.PUBDATE, cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_PUBDATE)));
+            intent.putExtra(Item.DESCRIPTION, cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_DESCRIPTION)));
             context.startActivity(intent);
         }
     }

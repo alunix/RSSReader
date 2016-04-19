@@ -65,16 +65,18 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
 
         // Retrieve ids of channels that should be updated
         ids = getChannelIds();
+        Log.i(SA_LOG, "ids size: " + ids.size());
+
 
         //Try to update feeds
-        try {
-            for ( int channelId : ids ) {
+        for ( int channelId : ids ) {
+            try {
+                Log.i(SA_LOG, "start parsing channel: " + channelId);
                 updateChannel(channelId, parser);
-                Log.i(SA_LOG, "channelId: " + channelId);
+            } catch (IOException e) {
+                e.printStackTrace();
+                continue;
             }
-        } catch (IOException e) {
-            sendMessage(e.getMessage());
-            return;
         }
     }
 
@@ -130,7 +132,6 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
         int lastBuilDateIndex = cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.CHANNEL_LAST_BUILD_DATE);
 
         Channel selectedChanndel = new Channel(cursor.getString(titleIndex), cursor.getString(linkIndex), cursor.getString(lastBuilDateIndex));
-        Log.i(SA_LOG, "Current channel info: " + cursor.getString(titleIndex) + cursor.getString(linkIndex) + cursor.getString(lastBuilDateIndex));
 
         cursor.close();
         return selectedChanndel;
@@ -155,7 +156,7 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
         Log.i(SA_LOG, "lastPubdateLong = " + lastPubdateLong);
 
         long lastItemId = getLastItemId();
-        Log.i(SA_LOG, "lastPubdateLong = " + lastItemId);
+        Log.i(SA_LOG, "lastItemId = " + lastItemId);
 
         // Returns filtered itemList with set IDs
         newItemList = filterItemList(newItemList, lastPubdateLong, lastItemId);
@@ -246,18 +247,6 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
             contentResolver.insert(ITEM_CONTENT_URI, contentValues);
 
             contentValues.clear();
-        }
-    }
-
-    public class ItemListWrapper implements Serializable {
-        private List<Item> items;
-
-        public ItemListWrapper(List<Item> items) {
-            this.items = new ArrayList<>(items);
-        }
-
-        public List<Item> getItems() {
-            return items;
         }
     }
 
