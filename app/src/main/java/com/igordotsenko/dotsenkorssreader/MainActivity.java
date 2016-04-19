@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public static final int DB_VERSION = 1;
 
     public static DBHandler dbHelper;
+    public static Account account;
 
     private static String AUTHORITY = ReaderContentProvider.ReaderRawData.AUTHORITY;
     public static final String ACCOUNT_TYPE = "dummy.com";
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private ImageButton addChannelButton;
     private List<Channel> channelList;
     private ChannelListRVAdapter rvAdapter;
-    private Account account;
+
     private ContentResolver contentResolver;
 
 

@@ -2,6 +2,7 @@ package com.igordotsenko.dotsenkorssreader;
 
 import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -38,6 +39,8 @@ import java.util.List;
 
 public class ItemListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
     private static final int LOADER_ITEM_LIST = 1;
+    private static final int LOADER_ITEM_LIST_REFRESH = 2;
+    private static final String QUERY_TEXT = "query text";
     public static final String ITEM_LIST_TAG = "item_list_tag";
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -91,18 +94,20 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Handler handler = new Handler(Looper.getMainLooper()) {
-                    @Override
-                    public void handleMessage(Message message) {
-                        super.handleMessage(message);
-                        Toast.makeText(getBaseContext(), message.getData().getString(RefreshingRunnable.MESSAGE_TAG), Toast.LENGTH_SHORT).show();
-                        updateItemList();
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                };
-
-                Thread thread = new Thread(new RefreshingRunnable(handler.obtainMessage()));
-                thread.start();
+//                Handler handler = new Handler(Looper.getMainLooper()) {
+//                    @Override
+//                    public void handleMessage(Message message) {
+//                        super.handleMessage(message);
+//                        Toast.makeText(getBaseContext(), message.getData().getString(RefreshingRunnable.MESSAGE_TAG), Toast.LENGTH_SHORT).show();
+//                        updateItemList();
+//                        swipeRefreshLayout.setRefreshing(false);
+//                    }
+//                };
+//
+//                Thread thread = new Thread(new RefreshingRunnable(handler.obtainMessage()));
+//                thread.start();
+                ContentResolver.requestSync(MainActivity.account, ReaderContentProvider.ReaderRawData.AUTHORITY, Bundle.EMPTY);
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -160,10 +165,13 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
 
     @Override
     public boolean onQueryTextChange(String queryText) {
-        //Filtration of item titles and recyclerView updating
-        List<Item> filteredItemsList = new ArrayList<>();
-        filterByQuery(filteredItemsList, queryText);
-        updateItemList(filteredItemsList);
+//        //Filtration of item titles and recyclerView updating
+//        List<Item> filteredItemsList = new ArrayList<>();
+//        filterByQuery(filteredItemsList, queryText);
+//        updateItemList(filteredItemsList);
+        Bundle bundle = new Bundle();
+        bundle.putString(QUERY_TEXT, queryText);
+        this.getLoaderManager().restartLoader(LOADER_ITEM_LIST_REFRESH, bundle, this).forceLoad();
         return false;
     }
 
@@ -223,24 +231,32 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String selection = ReaderContentProvider.ReaderRawData.ITEM_CHANNEL_ID + " = ?";
-        String[] selectionArgs = { "" + currentChannelId };
+        String selection;
+        String[] selectionArgs = {"" + currentChannelId};
         String order = ReaderContentProvider.ReaderRawData.ITEM_PUBDATE_LONG + " DESC";
         switch (id)
         {
             case LOADER_ITEM_LIST:
-                //TODO with using projection
+                selection = ReaderContentProvider.ReaderRawData.ITEM_CHANNEL_ID + " = ?";
+                return new CursorLoader(this, ReaderContentProvider.ReaderRawData.ITEM_CONTENT_URI, null, selection, selectionArgs, order);
+            case LOADER_ITEM_LIST_REFRESH:
+                selection = ReaderContentProvider.ReaderRawData.ITEM_CHANNEL_ID + " = ? AND "
+                        + ReaderContentProvider.ReaderRawData.ITEM_TITLE
+                        + " LIKE '%" + args.getString(QUERY_TEXT) + "%'";
                 return new CursorLoader(this, ReaderContentProvider.ReaderRawData.ITEM_CONTENT_URI, null, selection, selectionArgs, order);
         }
-
         return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        Log.i(ITEM_LIST_TAG, "onLoadFinished");
         switch (loader.getId())
         {
             case LOADER_ITEM_LIST:
+            this.rvAdapter.swapCursor(data);
+            break;
+            case LOADER_ITEM_LIST_REFRESH:
                 this.rvAdapter.swapCursor(data);
                 break;
         }

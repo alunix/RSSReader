@@ -62,11 +62,6 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-//    @Override
-//    public int getItemCount() {
-//        return items.size();
-//    }
-
     public void setItemsList(List<Item> items) {
         this.items = new ArrayList(items);
     }
@@ -112,11 +107,16 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
     }
 
     private class ItemOnClickListener implements View.OnClickListener {
-//        private final int position;
-        private Cursor cursor;
+        private String thumbnailURL;
+        private String subtitle;
+        private String pubdate;
+        private String description;
 
         public  ItemOnClickListener(Cursor cursor) {
-            this.cursor = cursor;
+            this.thumbnailURL = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_THUMBNAIL));
+            this.subtitle = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_TITLE));
+            this.pubdate = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_PUBDATE));
+            this.description = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_DESCRIPTION));
         }
 
         @Override
@@ -124,10 +124,10 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
             //Starting ItemContentActivity
             Intent intent = new Intent(context, ItemContentActivity.class);
             intent.putExtra(Item.TITLE, parentChannelTitle);
-            intent.putExtra(Item.THUMBNAIL, cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_THUMBNAIL)));
-            intent.putExtra(Item.SUBTITLE, cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_TITLE)));
-            intent.putExtra(Item.PUBDATE, cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_PUBDATE)));
-            intent.putExtra(Item.DESCRIPTION, cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ReaderRawData.ITEM_DESCRIPTION)));
+            intent.putExtra(Item.THUMBNAIL, thumbnailURL);
+            intent.putExtra(Item.SUBTITLE, subtitle);
+            intent.putExtra(Item.PUBDATE, pubdate);
+            intent.putExtra(Item.DESCRIPTION, description);
             context.startActivity(intent);
         }
     }
