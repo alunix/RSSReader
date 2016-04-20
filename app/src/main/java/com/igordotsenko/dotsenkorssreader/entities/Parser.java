@@ -18,7 +18,7 @@ public class Parser {
         return channel;
     }
 
-    public Channel updateExistChannel(Channel currentChannel, long channelId) throws IOException {
+    public Channel updateExistChannel(Channel currentChannel) throws IOException {
         Channel newChannel = parseXML(downloadXML(currentChannel.getLink()));
         long currentChannelBuildDate = currentChannel.getLastBuildDateLong();
         long newChannelBuildDate = newChannel.getLastBuildDateLong();

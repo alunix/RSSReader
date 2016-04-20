@@ -39,26 +39,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ed5df21-6c0e-47c0-a7ac-f399df7b65d5" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\Android\AndroidProjects\DotsenkoRSSReader2.1\RSSReader\app\src\main\assets\rss_reader.db" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/AddChannelFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/AddChannelFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/AuthenticatorService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/AuthenticatorService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ChannelListRVAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ChannelListRVAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Item.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Item.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemContentActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemContentActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ItemListRVAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ItemListRVAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Parser.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Parser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/RSS.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/RSS.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderAccountAuthenticator.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderAccountAuthenticator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderApplication.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderApplication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/RecyclerViewCursorAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/RecyclerViewCursorAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/SyncService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/SyncService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="RSSReader.iws" />
@@ -107,11 +89,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Parser.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Parser.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+              <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -147,11 +129,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ReaderSyncAdapter.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ReaderSyncAdapter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="49" column="37" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
+            <state vertical-scroll-proportion="-0.05957447">
+              <caret line="93" column="40" selection-start-line="93" selection-start-column="33" selection-end-line="93" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -2237,7 +2219,13 @@
       <option name="project" value="LOCAL" />
       <updated>1461096572452</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Code refactored regards Android Naming Convention">
+      <created>1461144873264</created>
+      <option name="number" value="00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1461144873264</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2350,7 +2338,8 @@
     <MESSAGE value="Code cleaned. Some bugs fixed" />
     <MESSAGE value="Minimal enhancements" />
     <MESSAGE value="DB creation reimplmented" />
-    <option name="LAST_COMMIT_MESSAGE" value="DB creation reimplmented" />
+    <MESSAGE value="Code refactored regards Android Naming Convention" />
+    <option name="LAST_COMMIT_MESSAGE" value="Code refactored regards Android Naming Convention" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2723,14 +2712,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="49" column="37" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/syncadapter.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2758,7 +2739,15 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Parser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.05957447">
+          <caret line="93" column="40" selection-start-line="93" selection-start-column="33" selection-end-line="93" selection-end-column="40" />
           <folding />
         </state>
       </provider>

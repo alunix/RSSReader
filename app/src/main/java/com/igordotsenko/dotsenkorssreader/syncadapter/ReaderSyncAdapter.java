@@ -91,7 +91,7 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void updateChannel(int channelId, Parser parser) throws IOException {
         Channel currentChannel = selectCurrentChannel(channelId);
-        Channel updatedChannel = parser.updateExistChannel(currentChannel, channelId);
+        Channel updatedChannel = parser.updateExistChannel(currentChannel);
 
         if ( updatedChannel != null) {
             updateChannelBuiltDate(updatedChannel, channelId);
