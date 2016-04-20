@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
@@ -17,14 +18,14 @@ import java.io.IOException;
 public class ReaderContentProvider extends ContentProvider {
     private static final int CHANNEL = 1;
     private static final int ITEM = 2;
-    private static final UriMatcher uriMatcher= new UriMatcher(UriMatcher.NO_MATCH);
+    private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     private DBHandler mDbHandler;
-    private SQLiteDatabase mDatabaseConnection;
+    private SQLiteDatabase mDatabase;
 
     static {
-        uriMatcher.addURI(ContractClass.AUTHORITY, ContractClass.CHANNEL_TABLE, CHANNEL);
-        uriMatcher.addURI(ContractClass.AUTHORITY, ContractClass.ITEM_TABLE, ITEM);
+        sUriMatcher.addURI(ContractClass.AUTHORITY, ContractClass.CHANNEL_TABLE, CHANNEL);
+        sUriMatcher.addURI(ContractClass.AUTHORITY, ContractClass.ITEM_TABLE, ITEM);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class ReaderContentProvider extends ContentProvider {
         Uri resultUri;
         String tableName;
         Uri contentUri;
-        switch (uriMatcher.match(uri)) {
+        switch (sUriMatcher.match(uri)) {
             case CHANNEL:
                 tableName = ContractClass.CHANNEL_TABLE;
                 contentUri = ContractClass.CHANNEL_CONTENT_URI;
@@ -56,8 +57,8 @@ public class ReaderContentProvider extends ContentProvider {
                 throw new IllegalArgumentException("Wrong URI: " + uri);
         }
 
-        establishDatabaseConnection();
-        rowID = mDatabaseConnection.insert(tableName, null, values);
+        mDatabase = mDbHandler.getWritableDatabase();
+        rowID = mDatabase.insert(tableName, null, values);
         resultUri = ContentUris.withAppendedId(contentUri, rowID);
         getContext().getContentResolver().notifyChange(uri, null);
         return resultUri;
@@ -84,24 +85,27 @@ public class ReaderContentProvider extends ContentProvider {
             String sortOrder) {
 
         String tableName;
+        Uri notificationTarget;
 
-        switch ( uriMatcher.match(uri) ) {
+        switch ( sUriMatcher.match(uri) ) {
             case CHANNEL:
                 tableName = ContractClass.CHANNEL_TABLE;
+                notificationTarget = ContractClass.CHANNEL_CONTENT_URI;
                 break;
             case ITEM:
                 tableName = ContractClass.ITEM_TABLE;
+                notificationTarget = ContractClass.ITEM_CONTENT_URI;
                 break;
             default:
                 throw new IllegalArgumentException("Wrong URI: " + uri);
         }
 
-        establishDatabaseConnection();
-        Cursor cursor = mDatabaseConnection.query(
+        mDatabase = mDbHandler.getWritableDatabase();
+        Cursor cursor = mDatabase.query(
                 tableName, projection, selection, selectionArgs, null, null, sortOrder);
 
         cursor.setNotificationUri(
-                getContext().getContentResolver(), ContractClass.ITEM_CONTENT_URI);
+                getContext().getContentResolver(), notificationTarget);
 
         return cursor;
     }
@@ -111,7 +115,7 @@ public class ReaderContentProvider extends ContentProvider {
         String tableName;
         int rowsUpdatedCount;
 
-        switch ( uriMatcher.match(uri) ) {
+        switch ( sUriMatcher.match(uri) ) {
             case CHANNEL:
                 tableName = ContractClass.CHANNEL_TABLE;
                 break;
@@ -122,22 +126,42 @@ public class ReaderContentProvider extends ContentProvider {
                 throw new IllegalArgumentException("Wrong URI: " + uri);
         }
 
-        establishDatabaseConnection();
-        rowsUpdatedCount = mDatabaseConnection.update(tableName, values, selection, selectionArgs);
+        mDatabase = mDbHandler.getWritableDatabase();
+        rowsUpdatedCount = mDatabase.update(tableName, values, selection, selectionArgs);
         getContext().getContentResolver().notifyChange(uri, null);
 
         return rowsUpdatedCount;
     }
 
-    private void establishDatabaseConnection() {
-        if ( mDatabaseConnection == null ) {
-            try {
-                mDatabaseConnection = mDbHandler.getDatabaseConnection();
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new Error("Error during database connection establishing");
+    @Override
+    public int bulkInsert(Uri uri, ContentValues[] values) {
+        int rowsInserted = 0;
+        String tableName;
+
+        switch (sUriMatcher.match(uri)) {
+            case ITEM: {
+                tableName = ContractClass.ITEM_TABLE;
+                break;
             }
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
+
+        mDatabase = mDbHandler.getWritableDatabase();
+        mDatabase.beginTransaction();
+        try {
+            for (ContentValues cv : values) {
+                mDatabase.insertOrThrow(tableName, null, cv);
+            }
+            mDatabase.setTransactionSuccessful();
+
+            getContext().getContentResolver().notifyChange(uri, null);
+            rowsInserted = values.length;
+        } finally {
+            mDatabase.endTransaction();
+        }
+
+        return rowsInserted;
     }
 
     public static class ContractClass {

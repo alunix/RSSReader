@@ -17,6 +17,7 @@ import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.ImageButton;
 
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -25,14 +26,12 @@ public class MainActivity extends AppCompatActivity
         implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String QUERY_TEXT = "query text";
-    private static final String AUTHORITY = ReaderContentProvider.ContractClass.AUTHORITY;
     private static final int LOADER_CHANNEL_LIST = 1;
     private static final int LOADER_CHANNEL_LIST_REFRESH = 2;
-
     public static final String LOG_TAG = "rss_reader_log";
     public static final String DB_NAME = "rss_reader.db";
     public static final int DB_VERSION = 1;
-    public static final String ACCOUNT_TYPE = "dummy.com";
+    public static final String ACCOUNT_TYPE = "com.igordotsenko.dotsenkorssreader";
     public static final String ACCOUNT = "dummyaccount";
 
     public static Account sAccount;
@@ -55,9 +54,9 @@ public class MainActivity extends AppCompatActivity
                 (AccountManager) MainActivity.this.getSystemService(ACCOUNT_SERVICE);
         accountManager.addAccountExplicitly(sAccount, null, null);
 
-        ContentResolver.setIsSyncable(sAccount, AUTHORITY, 1);
-        ContentResolver.setSyncAutomatically(sAccount, AUTHORITY, true);
-        ContentResolver.addPeriodicSync(sAccount, AUTHORITY, Bundle.EMPTY, 120);
+        ContentResolver.setIsSyncable(sAccount, ContractClass.AUTHORITY, 1);
+        ContentResolver.setSyncAutomatically(sAccount, ContractClass.AUTHORITY, true);
+        ContentResolver.addPeriodicSync(sAccount, ContractClass.AUTHORITY, Bundle.EMPTY, 120);
 
         //Initialiazing image loader for thumbnails downloading
         ImageLoaderConfiguration imageLoaderConfiguration =
@@ -125,20 +124,20 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String order = ReaderContentProvider.ContractClass.CHANNEL_ID + " ASC";
+        String order = ContractClass.CHANNEL_ID + " ASC";
 
         switch (id) {
             case LOADER_CHANNEL_LIST:
                 return new CursorLoader(
-                        this, ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI,
+                        this, ContractClass.CHANNEL_CONTENT_URI,
                         null, null, null, order);
 
             case LOADER_CHANNEL_LIST_REFRESH:
-                String selection = ReaderContentProvider.ContractClass.CHANNEL_TITLE
+                String selection = ContractClass.CHANNEL_TITLE
                         + " LIKE '%" + args.getString(QUERY_TEXT) + "%'";
 
                 return new CursorLoader(
-                        this, ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI,
+                        this, ContractClass.CHANNEL_CONTENT_URI,
                         null, selection, null, order);
         }
         return null;

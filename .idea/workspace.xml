@@ -39,8 +39,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ed5df21-6c0e-47c0-a7ac-f399df7b65d5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Parser.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Parser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/xml/authenticator.xml" afterPath="$PROJECT_DIR$/app/src/main/res/xml/authenticator.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/xml/syncadapter.xml" afterPath="$PROJECT_DIR$/app/src/main/res/xml/syncadapter.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="RSSReader.iws" />
@@ -83,8 +86,11 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/syncadapter.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="35" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
-              <folding />
+              <caret line="6" column="38" selection-start-line="6" selection-start-column="38" selection-end-line="6" selection-end-column="38" />
+              <folding>
+                <element signature="e#141#161#0" expanded="true" />
+                <element signature="e#186#206#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -99,40 +105,62 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="2.0978723">
+              <caret line="29" column="61" selection-start-line="29" selection-start-column="61" selection-end-line="29" selection-end-column="61" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-3.7777777">
+              <caret line="6" column="30" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="64" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="authenticator.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/authenticator.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="3" column="43" selection-start-line="3" selection-start-column="43" selection-end-line="3" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="66" selection-start-line="4" selection-start-column="66" selection-end-line="4" selection-end-column="66" />
+            <state vertical-scroll-proportion="-6.551724">
+              <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ReaderAccountAuthenticator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderAccountAuthenticator.java">
+      <file leaf-file-name="DBHandler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="74" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
+              <caret line="46" column="16" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="16" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AuthenticatorService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/AuthenticatorService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ReaderSyncAdapter.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ReaderSyncAdapter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.05957447">
+            <state vertical-scroll-proportion="-42.206898">
               <caret line="93" column="40" selection-start-line="93" selection-start-column="33" selection-end-line="93" selection-end-column="40" />
               <folding />
             </state>
@@ -142,19 +170,12 @@
       <file leaf-file-name="ReaderContentProvider.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="80" column="32" selection-start-line="80" selection-start-column="32" selection-end-line="80" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Item.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Item.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="151" column="0" selection-start-line="151" selection-start-column="0" selection-end-line="151" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="-85.586205">
+              <caret line="161" column="9" selection-start-line="161" selection-start-column="9" selection-end-line="161" selection-end-column="9" />
+              <folding>
+                <element signature="e#1131#1132#0" expanded="true" />
+                <element signature="e#1155#1156#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1654,8 +1675,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/util/DataBaseHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/util/ReaderSyncAdapter.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/res/xml/authenticator.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/xml/syncadapter.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ItemListRVCursorAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/CursorRecyclerAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/RefreshService.java" />
@@ -1666,7 +1685,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ItemListRVAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/AddChannelFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/RSS.java" />
@@ -1674,10 +1692,14 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderAccountAuthenticator.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/AuthenticatorService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Item.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Parser.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/xml/syncadapter.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/xml/authenticator.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -1725,6 +1747,24 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="Gradle Scripts" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidBuildScriptsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RSSReader" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="xml" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -2225,7 +2265,13 @@
       <option name="project" value="LOCAL" />
       <updated>1461144873264</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Code cleaned">
+      <created>1461146633918</created>
+      <option name="number" value="00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1461146633918</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2275,28 +2321,29 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5030257" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5121029" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6283892" sideWeight="0.4969743" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5614035" sideWeight="0.48184568" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39872408" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.4969743" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.53429025" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.48789713" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5030257" order="12" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24962178" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24962178" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -2331,7 +2378,6 @@
     <MESSAGE value="SyncAdapter implemented, Parser enhanced" />
     <MESSAGE value="Syncchronization enhanced: new items adding to RecyclerView after synchronization immideately" />
     <MESSAGE value="Filtration of items reimplemented with using of Loader. ItemContentActivity start bug fixed" />
-    <MESSAGE value="Code cleaned" />
     <MESSAGE value="RefreshService removed" />
     <MESSAGE value="MainActivity with using of ContentProvider implemented. &quot;BBC news&quot; opening bug should be fixed" />
     <MESSAGE value="AddFeedFragment reimplmented with using of ContentProvider" />
@@ -2339,7 +2385,8 @@
     <MESSAGE value="Minimal enhancements" />
     <MESSAGE value="DB creation reimplmented" />
     <MESSAGE value="Code refactored regards Android Naming Convention" />
-    <option name="LAST_COMMIT_MESSAGE" value="Code refactored regards Android Naming Convention" />
+    <MESSAGE value="Code cleaned" />
+    <option name="LAST_COMMIT_MESSAGE" value="Code cleaned" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2348,29 +2395,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/SyncService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="50" selection-start-line="21" selection-start-column="50" selection-end-line="21" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2539,13 +2563,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/authenticator.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../sdk/sources/android-23/android/content/AbstractThreadedSyncAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2557,6 +2574,112 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="108" column="0" selection-start-line="108" selection-start-column="0" selection-end-line="108" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#23046#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1824#1825#0" expanded="false" />
+            <element signature="e#1852#1853#0" expanded="false" />
+            <element signature="e#2455#2456#0" expanded="false" />
+            <element signature="e#2483#2484#0" expanded="false" />
+            <element signature="e#2536#2537#0" expanded="false" />
+            <element signature="e#2576#2577#0" expanded="false" />
+            <element signature="e#2633#2634#0" expanded="false" />
+            <element signature="e#2676#2677#0" expanded="false" />
+            <element signature="e#2739#2740#0" expanded="false" />
+            <element signature="e#2787#2788#0" expanded="false" />
+            <element signature="e#2852#2853#0" expanded="false" />
+            <element signature="e#2901#2902#0" expanded="false" />
+            <element signature="e#2952#2953#0" expanded="false" />
+            <element signature="e#2996#2997#0" expanded="false" />
+            <element signature="e#3169#3170#0" expanded="false" />
+            <element signature="e#3206#3207#0" expanded="false" />
+            <element signature="e#3271#3272#0" expanded="false" />
+            <element signature="e#3315#3316#0" expanded="false" />
+            <element signature="e#3370#3371#0" expanded="false" />
+            <element signature="e#3409#3410#0" expanded="false" />
+            <element signature="e#3466#3467#0" expanded="false" />
+            <element signature="e#3511#3512#0" expanded="false" />
+            <element signature="e#3563#3564#0" expanded="false" />
+            <element signature="e#3608#3609#0" expanded="false" />
+            <element signature="e#3681#3682#0" expanded="false" />
+            <element signature="e#3730#3731#0" expanded="false" />
+            <element signature="e#3801#3802#0" expanded="false" />
+            <element signature="e#3848#3849#0" expanded="false" />
+            <element signature="e#3913#3914#0" expanded="false" />
+            <element signature="e#3962#3963#0" expanded="false" />
+            <element signature="e#4026#4027#0" expanded="false" />
+            <element signature="e#4079#4080#0" expanded="false" />
+            <element signature="e#4135#4136#0" expanded="false" />
+            <element signature="e#4184#4185#0" expanded="false" />
+            <element signature="e#4266#4267#0" expanded="false" />
+            <element signature="e#4319#4320#0" expanded="false" />
+            <element signature="e#4861#4862#0" expanded="false" />
+            <element signature="e#4906#4907#0" expanded="false" />
+            <element signature="e#4970#4971#0" expanded="false" />
+            <element signature="e#5022#5023#0" expanded="false" />
+            <element signature="e#5070#5071#0" expanded="false" />
+            <element signature="e#5109#5110#0" expanded="false" />
+            <element signature="e#5156#5157#0" expanded="false" />
+            <element signature="e#5198#5199#0" expanded="false" />
+            <element signature="e#5253#5254#0" expanded="false" />
+            <element signature="e#5303#5304#0" expanded="false" />
+            <element signature="e#5369#5370#0" expanded="false" />
+            <element signature="e#5423#5424#0" expanded="false" />
+            <element signature="e#5492#5493#0" expanded="false" />
+            <element signature="e#5547#5548#0" expanded="false" />
+            <element signature="e#5592#5593#0" expanded="false" />
+            <element signature="e#5632#5633#0" expanded="false" />
+            <element signature="e#5680#5681#0" expanded="false" />
+            <element signature="e#5721#5722#0" expanded="false" />
+            <element signature="e#5768#5769#0" expanded="false" />
+            <element signature="e#5810#5811#0" expanded="false" />
+            <element signature="e#5861#5862#0" expanded="false" />
+            <element signature="e#5907#5908#0" expanded="false" />
+            <element signature="e#5962#5963#0" expanded="false" />
+            <element signature="e#6012#6013#0" expanded="false" />
+            <element signature="e#6070#6071#0" expanded="false" />
+            <element signature="e#6121#6122#0" expanded="false" />
+            <element signature="e#6179#6180#0" expanded="false" />
+            <element signature="e#6230#6231#0" expanded="false" />
+            <element signature="e#6293#6294#0" expanded="false" />
+            <element signature="e#6340#6341#0" expanded="false" />
+            <element signature="e#6825#6826#0" expanded="false" />
+            <element signature="e#6874#6875#0" expanded="false" />
+            <element signature="e#6936#6937#0" expanded="false" />
+            <element signature="e#6986#6987#0" expanded="false" />
+            <element signature="e#7038#7039#0" expanded="false" />
+            <element signature="e#7081#7082#0" expanded="false" />
+            <element signature="e#7149#7150#0" expanded="false" />
+            <element signature="e#7192#7193#0" expanded="false" />
+            <element signature="e#7261#7262#0" expanded="false" />
+            <element signature="e#7305#7306#0" expanded="false" />
+            <element signature="e#7387#7388#0" expanded="false" />
+            <element signature="e#7449#7450#0" expanded="false" />
+            <element signature="e#8057#8058#0" expanded="false" />
+            <element signature="e#8100#8101#0" expanded="false" />
+            <element signature="e#8537#8538#0" expanded="false" />
+            <element signature="e#8593#8594#0" expanded="false" />
+            <element signature="e#8972#8973#0" expanded="false" />
+            <element signature="e#9018#9019#0" expanded="false" />
+            <element signature="e#10085#10086#0" expanded="false" />
+            <element signature="e#10128#10129#0" expanded="false" />
+            <element signature="e#14393#14394#0" expanded="false" />
+            <element signature="e#14442#14443#0" expanded="false" />
+            <element signature="e#14912#14913#0" expanded="false" />
+            <element signature="e#14963#14964#0" expanded="false" />
+            <element signature="e#16695#16696#0" expanded="false" />
+            <element signature="e#16745#16746#0" expanded="false" />
+            <element signature="e#16806#16807#0" expanded="false" />
+            <element signature="e#16852#16853#0" expanded="false" />
+            <element signature="e#17653#17654#0" expanded="false" />
+            <element signature="e#17694#17695#0" expanded="false" />
+            <element signature="e#17975#17976#0" expanded="false" />
+            <element signature="e#18026#18027#0" expanded="false" />
+            <element signature="e#22436#22437#0" expanded="false" />
+            <element signature="e#22476#22477#0" expanded="false" />
+            <element signature="e#22837#22838#0" expanded="false" />
+            <element signature="e#22880#22881#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2640,26 +2763,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="71" selection-start-line="21" selection-start-column="71" selection-end-line="21" selection-end-column="71" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="46" column="16" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="16" />
           <folding />
         </state>
       </provider>
@@ -2704,34 +2811,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/SyncService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="80" column="32" selection-start-line="80" selection-start-column="32" selection-end-line="80" selection-end-column="32" />
+          <caret line="9" column="34" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/syncadapter.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-42.206898">
+          <caret line="93" column="40" selection-start-line="93" selection-start-column="33" selection-end-line="93" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../sdk/sources/android-23/android/content/ContentProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.58764607">
+          <caret line="1137" column="15" selection-start-line="1137" selection-start-column="15" selection-end-line="1137" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="35" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
+          <caret line="46" column="16" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="66" selection-start-line="4" selection-start-column="66" selection-end-line="4" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/SyncService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="34" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
+        <state vertical-scroll-proportion="-6.551724">
+          <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
           <folding />
         </state>
       </provider>
@@ -2744,11 +2859,59 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.05957447">
-          <caret line="93" column="40" selection-start-line="93" selection-start-column="33" selection-end-line="93" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/authenticator.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3" column="43" selection-start-line="3" selection-start-column="43" selection-end-line="3" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.7777777">
+          <caret line="6" column="30" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/syncadapter.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="38" selection-start-line="6" selection-start-column="38" selection-end-line="6" selection-end-column="38" />
+          <folding>
+            <element signature="e#141#161#0" expanded="true" />
+            <element signature="e#186#206#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-85.586205">
+          <caret line="161" column="9" selection-start-line="161" selection-start-column="9" selection-end-line="161" selection-end-column="9" />
+          <folding>
+            <element signature="e#1131#1132#0" expanded="true" />
+            <element signature="e#1155#1156#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.0978723">
+          <caret line="29" column="61" selection-start-line="29" selection-start-column="61" selection-end-line="29" selection-end-column="61" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
