@@ -17,10 +17,11 @@ import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.ImageButton;
 
-import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
 public class MainActivity extends AppCompatActivity
         implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {

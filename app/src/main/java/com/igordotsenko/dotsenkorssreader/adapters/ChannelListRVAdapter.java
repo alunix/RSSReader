@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 import com.igordotsenko.dotsenkorssreader.ItemListActivity;
 import com.igordotsenko.dotsenkorssreader.R;
 import com.igordotsenko.dotsenkorssreader.ReaderContentProvider;
-import com.igordotsenko.dotsenkorssreader.entities.Channel;
+
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
 public class ChannelListRVAdapter
         extends RecyclerViewCursorAdapter<ChannelListRVAdapter.ChannelViewHolder>{

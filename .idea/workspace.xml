@@ -39,11 +39,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ed5df21-6c0e-47c0-a7ac-f399df7b65d5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/AddChannelFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/AddChannelFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ChannelListRVAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ChannelListRVAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Item.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Item.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemContentActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemContentActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ItemListRVAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ItemListRVAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -74,35 +76,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ItemListActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="125" column="61" selection-start-line="125" selection-start-column="61" selection-end-line="125" selection-end-column="61" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ItemListRVAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ItemListRVAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="121" column="37" selection-start-line="121" selection-start-column="37" selection-end-line="121" selection-end-column="37" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ReaderSyncAdapter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="59" column="17" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="17" />
+            <state vertical-scroll-proportion="-77.675674">
+              <caret line="236" column="32" selection-start-line="236" selection-start-column="32" selection-end-line="236" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -110,23 +88,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Channel.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="22" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DBHandler.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="DBHandler.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="117" column="0" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
+            <state vertical-scroll-proportion="2.2121212">
+              <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -134,33 +100,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ItemContentActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemContentActivity.java">
+      <file leaf-file-name="AddChannelFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/AddChannelFragment.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="28" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ReaderContentProvider.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.14393939">
-              <caret line="172" column="61" selection-start-line="172" selection-start-column="61" selection-end-line="172" selection-end-column="61" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Item.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Item.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="47" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
+              <caret line="157" column="0" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -1676,17 +1620,17 @@
         <option value="$PROJECT_DIR$/app/src/main/res/xml/syncadapter.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/xml/authenticator.xml" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/AddChannelFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ChannelListRVAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemContentActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ItemListRVAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Item.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/AddChannelFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java" />
       </list>
     </option>
   </component>
@@ -2270,7 +2214,13 @@
       <option name="project" value="LOCAL" />
       <updated>1461170184224</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Second part of pull request comments processed">
+      <created>1461170971809</created>
+      <option name="number" value="00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1461170971809</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2362,7 +2312,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="Channel refactored. selectAllChannels method in DataBaseHelper implemented" />
     <MESSAGE value="Debugging logs added" />
     <MESSAGE value="ActiveAndroid meta-data removed from manifest" />
     <MESSAGE value="selectAllChannels method fixed" />
@@ -2387,7 +2336,8 @@
     <MESSAGE value="Code cleaned" />
     <MESSAGE value="establishConnection() in DBHadler removed. Added string resource for account type and authority. Some code cleaning in MainActivity" />
     <MESSAGE value="First part of pull request comments processed" />
-    <option name="LAST_COMMIT_MESSAGE" value="First part of pull request comments processed" />
+    <MESSAGE value="Second part of pull request comments processed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Second part of pull request comments processed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2798,14 +2748,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/AddChannelFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.6105263">
-          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/authenticator.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.085141905">
@@ -2835,7 +2777,7 @@
         <state vertical-scroll-proportion="0.34390652">
           <caret line="133" column="0" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2845,7 +2787,7 @@
         <state vertical-scroll-proportion="0.45409015">
           <caret line="72" column="86" selection-start-line="72" selection-start-column="86" selection-end-line="72" selection-end-column="86" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2860,53 +2802,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="59" column="17" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="117" column="0" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemContentActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="16" column="28" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="125" column="61" selection-start-line="125" selection-start-column="61" selection-end-line="125" selection-end-column="61" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ItemListRVAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="121" column="37" selection-start-line="121" selection-start-column="37" selection-end-line="121" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2920,9 +2820,59 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14393939">
-          <caret line="172" column="61" selection-start-line="172" selection-start-column="61" selection-end-line="172" selection-end-column="61" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="169" column="61" selection-start-line="169" selection-start-column="61" selection-end-line="169" selection-end-column="61" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/adapters/ItemListRVAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="3.4340568">
+          <caret line="121" column="37" selection-start-line="121" selection-start-column="37" selection-end-line="121" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.25041735">
+          <caret line="124" column="61" selection-start-line="124" selection-start-column="61" selection-end-line="124" selection-end-column="61" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-77.675674">
+          <caret line="236" column="32" selection-start-line="236" selection-start-column="32" selection-end-line="236" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/AddChannelFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="157" column="0" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.2121212">
+          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

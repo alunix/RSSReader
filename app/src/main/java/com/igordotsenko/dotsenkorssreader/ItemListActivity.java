@@ -16,10 +16,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 import com.igordotsenko.dotsenkorssreader.adapters.ItemListRVAdapter;
-import com.igordotsenko.dotsenkorssreader.entities.Channel;
-import com.igordotsenko.dotsenkorssreader.entities.Item;
+
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
 public class ItemListActivity extends AppCompatActivity
         implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {

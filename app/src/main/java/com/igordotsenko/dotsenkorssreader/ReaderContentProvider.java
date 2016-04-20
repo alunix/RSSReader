@@ -5,13 +5,10 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
-import com.igordotsenko.dotsenkorssreader.entities.Channel;
 import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
-import com.igordotsenko.dotsenkorssreader.entities.Item;
 
 import java.io.IOException;
 

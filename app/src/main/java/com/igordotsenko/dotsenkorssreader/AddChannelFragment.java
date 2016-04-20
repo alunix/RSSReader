@@ -2,9 +2,7 @@ package com.igordotsenko.dotsenkorssreader;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,11 +18,9 @@ import android.widget.Toast;
 
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
 import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
-import com.igordotsenko.dotsenkorssreader.entities.Item;
 import com.igordotsenko.dotsenkorssreader.entities.Parser;
 
 import java.io.IOException;
-import java.util.List;
 
 public class AddChannelFragment extends DialogFragment  {
     private final String NO_URL_MESSAGE = "Enter url";
@@ -153,7 +149,7 @@ public class AddChannelFragment extends DialogFragment  {
                 }
 
                 //Saving channel (returns the same channel with id set) and item in db.
-                newChannel = DBHandler.insertIntoChannel(newChannel, mActivity);
+                newChannel = DBHandler.insertIntoChannel(newChannel, mActivity.getContentResolver());
                 DBHandler.insertIntoItem(newChannel.getItems(), newChannel.getId(), mActivity);
 
                 //Update recyclerview

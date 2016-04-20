@@ -9,9 +9,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
-import com.igordotsenko.dotsenkorssreader.entities.Item;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
 public class ItemContentActivity extends AppCompatActivity {
     private TextView mTitle;

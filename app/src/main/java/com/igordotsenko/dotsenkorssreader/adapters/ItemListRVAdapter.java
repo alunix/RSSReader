@@ -10,16 +10,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 import com.igordotsenko.dotsenkorssreader.ItemContentActivity;
 import com.igordotsenko.dotsenkorssreader.R;
-import com.igordotsenko.dotsenkorssreader.ReaderContentProvider;
-import com.igordotsenko.dotsenkorssreader.entities.Item;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ocpsoft.pretty.time.PrettyTime;
 
 import java.util.Date;
+
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
 public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapter.ItemViewHolder> {
     private Context mContext;
