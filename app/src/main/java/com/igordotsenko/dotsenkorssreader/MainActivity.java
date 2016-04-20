@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String order = ContractClass.CHANNEL_ID + " ASC";
+        String order = ContractClass.Channel.ID + " ASC";
 
         switch (id) {
             case LOADER_CHANNEL_LIST:
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity
                         null, null, null, order);
 
             case LOADER_CHANNEL_LIST_REFRESH:
-                String selection = ContractClass.CHANNEL_TITLE
+                String selection = ContractClass.Channel.TITLE
                         + " LIKE '%" + args.getString(QUERY_TEXT) + "%'";
 
                 return new CursorLoader(

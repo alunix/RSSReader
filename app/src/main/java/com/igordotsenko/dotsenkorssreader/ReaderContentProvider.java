@@ -24,7 +24,7 @@ public class ReaderContentProvider extends ContentProvider {
     private SQLiteDatabase mDatabase;
 
     static {
-        sUriMatcher.addURI(ContractClass.AUTHORITY, ContractClass.CHANNEL_TABLE, CHANNEL);
+        sUriMatcher.addURI(ContractClass.AUTHORITY, ContractClass.Channel.TABLE, CHANNEL);
         sUriMatcher.addURI(ContractClass.AUTHORITY, ContractClass.ITEM_TABLE, ITEM);
     }
 
@@ -46,7 +46,7 @@ public class ReaderContentProvider extends ContentProvider {
         Uri contentUri;
         switch (sUriMatcher.match(uri)) {
             case CHANNEL:
-                tableName = ContractClass.CHANNEL_TABLE;
+                tableName = ContractClass.Channel.TABLE;
                 contentUri = ContractClass.CHANNEL_CONTENT_URI;
                 break;
             case ITEM:
@@ -89,7 +89,7 @@ public class ReaderContentProvider extends ContentProvider {
 
         switch ( sUriMatcher.match(uri) ) {
             case CHANNEL:
-                tableName = ContractClass.CHANNEL_TABLE;
+                tableName = ContractClass.Channel.TABLE;
                 notificationTarget = ContractClass.CHANNEL_CONTENT_URI;
                 break;
             case ITEM:
@@ -117,7 +117,7 @@ public class ReaderContentProvider extends ContentProvider {
 
         switch ( sUriMatcher.match(uri) ) {
             case CHANNEL:
-                tableName = ContractClass.CHANNEL_TABLE;
+                tableName = ContractClass.Channel.TABLE;
                 break;
             case ITEM:
                 tableName = ContractClass.ITEM_TABLE;
@@ -167,12 +167,14 @@ public class ReaderContentProvider extends ContentProvider {
     public static class ContractClass {
         public static final String AUTHORITY = "com.igordotsenko.dotsenkorssreader";
 
-        public static String CHANNEL_TABLE = Channel.TABLE;
-        public static final String CHANNEL_ID = Channel.ID;
-        public static final String CHANNEL_TITLE = Channel.TITLE;
-        public static final String CHANNEL_LINK = Channel.LINK;
-        public static final String CHANNEL_LAST_BUILD_DATE = Channel.LAST_BUILD_DATE;
-        public static final String CHANNEL_LAST_BUILD_DATE_LONG = Channel.LAST_BUILD_DATE_LONG;
+        public static class Channel {
+            public static String TABLE = "channel";
+            public static final String ID = "_ID";
+            public static final String TITLE = "channel_title";
+            public static final String LINK = "channel_link";
+            public static final String LAST_BUILD_DATE = "channel_last_build_date";
+            public static final String LAST_BUILD_DATE_LONG = "channel_last_build_date_long";
+        }
 
         public static final String ITEM_TABLE = Item.TABLE;
         public static final String ITEM_ID = Item.ID;
@@ -185,7 +187,7 @@ public class ReaderContentProvider extends ContentProvider {
         public static final String ITEM_THUMBNAIL = Item.THUMBNAIL;
 
         public static final Uri CHANNEL_CONTENT_URI = Uri.parse(
-                "content://" + AUTHORITY + "/" + CHANNEL_TABLE);
+                "content://" + AUTHORITY + "/" + Channel.TABLE);
         public static final Uri ITEM_CONTENT_URI = Uri.parse(
                 "content://" + AUTHORITY + "/" + ITEM_TABLE);
     }

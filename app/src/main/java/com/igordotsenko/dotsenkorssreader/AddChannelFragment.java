@@ -19,12 +19,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
+import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
 import com.igordotsenko.dotsenkorssreader.entities.Item;
 import com.igordotsenko.dotsenkorssreader.entities.Parser;
 
 import java.io.IOException;
 import java.util.List;
-
 
 public class AddChannelFragment extends DialogFragment  {
     private final String NO_URL_MESSAGE = "Enter url";
@@ -75,7 +75,7 @@ public class AddChannelFragment extends DialogFragment  {
                 }
 
                 //Check if feed has been already added
-                if ( channelIsAlreadyAdded(url) ) {
+                if ( DBHandler.channelIsAlreadyAdded(url, mActivity) ) {
                     Toast.makeText(mActivity, FEED_EXIST_MESSAGE, Toast.LENGTH_SHORT).show();
                     addChannelTextView.setText("");
                     dismiss();
@@ -145,15 +145,16 @@ public class AddChannelFragment extends DialogFragment  {
                 }
                 return ERROR_MESSAGE;
             }
+
             if ( newChannel != null ) {
                 //Check if channel has been already added
-                if ( channelIsAlreadyAdded(newChannel) ) {
+                if ( DBHandler.channelIsAlreadyAdded(newChannel, mActivity) ) {
                     return FEED_EXIST_MESSAGE;
                 }
 
                 //Saving channel (returns the same channel with id set) and item in db.
-                newChannel = insertIntoChannel(newChannel);
-                insertIntoItem(newChannel.getItems(), newChannel.getId());
+                newChannel = DBHandler.insertIntoChannel(newChannel, mActivity);
+                DBHandler.insertIntoItem(newChannel.getItems(), newChannel.getId(), mActivity);
 
                 //Update recyclerview
                 return SUCCESS_MESSAGE;
@@ -169,92 +170,5 @@ public class AddChannelFragment extends DialogFragment  {
             progressDialog.dismiss();
             Toast.makeText(mActivity, result, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private Channel insertIntoChannel(Channel channel) {
-        long id = getLastChannelId() + 1;
-        channel.setId(id);
-
-        ContentValues cv = new ContentValues();
-
-        cv.put(Channel.ID, id);
-        cv.put(Channel.TITLE, channel.getTitle());
-        cv.put(Channel.LINK, channel.getLink());
-        cv.put(Channel.LAST_BUILD_DATE, channel.getLastBuildDate());
-        cv.put(Channel.LAST_BUILD_DATE_LONG, channel.getLastBuildDateLong());
-
-        mActivity.getContentResolver().insert(
-                ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI, cv);
-
-        return channel;
-    }
-
-    private boolean channelIsAlreadyAdded(String url){
-        String selection = Channel.LINK + " = ?";
-        String[] selectionArgs = { url };
-
-        Cursor cursor = mActivity.getContentResolver().query(
-                ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI,
-                null, selection, selectionArgs, null);
-
-        // If records exists - cursor has more than 0 rows
-        boolean recordExists = cursor.getCount() > 0;
-
-        cursor.close();
-
-        return recordExists;
-    }
-
-    private boolean channelIsAlreadyAdded(Channel channel){
-        String selection = Channel.TITLE + " = ?";
-        String[] selectionArgs = { channel.getTitle() };
-
-        Cursor cursor = mActivity.getContentResolver().query(
-                ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI,
-                null, selection, selectionArgs, null);
-
-        // If records exists - cursor has more than 0 rows
-        boolean recordExists = cursor.getCount() > 0;
-
-        cursor.close();
-
-        return recordExists;
-    }
-
-    private long getLastChannelId() {
-        String[] projection = { ReaderContentProvider.ContractClass.CHANNEL_ID };
-        String order = ReaderContentProvider.ContractClass.CHANNEL_ID + " DESC";
-        Cursor cursor = mActivity.getContentResolver().query(
-                ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI,
-                projection, null, null, order);
-
-        int idIndex = cursor.getColumnIndex(Channel.ID);
-
-        cursor.moveToFirst();
-        long id = cursor.getLong(idIndex);
-
-        cursor.close();
-
-        return id;
-    }
-
-    private void insertIntoItem(List<Item> items, long channelId) {
-        ContentValues[] values = new ContentValues[items.size()];
-
-        for ( int i = 0; i < items.size(); i++ ) {
-            ContentValues cv = new ContentValues();
-
-            cv.put(Item.CHANNEL_ID, channelId);
-            cv.put(Item.LINK, items.get(i).getLink());
-            cv.put(Item.TITLE, items.get(i).getTitle());
-            cv.put(Item.DESCRIPTION, items.get(i).getContent());
-            cv.put(Item.PUBDATE, items.get(i).getPubDate());
-            cv.put(Item.PUBDATE_LONG, items.get(i).getPubDateLong());
-
-            values[i] = cv;
-        }
-
-        mActivity.getContentResolver().bulkInsert(
-                ReaderContentProvider.ContractClass.ITEM_CONTENT_URI, values);
     }
 }

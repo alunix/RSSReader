@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 import com.igordotsenko.dotsenkorssreader.adapters.ItemListRVAdapter;
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
 import com.igordotsenko.dotsenkorssreader.entities.Item;
@@ -41,13 +42,16 @@ public class ItemListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        mCurrentChannelId = getIntent().getLongExtra(Channel.ID, -1);
+        mCurrentChannelId = getIntent().getLongExtra(ContractClass.Channel.ID, -1);
 
         //SwipeRefreshLayout initialization
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.item_list_swiperefresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+                bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
                 ContentResolver.requestSync(
                         MainActivity.sAccount,
                         ReaderContentProvider.ContractClass.AUTHORITY,
@@ -81,7 +85,7 @@ public class ItemListActivity extends AppCompatActivity
 
         //Setting adapter on mRecyclerView
         mRvAdapter = new ItemListRVAdapter(
-                ItemListActivity.this, getIntent().getStringExtra(Channel.TITLE));
+                ItemListActivity.this, getIntent().getStringExtra(ContractClass.Channel.TITLE));
         mRecyclerView.setAdapter(mRvAdapter);
 
         //Start Loader

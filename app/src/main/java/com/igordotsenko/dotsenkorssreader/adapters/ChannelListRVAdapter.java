@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 import com.igordotsenko.dotsenkorssreader.ItemListActivity;
 import com.igordotsenko.dotsenkorssreader.R;
 import com.igordotsenko.dotsenkorssreader.ReaderContentProvider;
@@ -59,7 +60,7 @@ public class ChannelListRVAdapter
 
         public void bindData(final Cursor cursor) {
             channelTitle.setText(cursor.getString(
-                    cursor.getColumnIndex(ReaderContentProvider.ContractClass.CHANNEL_TITLE)));
+                    cursor.getColumnIndex(ReaderContentProvider.ContractClass.Channel.TITLE)));
         }
     }
 
@@ -69,19 +70,16 @@ public class ChannelListRVAdapter
         private String title;
 
         public  ChannelOnClickListener(Cursor cursor) {
-            this.id = cursor.getLong(cursor.getColumnIndex(
-                    ReaderContentProvider.ContractClass.CHANNEL_ID));
-
-            this.title = cursor.getString(cursor.getColumnIndex(
-                    ReaderContentProvider.ContractClass.CHANNEL_TITLE));
+            this.id = cursor.getLong(cursor.getColumnIndex(ContractClass.Channel.ID));
+            this.title = cursor.getString(cursor.getColumnIndex(ContractClass.Channel.TITLE));
         }
 
         @Override
         public void onClick(View v) {
             //Start ItemListActivity
             Intent intent = new Intent(mContext, ItemListActivity.class);
-            intent.putExtra(Channel.ID, id);
-            intent.putExtra(Channel.TITLE, title);
+            intent.putExtra(ContractClass.Channel.ID, id);
+            intent.putExtra(ContractClass.Channel.TITLE, title);
             mContext.startActivity(intent);
         }
     }
