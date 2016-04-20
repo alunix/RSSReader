@@ -13,12 +13,12 @@ import com.igordotsenko.dotsenkorssreader.entities.Item;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ItemContentActivity extends AppCompatActivity {
-    TextView title;
-    ImageView thumbnail;
-    TextView subtitle;
-    TextView pubdate;
-    TextView content;
-    ImageButton backButton;
+    private TextView mTitle;
+    private ImageView mThumbnail;
+    private TextView mSubtitle;
+    private TextView mPubdate;
+    private TextView mContent;
+    private ImageButton mBackButton;
 
 
     @Override
@@ -32,30 +32,30 @@ public class ItemContentActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         //Views initialization
-        title = (TextView) findViewById(R.id.item_content_title);
-        thumbnail = (ImageView) findViewById(R.id.item_content_image);
-        subtitle = (TextView) findViewById(R.id.item_content_subtitle);
-        pubdate = (TextView) findViewById(R.id.item_content_pubdate);
-        content = (TextView) findViewById(R.id.item_content_content);
-        backButton = (ImageButton) findViewById(R.id.item_content_back_button);
+        mTitle = (TextView) findViewById(R.id.item_content_title);
+        mThumbnail = (ImageView) findViewById(R.id.item_content_image);
+        mSubtitle = (TextView) findViewById(R.id.item_content_subtitle);
+        mPubdate = (TextView) findViewById(R.id.item_content_pubdate);
+        mContent = (TextView) findViewById(R.id.item_content_content);
+        mBackButton = (ImageButton) findViewById(R.id.item_content_back_button);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
+        mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
 
-        //Setting views' content
-        title.setText(intent.getStringExtra(Item.TITLE));
-        subtitle.setText(intent.getStringExtra(Item.SUBTITLE));
-        pubdate.setText(intent.getStringExtra(Item.PUBDATE));
-        content.setText(intent.getStringExtra(Item.DESCRIPTION));
+        //Setting views' mContent
+        mTitle.setText(intent.getStringExtra(Item.TITLE));
+        mSubtitle.setText(intent.getStringExtra(Item.SUBTITLE));
+        mPubdate.setText(intent.getStringExtra(Item.PUBDATE));
+        mContent.setText(intent.getStringExtra(Item.DESCRIPTION));
 
-        //Setting thumbnail
+        //Setting mThumbnail
         String thumbnailUrl = intent.getStringExtra(Item.THUMBNAIL);
         if ( thumbnailUrl != null) {
-            imageLoader.displayImage(thumbnailUrl, thumbnail);
+            imageLoader.displayImage(thumbnailUrl, mThumbnail);
         }
     }
 }

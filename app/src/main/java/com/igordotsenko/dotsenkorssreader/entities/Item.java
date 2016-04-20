@@ -25,31 +25,38 @@ public class Item implements Comparable<Item> {
     public static final String THUMBNAIL = "item_thumbnail_url";
     public static final String SUBTITLE = "item_subtitle";
 
-	private long id;
-    private long channel;
+	private long mId;
+    private long mChannel;
 
     @XStreamAlias("title")
-	private String title;
+	private String mTitle;
 
     @XStreamAlias("link")
-    private String link;
+    private String mLink;
 
     @XStreamAlias("description")
-    private String description;
+    private String mDescription;
 
     @XStreamAlias("pubDate")
-    private String pubdate;
+    private String mPubDate;
 
-    private long pubdateLong;
-    private String thumbNailURL;
+    private long mPubDateLong;
+    private String mThumbnailUrl;
 
-    public Item(String title, String link, String description, String pubdate, long pubdateLong, String thumbNailURL) {
-        this.title = title;
-        this.link = link;
-        this.description = description;
-        this.pubdate = pubdate;
-        this.pubdateLong = pubdateLong;
-        this.thumbNailURL = thumbNailURL;
+    public Item(
+            String title,
+            String link,
+            String description,
+            String pubdate,
+            long pubdateLong,
+            String thumbnailUrl) {
+
+        this.mTitle = title;
+        this.mLink = link;
+        this.mDescription = description;
+        this.mPubDate = pubdate;
+        this.mPubDateLong = pubdateLong;
+        this.mThumbnailUrl = thumbnailUrl;
     }
 
     public void finishInitialization() {
@@ -58,54 +65,54 @@ public class Item implements Comparable<Item> {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        //Parsing html parts for image link and item decritpion
+        //Parsing html parts for image mLink and item decritpion
         parseDescription();
     }
 
-    public long getID() {
-        return id;
+    public long getId() {
+        return mId;
     }
 
-    public void setID(long id) { this.id = id; }
+    public void setId(long id) { this.mId = id; }
 
     public long getChannel() {
-        return channel;
+        return mChannel;
     }
 
     public void setChannel(long channel) {
-        this.channel = channel;
+        this.mChannel = channel;
     }
 
     public String getTitle() {
-    	return title;
+    	return mTitle;
     }
 
     public String getLink() {
-    	return link;
+    	return mLink;
     }
 
     public String getContent() {
-    	return description;
+    	return mDescription;
     }
 
-    public String getPubdate(){
-    	return pubdate;
+    public String getPubDate(){
+    	return mPubDate;
     }
 
-    public long getPubdateLong() {
-    	return pubdateLong;
+    public long getPubDateLong() {
+    	return mPubDateLong;
     }
 
-    public String getThumbNailURL() {
-    	return thumbNailURL;
+    public String getThumbNailUrl() {
+    	return mThumbnailUrl;
     }
 
     @Override
     public int compareTo(Item another) {
-        if ( pubdateLong < another.pubdateLong ) {
+        if ( mPubDateLong < another.mPubDateLong ) {
             return 1;
         }
-        if ( pubdateLong > another.pubdateLong ) {
+        if ( mPubDateLong > another.mPubDateLong ) {
             return -1;
         }
         return 0;
@@ -119,39 +126,43 @@ public class Item implements Comparable<Item> {
 
         Item another = (Item) obj;
 
-        return id == another.id || ( channel == another.channel &&  link.equals(another.link));
+        return mId == another.mId || ( mChannel == another.mChannel &&  mLink.equals(another.mLink));
     }
 
     @Override
     public String toString() {
         return "Item{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", link='" + link + '\'' +
-                ", description='" + description + '\'' +
-                ", pubdate='" + pubdate + '\'' +
-                ", pubdateLong=" + pubdateLong +
-                ", thumbNailURL='" + thumbNailURL + '\'' +
+                "id=" + mId +
+                ", title='" + mTitle + '\'' +
+                ", link='" + mLink + '\'' +
+                ", description='" + mDescription + '\'' +
+                ", pubdate='" + mPubDate + '\'' +
+                ", pubdateLong=" + mPubDateLong +
+                ", thumbNailURL='" + mThumbnailUrl + '\'' +
                 '}';
     }
 
     private void pubdateToLong() throws ParseException {
-        if ( pubdate != null ) {
-            DateFormat forLongFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
-            DateFormat forStringFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy hh:mm a", Locale.ENGLISH);
-            pubdateLong = forLongFormat.parse(pubdate).getTime();
-            pubdate = forStringFormat.format(new Date(pubdateLong));
+        if ( mPubDate != null ) {
+            DateFormat forLongFormat =
+                    new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+
+            DateFormat forStringFormat =
+                    new SimpleDateFormat("EEEE, MMMM d, yyyy hh:mm a", Locale.ENGLISH);
+
+            mPubDateLong = forLongFormat.parse(mPubDate).getTime();
+            mPubDate = forStringFormat.format(new Date(mPubDateLong));
         }
     }
 
     private void parseDescription() {
-        if ( description != null ) {
-            Document doc = Jsoup.parse(description);
+        if ( mDescription != null ) {
+            Document doc = Jsoup.parse(mDescription);
             Element link = doc.select("img").first();
             if ( link != null) {
-                thumbNailURL = link.attr("src");
+                mThumbnailUrl = link.attr("src");
             }
-            description = doc.body().text();
+            mDescription = doc.body().text();
         }
     }
 }

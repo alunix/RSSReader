@@ -15,16 +15,20 @@ import com.igordotsenko.dotsenkorssreader.R;
 import com.igordotsenko.dotsenkorssreader.ReaderContentProvider;
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
 
-public class ChannelListRVAdapter extends RecyclerViewCursorAdapter<ChannelListRVAdapter.ChannelViewHolder>{
-    private Context context;
+public class ChannelListRVAdapter
+        extends RecyclerViewCursorAdapter<ChannelListRVAdapter.ChannelViewHolder>{
+
+    private Context mContext;
 
     public ChannelListRVAdapter(Context context) {
-        this.context = context;
+        this.mContext = context;
     }
 
     @Override
     public ChannelViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cardview_channel,viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.cardview_channel,viewGroup, false);
+
         return new ChannelViewHolder(v);
     }
 
@@ -54,7 +58,8 @@ public class ChannelListRVAdapter extends RecyclerViewCursorAdapter<ChannelListR
         }
 
         public void bindData(final Cursor cursor) {
-            channelTitle.setText(cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.CHANNEL_TITLE)));
+            channelTitle.setText(cursor.getString(
+                    cursor.getColumnIndex(ReaderContentProvider.ContractClass.CHANNEL_TITLE)));
         }
     }
 
@@ -64,17 +69,20 @@ public class ChannelListRVAdapter extends RecyclerViewCursorAdapter<ChannelListR
         private String title;
 
         public  ChannelOnClickListener(Cursor cursor) {
-            this.id = cursor.getLong(cursor.getColumnIndex(ReaderContentProvider.ContractClass.CHANNEL_ID));
-            this.title = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.CHANNEL_TITLE));
+            this.id = cursor.getLong(cursor.getColumnIndex(
+                    ReaderContentProvider.ContractClass.CHANNEL_ID));
+
+            this.title = cursor.getString(cursor.getColumnIndex(
+                    ReaderContentProvider.ContractClass.CHANNEL_TITLE));
         }
 
         @Override
         public void onClick(View v) {
             //Start ItemListActivity
-            Intent intent = new Intent(context, ItemListActivity.class);
+            Intent intent = new Intent(mContext, ItemListActivity.class);
             intent.putExtra(Channel.ID, id);
             intent.putExtra(Channel.TITLE, title);
-            context.startActivity(intent);
+            mContext.startActivity(intent);
         }
     }
 }

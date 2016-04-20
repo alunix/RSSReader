@@ -4,11 +4,11 @@ import android.app.Application;
 import android.content.Context;
 
 public class ReaderApplication extends Application {
-    public static Context appContext;
+    public static Context sAppContext;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        appContext = getApplicationContext();
+        sAppContext = getApplicationContext();
     }
 }

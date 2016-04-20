@@ -69,7 +69,7 @@ public class Parser {
         }
 
         // Converting last channel's pubdate to long, finalization on item creation
-        rss.finisihInitialization();
+        rss.finishInitialization();
 
         return rss.getChannel();
     }

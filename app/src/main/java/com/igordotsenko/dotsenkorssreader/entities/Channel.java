@@ -19,91 +19,86 @@ public class Channel {
     public static final String LAST_BUILD_DATE = "channel_last_build_date";
     public static final String LAST_BUILD_DATE_LONG = "channel_last_build_date_long";
 
-	private long id;
+	private long mId;
 
     @XStreamAlias("title")
-	private String title;
+	private String mTitle;
 
     @XStreamAlias("link")
-    private String link;
+    private String mLink;
 
     @XStreamAlias("lastBuildDate")
-    private String lastBuildDate;
+    private String mLastBuildDate;
 
-    private long lastBuildDateLong;
+    private long mLastBuildDateLong;
 
     @XStreamImplicit
-    private List<Item> items;
+    private List<Item> mItems;
 
     public Channel(String title, String link, String lastBuildDate) {
-    	this.title = title;
-        this.link = link;
-        this.lastBuildDate = lastBuildDate;
+    	this.mTitle = title;
+        this.mLink = link;
+        this.mLastBuildDate = lastBuildDate;
         lastBuildDateToLong();
-        this.items = new ArrayList<Item>();
-    }
-
-    public Channel(int id, String title) {
-        this.id = id;
-        this.title = title;
+        this.mItems = new ArrayList<Item>();
     }
 
     public void finishItemsInitializtion() {
-        for ( Item item : items ) {
+        for ( Item item : mItems) {
             //Converting items' pubdate to long, parsing items' description
             item.finishInitialization();
             lastBuildDateToLong();
         }
     }
 
-    public long getID() {
-    	return id;
+    public long getId() {
+    	return mId;
     }
 
     public String getTitle() {
-    	return title;
+    	return mTitle;
     }
 
     public String getLink() {
-    	return link;
+    	return mLink;
     }
 
     public String getLastBuildDate() {
-    	return lastBuildDate;
+    	return mLastBuildDate;
     }
 
     public long getLastBuildDateLong() {
-    	return lastBuildDateLong;
+    	return mLastBuildDateLong;
     }
 
     public List<Item> getItems() {
-        return items;
+        return mItems;
     }
 
     public void setId(long id) {
-        this.id = id;
+        this.mId = id;
     }
 
     public void setLink(String link) {
-        this.link = link;
+        this.mLink = link;
     }
 
     @Override
     public String toString() {
         return "Channel{" +
-                "ID=" + id +
-                ", title='" + title + '\'' +
-                ", link='" + link + '\'' +
-                ", lastBuildDate='" + lastBuildDate + '\'' +
-                ", lastBuildDateLong=" + lastBuildDateLong +
+                "ID=" + mId +
+                ", title='" + mTitle + '\'' +
+                ", link='" + mLink + '\'' +
+                ", lastBuildDate='" + mLastBuildDate + '\'' +
+                ", lastBuildDateLong=" + mLastBuildDateLong +
                 '}';
     }
 
     private void lastBuildDateToLong() {
-        if ( lastBuildDate != null ) {
+        if ( mLastBuildDate != null ) {
             DateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
             try {
-                lastBuildDateLong = format.parse(lastBuildDate).getTime();
+                mLastBuildDateLong = format.parse(mLastBuildDate).getTime();
             } catch (ParseException e) {
                 e.printStackTrace();
             }

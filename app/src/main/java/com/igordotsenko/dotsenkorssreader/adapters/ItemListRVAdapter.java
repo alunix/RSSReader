@@ -20,23 +20,29 @@ import com.ocpsoft.pretty.time.PrettyTime;
 
 import java.util.Date;
 
-
 public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapter.ItemViewHolder> {
-    private Context context;
-    private ImageLoader imageLoader;
-    private DisplayImageOptions displayImageOptions;
-    private String parentChannelTitle;
+    private Context mContext;
+    private ImageLoader mImageLoader;
+    private DisplayImageOptions mDisplayImageOptions;
+    private String mParentChannelTitle;
 
     public ItemListRVAdapter(Context context, String channelTitle) {
-        this.context = context;
-        this.imageLoader = ImageLoader.getInstance();
-        this.displayImageOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
-        this.parentChannelTitle = channelTitle;
+        this.mContext = context;
+        this.mImageLoader = ImageLoader.getInstance();
+        this.mDisplayImageOptions = new DisplayImageOptions
+                .Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+
+        this.mParentChannelTitle = channelTitle;
     }
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.cardview_item, parent, false);
+
         return new ItemViewHolder(view);
     }
 
@@ -71,18 +77,22 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
         }
 
         public void bindData(final Cursor cursor) {
-            final String thumbnailUrl = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.ITEM_THUMBNAIL));
+            final String thumbnailUrl = cursor.getString(cursor.getColumnIndex(
+                    ReaderContentProvider.ContractClass.ITEM_THUMBNAIL));
 
             if (thumbnailUrl != null) {
-                imageLoader.displayImage(thumbnailUrl, this.itemThumbnail, displayImageOptions);
+                mImageLoader.displayImage(thumbnailUrl, this.itemThumbnail, mDisplayImageOptions);
             }
 
             //Format pubdate to readable
             PrettyTime dateFormatter = new PrettyTime();
-            Date pubdate = new Date(cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.ITEM_PUBDATE)));
+            Date pubdate = new Date(cursor.getString(cursor.getColumnIndex(
+                    ReaderContentProvider.ContractClass.ITEM_PUBDATE)));
 
             //Content setting
-            this.itemTitle.setText(cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.ITEM_TITLE)));
+            this.itemTitle.setText(cursor.getString(cursor.getColumnIndex(
+                    ReaderContentProvider.ContractClass.ITEM_TITLE)));
+
             this.itemPubdate.setText(dateFormatter.format(pubdate));
         }
     }
@@ -94,22 +104,29 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
         private String description;
 
         public  ItemOnClickListener(Cursor cursor) {
-            this.thumbnailURL = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.ITEM_THUMBNAIL));
-            this.subtitle = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.ITEM_TITLE));
-            this.pubdate = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.ITEM_PUBDATE));
-            this.description = cursor.getString(cursor.getColumnIndex(ReaderContentProvider.ContractClass.ITEM_DESCRIPTION));
+            this.thumbnailURL = cursor.getString(cursor.getColumnIndex(
+                    ReaderContentProvider.ContractClass.ITEM_THUMBNAIL));
+
+            this.subtitle = cursor.getString(cursor.getColumnIndex(
+                    ReaderContentProvider.ContractClass.ITEM_TITLE));
+
+            this.pubdate = cursor.getString(cursor.getColumnIndex(
+                    ReaderContentProvider.ContractClass.ITEM_PUBDATE));
+
+            this.description = cursor.getString(cursor.getColumnIndex(
+                    ReaderContentProvider.ContractClass.ITEM_DESCRIPTION));
         }
 
         @Override
         public void onClick(View v) {
             //Starting ItemContentActivity
-            Intent intent = new Intent(context, ItemContentActivity.class);
-            intent.putExtra(Item.TITLE, parentChannelTitle);
+            Intent intent = new Intent(mContext, ItemContentActivity.class);
+            intent.putExtra(Item.TITLE, mParentChannelTitle);
             intent.putExtra(Item.THUMBNAIL, thumbnailURL);
             intent.putExtra(Item.SUBTITLE, subtitle);
             intent.putExtra(Item.PUBDATE, pubdate);
             intent.putExtra(Item.DESCRIPTION, description);
-            context.startActivity(intent);
+            mContext.startActivity(intent);
         }
     }
 }

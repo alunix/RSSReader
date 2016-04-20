@@ -31,12 +31,12 @@ public class AddChannelFragment extends DialogFragment  {
     private final String FEED_EXIST_MESSAGE = "Feed has been added already";
     private final String INTERNET_UNAVAILABLE_MESSAGE = "Internet connection is not available";
 
-    private MainActivity activity;
+    private MainActivity mActivity;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity = (MainActivity) activity;
+        this.mActivity = (MainActivity) activity;
     }
 
     @Nullable
@@ -44,13 +44,15 @@ public class AddChannelFragment extends DialogFragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_add_channel, null);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        final TextView addChannelTextView = (TextView) layout.findViewById(R.id.add_channel_url_edit_view);
+        final TextView addChannelTextView =
+                (TextView) layout.findViewById(R.id.add_channel_url_edit_view);
 
         //Implementing addChannel TextView
         addChannelTextView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ClipboardManager cm = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipboardManager cm =
+                        (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
                 return false;
             }
         });
@@ -74,17 +76,21 @@ public class AddChannelFragment extends DialogFragment  {
 
                 //Check if feed has been already added
                 if ( channelIsAlreadyAdded(url) ) {
-                    Toast.makeText(activity, FEED_EXIST_MESSAGE, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity, FEED_EXIST_MESSAGE, Toast.LENGTH_SHORT).show();
                     addChannelTextView.setText("");
                     dismiss();
                     return;
                 }
 
                 //Check if internet connection is active
-                ConnectivityManager connectivityManager
-                        = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+                ConnectivityManager connectivityManager =
+                        (ConnectivityManager) mActivity
+                                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
                 if ( connectivityManager.getActiveNetworkInfo() == null ) {
-                    Toast.makeText(activity, INTERNET_UNAVAILABLE_MESSAGE, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            mActivity, INTERNET_UNAVAILABLE_MESSAGE, Toast.LENGTH_SHORT).show();
+
                     return;
                 }
 
@@ -114,7 +120,7 @@ public class AddChannelFragment extends DialogFragment  {
         private ProgressDialog progressDialog;
 
         public DownloadNewChannelTask() {
-            progressDialog = new ProgressDialog(activity);
+            progressDialog = new ProgressDialog(mActivity);
         }
 
         @Override
@@ -147,7 +153,7 @@ public class AddChannelFragment extends DialogFragment  {
 
                 //Saving channel (returns the same channel with id set) and item in db.
                 newChannel = insertIntoChannel(newChannel);
-                insertIntoItem(newChannel.getItems(), newChannel.getID());
+                insertIntoItem(newChannel.getItems(), newChannel.getId());
 
                 //Update recyclerview
                 return SUCCESS_MESSAGE;
@@ -161,8 +167,7 @@ public class AddChannelFragment extends DialogFragment  {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             progressDialog.dismiss();
-//            activity.updateChannelList();
-            Toast.makeText(activity, result, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, result, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -178,7 +183,8 @@ public class AddChannelFragment extends DialogFragment  {
         cv.put(Channel.LAST_BUILD_DATE, channel.getLastBuildDate());
         cv.put(Channel.LAST_BUILD_DATE_LONG, channel.getLastBuildDateLong());
 
-        activity.getContentResolver().insert(ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI, cv);
+        mActivity.getContentResolver().insert(
+                ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI, cv);
 
         return channel;
     }
@@ -187,10 +193,13 @@ public class AddChannelFragment extends DialogFragment  {
         String selection = Channel.LINK + " = ?";
         String[] selectionArgs = { url };
 
-        Cursor cursor = activity.getContentResolver().query(ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI, null, selection, selectionArgs, null);
+        Cursor cursor = mActivity.getContentResolver().query(
+                ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI,
+                null, selection, selectionArgs, null);
 
         // If records exists - cursor has more than 0 rows
         boolean recordExists = cursor.getCount() > 0;
+
         cursor.close();
 
         return recordExists;
@@ -200,7 +209,9 @@ public class AddChannelFragment extends DialogFragment  {
         String selection = Channel.TITLE + " = ?";
         String[] selectionArgs = { channel.getTitle() };
 
-        Cursor cursor = activity.getContentResolver().query(ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI, null, selection, selectionArgs, null);
+        Cursor cursor = mActivity.getContentResolver().query(
+                ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI,
+                null, selection, selectionArgs, null);
 
         // If records exists - cursor has more than 0 rows
         boolean recordExists = cursor.getCount() > 0;
@@ -213,7 +224,7 @@ public class AddChannelFragment extends DialogFragment  {
     private long getLastChannelId() {
         String[] projection = { ReaderContentProvider.ContractClass.CHANNEL_ID };
         String order = ReaderContentProvider.ContractClass.CHANNEL_ID + " DESC";
-        Cursor cursor = activity.getContentResolver().query(
+        Cursor cursor = mActivity.getContentResolver().query(
                 ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI,
                 projection, null, null, order);
 
@@ -237,12 +248,13 @@ public class AddChannelFragment extends DialogFragment  {
             cv.put(Item.LINK, items.get(i).getLink());
             cv.put(Item.TITLE, items.get(i).getTitle());
             cv.put(Item.DESCRIPTION, items.get(i).getContent());
-            cv.put(Item.PUBDATE, items.get(i).getPubdate());
-            cv.put(Item.PUBDATE_LONG, items.get(i).getPubdateLong());
+            cv.put(Item.PUBDATE, items.get(i).getPubDate());
+            cv.put(Item.PUBDATE_LONG, items.get(i).getPubDateLong());
 
             values[i] = cv;
         }
 
-        activity.getContentResolver().bulkInsert(ReaderContentProvider.ContractClass.ITEM_CONTENT_URI, values);
+        mActivity.getContentResolver().bulkInsert(
+                ReaderContentProvider.ContractClass.ITEM_CONTENT_URI, values);
     }
 }

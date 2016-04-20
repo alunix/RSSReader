@@ -20,51 +20,55 @@ import com.igordotsenko.dotsenkorssreader.adapters.ItemListRVAdapter;
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
 import com.igordotsenko.dotsenkorssreader.entities.Item;
 
+public class ItemListActivity extends AppCompatActivity
+        implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
 
-public class ItemListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
     private static final int LOADER_ITEM_LIST = 1;
     private static final int LOADER_ITEM_LIST_REFRESH = 2;
     private static final String QUERY_TEXT = "query text";
     public static final String ITEM_LIST_TAG = "item_list_tag";
 
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView recyclerView;
-    private SearchView searchView;
-    private ImageButton backButton;
-    private TextView welcomeMessage;
-    private ItemListRVAdapter rvAdapter;
-    private long currentChannelId;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private RecyclerView mRecyclerView;
+    private SearchView mSearchView;
+    private ImageButton mBackButton;
+    private TextView mWelcomeMessage;
+    private ItemListRVAdapter mRvAdapter;
+    private long mCurrentChannelId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        currentChannelId = getIntent().getLongExtra(Channel.ID, -1);
+        mCurrentChannelId = getIntent().getLongExtra(Channel.ID, -1);
 
         //SwipeRefreshLayout initialization
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.item_list_swiperefresh_layout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.item_list_swiperefresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                ContentResolver.requestSync(MainActivity.account, ReaderContentProvider.ContractClass.AUTHORITY, Bundle.EMPTY);
-                swipeRefreshLayout.setRefreshing(false);
+                ContentResolver.requestSync(
+                        MainActivity.sAccount,
+                        ReaderContentProvider.ContractClass.AUTHORITY,
+                        Bundle.EMPTY);
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
 
         //SearchView initialization
-        searchView = (SearchView) findViewById(R.id.item_list_search_view);
-        searchView.setOnQueryTextListener(this);
-        searchView.setIconifiedByDefault(false);
+        mSearchView = (SearchView) findViewById(R.id.item_list_search_view);
+        mSearchView.setOnQueryTextListener(this);
+        mSearchView.setIconifiedByDefault(false);
 
         //RecyclerView initialization
-        recyclerView = (RecyclerView) findViewById(R.id.item_list_recyclerview);
+        mRecyclerView = (RecyclerView) findViewById(R.id.item_list_recyclerview);
         LinearLayoutManager llm = new LinearLayoutManager(ItemListActivity.this);
-        recyclerView.setLayoutManager(llm);
+        mRecyclerView.setLayoutManager(llm);
 
         //BackButton initialization
-        backButton = (ImageButton) findViewById(R.id.item_list_back_button);
-        backButton.setOnClickListener(new View.OnClickListener() {
+        mBackButton = (ImageButton) findViewById(R.id.item_list_back_button);
+        mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -72,12 +76,13 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
         });
 
         //Welcome Message textView initializtion
-        welcomeMessage = (TextView) findViewById(R.id.item_list_empty_view);
+        mWelcomeMessage = (TextView) findViewById(R.id.item_list_empty_view);
         handleWelcomeMessage();
 
-        //Setting adapter on recyclerView
-        rvAdapter = new ItemListRVAdapter(ItemListActivity.this, getIntent().getStringExtra(Channel.TITLE));
-        recyclerView.setAdapter(rvAdapter);
+        //Setting adapter on mRecyclerView
+        mRvAdapter = new ItemListRVAdapter(
+                ItemListActivity.this, getIntent().getStringExtra(Channel.TITLE));
+        mRecyclerView.setAdapter(mRvAdapter);
 
         //Start Loader
         this.getLoaderManager().initLoader(LOADER_ITEM_LIST, null, this).forceLoad();
@@ -86,8 +91,8 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
     @Override
     protected void onResume() {
         super.onResume();
-        searchView.clearFocus();
-        recyclerView.requestFocus();
+        mSearchView.clearFocus();
+        mRecyclerView.requestFocus();
     }
 
     @Override
@@ -106,18 +111,24 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String selection;
-        String[] selectionArgs = { "" + currentChannelId };
+        String[] selectionArgs = { "" + mCurrentChannelId};
         String order = ReaderContentProvider.ContractClass.ITEM_PUBDATE_LONG + " DESC";
 
         switch (id) {
             case LOADER_ITEM_LIST:
                 selection = ReaderContentProvider.ContractClass.ITEM_CHANNEL_ID + " = ?";
-                return new CursorLoader(this, ReaderContentProvider.ContractClass.ITEM_CONTENT_URI, null, selection, selectionArgs, order);
+
+                return new CursorLoader(
+                        this, ReaderContentProvider.ContractClass.ITEM_CONTENT_URI,
+                        null, selection, selectionArgs, order);
             case LOADER_ITEM_LIST_REFRESH:
                 selection = ReaderContentProvider.ContractClass.ITEM_CHANNEL_ID + " = ? AND "
                         + ReaderContentProvider.ContractClass.ITEM_TITLE
                         + " LIKE '%" + args.getString(QUERY_TEXT) + "%'";
-                return new CursorLoader(this, ReaderContentProvider.ContractClass.ITEM_CONTENT_URI, null, selection, selectionArgs, order);
+
+                return new CursorLoader(
+                        this, ReaderContentProvider.ContractClass.ITEM_CONTENT_URI,
+                        null, selection, selectionArgs, order);
         }
         return null;
     }
@@ -128,32 +139,34 @@ public class ItemListActivity extends AppCompatActivity implements SearchView.On
             if ( data.getCount() > 0 ) {
                 setRecyclerViewVisible();
             }
-            this.rvAdapter.swapCursor(data);
+            this.mRvAdapter.swapCursor(data);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         if ( loader.getId() == LOADER_ITEM_LIST || loader.getId() == LOADER_ITEM_LIST_REFRESH) {
-            this.rvAdapter.swapCursor(null);
+            this.mRvAdapter.swapCursor(null);
         }
     }
 
     private void setWelcomeMessageVisible() {
-        recyclerView.setVisibility(View.GONE);
-        welcomeMessage.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.GONE);
+        mWelcomeMessage.setVisibility(View.VISIBLE);
     }
 
     private void setRecyclerViewVisible() {
-        recyclerView.setVisibility(View.VISIBLE);
-        welcomeMessage.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mWelcomeMessage.setVisibility(View.GONE);
     }
 
     private void handleWelcomeMessage() {
         String selection = Item.CHANNEL_ID + " = ?";
-        String[] selectionArgs = { "" + currentChannelId };
+        String[] selectionArgs = { "" + mCurrentChannelId};
 
-        Cursor cursor = getContentResolver().query(ReaderContentProvider.ContractClass.ITEM_CONTENT_URI, null, selection, selectionArgs, null);
+        Cursor cursor = getContentResolver().query(
+                ReaderContentProvider.ContractClass.ITEM_CONTENT_URI,
+                null, selection, selectionArgs, null);
 
         if ( cursor.getCount() == 0 ) {
             setWelcomeMessageVisible();

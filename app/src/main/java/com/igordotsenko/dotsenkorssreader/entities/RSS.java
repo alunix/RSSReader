@@ -7,20 +7,20 @@ import java.io.IOException;
 @XStreamAlias("rss")
 public class RSS {
     @XStreamAlias("channel")
-    private Channel channel;
+    private Channel mChannel;
 
     public RSS() {}
 
     public RSS(Channel channel) {
-        this.channel = channel;
+        this.mChannel = channel;
     }
 
     public Channel getChannel() {
-        return channel;
+        return mChannel;
     }
 
-    public void finisihInitialization() throws IOException {
+    public void finishInitialization() throws IOException {
         // Converting last channel's pubdate to long, finalization on item creation
-        channel.finishItemsInitializtion();
+        mChannel.finishItemsInitializtion();
     }
 }

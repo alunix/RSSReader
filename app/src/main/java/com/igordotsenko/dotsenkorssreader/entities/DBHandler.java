@@ -12,7 +12,10 @@ public class DBHandler extends SQLiteOpenHelper {
     private Context context;
     private SQLiteDatabase databaseConnection;
 
-    public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) throws IOException {
+    public DBHandler(
+            Context context, String name, SQLiteDatabase.CursorFactory factory, int version)
+            throws IOException {
+
         super(context, name, factory, version);
 
         this.context = context;
@@ -40,7 +43,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 + Item.PUBDATE + " TEXT, "
                 + Item.PUBDATE_LONG + " INTEGER, "
                 + Item.THUMBNAIL + " TEXT, "
-                + "FOREIGN KEY("+ Item.CHANNEL_ID + ") REFERENCES " + Channel.TABLE + "(" + Channel.ID +"));";
+                + "FOREIGN KEY("+ Item.CHANNEL_ID + ") REFERENCES "
+                + Channel.TABLE + "(" + Channel.ID +"));";
 
         String inserIntoChannel = "INSERT INTO " + Channel.TABLE
                 + "(" + Channel.ID + ", " + Channel.TITLE + ", " + Channel.LINK + ") "
@@ -57,5 +61,4 @@ public class DBHandler extends SQLiteOpenHelper {
     public SQLiteDatabase getDatabaseConnection() throws IOException {
         return databaseConnection;
     }
-
 }

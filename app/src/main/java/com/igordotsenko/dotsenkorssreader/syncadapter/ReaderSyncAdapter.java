@@ -10,7 +10,6 @@ import android.content.SyncResult;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.igordotsenko.dotsenkorssreader.ItemListActivity;
@@ -24,32 +23,31 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
-    //TODO move to RawData class
-    private static final String AUTHORITY = "com.igordotsenko.dotsenkorssreader";
+    private static final String AUTHORITY = ReaderContentProvider.ContractClass.AUTHORITY;
     private static final Uri CHANNEL_CONTENT_URI = Uri.parse(
             "content://" + AUTHORITY + "/" + ReaderContentProvider.ContractClass.CHANNEL_TABLE);
 
     private static final Uri ITEM_CONTENT_URI = Uri.parse(
             "content://" + AUTHORITY + "/" + ReaderContentProvider.ContractClass.ITEM_TABLE);
 
-    private LocalBroadcastManager localBroadcastManager;
-    private Context context;
-    private ContentResolver contentResolver;
+    private Context mContext;
+    private ContentResolver mContentResolver;
 
     public ReaderSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
-        this.localBroadcastManager = LocalBroadcastManager.getInstance(context);
-        this.context = context;
-        this.contentResolver = context.getContentResolver();
+
+        this.mContext = context;
+        this.mContentResolver = context.getContentResolver();
     }
 
     @Override
-    public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+    public void onPerformSync(
+            Account account, Bundle extras, String authority,
+            ContentProviderClient provider, SyncResult syncResult) {
+
         Log.i(ItemListActivity.ITEM_LIST_TAG, "onPerformSync started");
         Parser parser = new Parser();
-        Channel updatedChannel;
         List<Integer> ids;
 
         // Retrieve ids of channels that should be updated
@@ -70,11 +68,14 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private List<Integer> getChannelIds() {
         String projection[] = { ReaderContentProvider.ContractClass.CHANNEL_ID };
-        Cursor cursor = context.getContentResolver().query(CHANNEL_CONTENT_URI, projection, null, null, null, null);
+        Cursor cursor = mContext.getContentResolver()
+                .query(CHANNEL_CONTENT_URI, projection, null, null, null, null);
+
         List<Integer> ids = new ArrayList<Integer>();
 
         if ( cursor.moveToFirst() ) {
-            int idColumnIndex = cursor.getColumnIndex(ReaderContentProvider.ContractClass.CHANNEL_ID);
+            int idColumnIndex = cursor
+                    .getColumnIndex(ReaderContentProvider.ContractClass.CHANNEL_ID);
 
             ids = new ArrayList<>();
 
@@ -104,15 +105,24 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
         String selection = Channel.ID + " = ?";
         String[] selectionArgs = { "" + channelId};
 
-        Cursor cursor = contentResolver.query(CHANNEL_CONTENT_URI, null, selection, selectionArgs, null);
+        Cursor cursor = mContentResolver.query(
+                CHANNEL_CONTENT_URI, null, selection, selectionArgs, null);
 
         cursor.moveToFirst();
 
-        int titleIndex = cursor.getColumnIndex(ReaderContentProvider.ContractClass.CHANNEL_TITLE);
-        int linkIndex = cursor.getColumnIndex(ReaderContentProvider.ContractClass.CHANNEL_LINK);
-        int lastBuilDateIndex = cursor.getColumnIndex(ReaderContentProvider.ContractClass.CHANNEL_LAST_BUILD_DATE);
+        int titleIndex = cursor.getColumnIndex(
+                ReaderContentProvider.ContractClass.CHANNEL_TITLE);
 
-        Channel selectedChanndel = new Channel(cursor.getString(titleIndex), cursor.getString(linkIndex), cursor.getString(lastBuilDateIndex));
+        int linkIndex = cursor.getColumnIndex(
+                ReaderContentProvider.ContractClass.CHANNEL_LINK);
+
+        int lastBuilDateIndex = cursor.getColumnIndex(
+                ReaderContentProvider.ContractClass.CHANNEL_LAST_BUILD_DATE);
+
+        Channel selectedChanndel = new Channel(
+                cursor.getString(titleIndex),
+                cursor.getString(linkIndex),
+                cursor.getString(lastBuilDateIndex));
 
         cursor.close();
 
@@ -123,11 +133,25 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
         ContentValues contentValuesDateString = new ContentValues();
         ContentValues contentValuesDateLong = new ContentValues();
 
-        contentValuesDateString.put(ReaderContentProvider.ContractClass.CHANNEL_LAST_BUILD_DATE, updatedChannel.getLastBuildDate());
-        contentValuesDateLong.put(ReaderContentProvider.ContractClass.CHANNEL_LAST_BUILD_DATE_LONG, updatedChannel.getLastBuildDateLong());
+        contentValuesDateString.put(
+                ReaderContentProvider.ContractClass.CHANNEL_LAST_BUILD_DATE,
+                updatedChannel.getLastBuildDate());
 
-        contentResolver.update(CHANNEL_CONTENT_URI, contentValuesDateString, ReaderContentProvider.ContractClass.CHANNEL_ID + " = " + channelId, null);
-        contentResolver.update(CHANNEL_CONTENT_URI, contentValuesDateLong, ReaderContentProvider.ContractClass.CHANNEL_ID + " = " + channelId, null);
+        contentValuesDateLong.put(
+                ReaderContentProvider.ContractClass.CHANNEL_LAST_BUILD_DATE_LONG,
+                updatedChannel.getLastBuildDateLong());
+
+        mContentResolver.update(
+                CHANNEL_CONTENT_URI,
+                contentValuesDateString,
+                ReaderContentProvider.ContractClass.CHANNEL_ID + " = " + channelId,
+                null);
+
+        mContentResolver.update(
+                CHANNEL_CONTENT_URI,
+                contentValuesDateLong,
+                ReaderContentProvider.ContractClass.CHANNEL_ID + " = " + channelId,
+                null);
     }
 
     private void handleNewItems(Channel updatedChannel, long channelId) {
@@ -148,10 +172,13 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
         String order = ReaderContentProvider.ContractClass.ITEM_PUBDATE_LONG + " DESC";
         long lastItemPubdateLong = 0;
 
-        Cursor cursor = context.getContentResolver().query(ITEM_CONTENT_URI, projection, null, null, order);
+        Cursor cursor = mContext.getContentResolver().query(
+                ITEM_CONTENT_URI, projection, null, null, order);
 
         if ( cursor.moveToFirst() ) {
-            int pubdateIndex = cursor.getColumnIndex(ReaderContentProvider.ContractClass.ITEM_PUBDATE_LONG);
+            int pubdateIndex = cursor.getColumnIndex(
+                    ReaderContentProvider.ContractClass.ITEM_PUBDATE_LONG);
+
             lastItemPubdateLong = cursor.getLong(pubdateIndex);
         }
 
@@ -165,7 +192,8 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
         String order = ReaderContentProvider.ContractClass.ITEM_ID + " DESC";
         long lastItemPubdateLong = 0;
 
-        Cursor cursor = context.getContentResolver().query(ITEM_CONTENT_URI, projection, null, null, order);
+        Cursor cursor = mContext.getContentResolver().query(
+                ITEM_CONTENT_URI, projection, null, null, order);
 
         if ( cursor.moveToFirst() ) {
             int pubdateIndex = cursor.getColumnIndex(ReaderContentProvider.ContractClass.ITEM_ID);
@@ -177,12 +205,16 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
         return lastItemPubdateLong;
     }
 
-    private List<Item> filterItemList(List<Item> newItemList, long lastPubdateLong, long lastItemId) {
+    private List<Item> filterItemList(
+            List<Item> newItemList,
+            long lastPubdateLong,
+            long lastItemId) {
+
         List<Item> filteredNewItemList = new ArrayList<>();
 
         for ( Item item : newItemList ) {
-            if ( item.getPubdateLong() > lastPubdateLong ) {
-                item.setID(++lastItemId);
+            if ( item.getPubDateLong() > lastPubdateLong ) {
+                item.setId(++lastItemId);
                 filteredNewItemList.add(item);
             }
         }
@@ -195,18 +227,33 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
         Collections.sort(newItemList);
 
         for ( Item item : newItemList ) {
-            contentValues.put(ReaderContentProvider.ContractClass.ITEM_ID, item.getID());
-            contentValues.put(ReaderContentProvider.ContractClass.ITEM_CHANNEL_ID, channelId);
-            contentValues.put(ReaderContentProvider.ContractClass.ITEM_TITLE, item.getTitle());
-            contentValues.put(ReaderContentProvider.ContractClass.ITEM_LINK, item.getLink());
-            contentValues.put(ReaderContentProvider.ContractClass.ITEM_DESCRIPTION, item.getContent());
-            contentValues.put(ReaderContentProvider.ContractClass.ITEM_PUBDATE, item.getPubdate());
-            contentValues.put(ReaderContentProvider.ContractClass.ITEM_PUBDATE_LONG, item.getPubdateLong());
-            if ( item.getThumbNailURL() != null ) {
-                contentValues.put(ReaderContentProvider.ContractClass.ITEM_THUMBNAIL, item.getThumbNailURL());
+            contentValues.put(
+                    ReaderContentProvider.ContractClass.ITEM_ID, item.getId());
+
+            contentValues.put(
+                    ReaderContentProvider.ContractClass.ITEM_CHANNEL_ID, channelId);
+
+            contentValues.put(
+                    ReaderContentProvider.ContractClass.ITEM_TITLE, item.getTitle());
+
+            contentValues.put(
+                    ReaderContentProvider.ContractClass.ITEM_LINK, item.getLink());
+
+            contentValues.put(
+                    ReaderContentProvider.ContractClass.ITEM_DESCRIPTION, item.getContent());
+
+            contentValues.put(
+                    ReaderContentProvider.ContractClass.ITEM_PUBDATE, item.getPubDate());
+
+            contentValues.put(
+                    ReaderContentProvider.ContractClass.ITEM_PUBDATE_LONG, item.getPubDateLong());
+
+            if ( item.getThumbNailUrl() != null ) {
+                contentValues.put(
+                        ReaderContentProvider.ContractClass.ITEM_THUMBNAIL, item.getThumbNailUrl());
             }
 
-            contentResolver.insert(ITEM_CONTENT_URI, contentValues);
+            mContentResolver.insert(ITEM_CONTENT_URI, contentValues);
 
             contentValues.clear();
         }

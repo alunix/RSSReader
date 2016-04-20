@@ -3,29 +3,31 @@ package com.igordotsenko.dotsenkorssreader.adapters;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 
-public abstract class RecyclerViewCursorAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
-    private Cursor cursor;
+public abstract class RecyclerViewCursorAdapter<VH extends RecyclerView.ViewHolder>
+        extends RecyclerView.Adapter<VH> {
+
+    private Cursor mCursor;
 
     public void swapCursor(final Cursor cursor) {
-        this.cursor = cursor;
+        this.mCursor = cursor;
         this.notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return this.cursor != null ? this.cursor.getCount() : 0;
+        return this.mCursor != null ? this.mCursor.getCount() : 0;
     }
 
     public Cursor getItem(final int position) {
-        if (this.cursor != null && !this.cursor.isClosed()) {
-            this.cursor.moveToPosition(position);
+        if (this.mCursor != null && !this.mCursor.isClosed()) {
+            this.mCursor.moveToPosition(position);
         }
 
-        return this.cursor;
+        return this.mCursor;
     }
 
-    public Cursor getCursor() {
-        return this.cursor;
+    public Cursor getmCursor() {
+        return this.mCursor;
     }
 
     @Override

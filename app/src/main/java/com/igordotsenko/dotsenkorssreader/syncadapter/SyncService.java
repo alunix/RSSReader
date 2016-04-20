@@ -6,20 +6,19 @@ import android.os.IBinder;
 
 import com.igordotsenko.dotsenkorssreader.ReaderApplication;
 
-
 public class SyncService extends Service {
-    private static final Object syncAdapterLock = new Object();
-    private static ReaderSyncAdapter syncAdapter;
+    private static final Object sSyncAdapterLock = new Object();
+    private static ReaderSyncAdapter sSyncAdapter;
 
     public SyncService() {
-        synchronized (syncAdapterLock) {
-            if ( syncAdapter == null )
-                syncAdapter = new ReaderSyncAdapter(ReaderApplication.appContext, true);
+        synchronized (sSyncAdapterLock) {
+            if ( sSyncAdapter == null )
+                sSyncAdapter = new ReaderSyncAdapter(ReaderApplication.sAppContext, true);
         }
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        return syncAdapter.getSyncAdapterBinder();
+        return sSyncAdapter.getSyncAdapterBinder();
     }
 }

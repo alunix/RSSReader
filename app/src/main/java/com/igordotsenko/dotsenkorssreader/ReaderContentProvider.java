@@ -19,8 +19,8 @@ public class ReaderContentProvider extends ContentProvider {
     private static final int ITEM = 2;
     private static final UriMatcher uriMatcher= new UriMatcher(UriMatcher.NO_MATCH);
 
-    private DBHandler dbHandler;
-    private SQLiteDatabase databaseConnection;
+    private DBHandler mDbHandler;
+    private SQLiteDatabase mDatabaseConnection;
 
     static {
         uriMatcher.addURI(ContractClass.AUTHORITY, ContractClass.CHANNEL_TABLE, CHANNEL);
@@ -57,7 +57,7 @@ public class ReaderContentProvider extends ContentProvider {
         }
 
         establishDatabaseConnection();
-        rowID = databaseConnection.insert(tableName, null, values);
+        rowID = mDatabaseConnection.insert(tableName, null, values);
         resultUri = ContentUris.withAppendedId(contentUri, rowID);
         getContext().getContentResolver().notifyChange(uri, null);
         return resultUri;
@@ -66,7 +66,8 @@ public class ReaderContentProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         try {
-            dbHandler = new DBHandler(getContext(), MainActivity.DB_NAME, null, MainActivity.DB_VERSION);
+            mDbHandler = new DBHandler(
+                    getContext(), MainActivity.DB_NAME, null, MainActivity.DB_VERSION);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -75,7 +76,13 @@ public class ReaderContentProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    public Cursor query(
+            Uri uri,
+            String[] projection,
+            String selection,
+            String[] selectionArgs,
+            String sortOrder) {
+
         String tableName;
 
         switch ( uriMatcher.match(uri) ) {
@@ -90,8 +97,11 @@ public class ReaderContentProvider extends ContentProvider {
         }
 
         establishDatabaseConnection();
-        Cursor cursor = databaseConnection.query(tableName, projection, selection, selectionArgs, null, null, sortOrder);
-        cursor.setNotificationUri(getContext().getContentResolver(), ContractClass.ITEM_CONTENT_URI);
+        Cursor cursor = mDatabaseConnection.query(
+                tableName, projection, selection, selectionArgs, null, null, sortOrder);
+
+        cursor.setNotificationUri(
+                getContext().getContentResolver(), ContractClass.ITEM_CONTENT_URI);
 
         return cursor;
     }
@@ -113,16 +123,16 @@ public class ReaderContentProvider extends ContentProvider {
         }
 
         establishDatabaseConnection();
-        rowsUpdatedCount = databaseConnection.update(tableName, values, selection, selectionArgs);
+        rowsUpdatedCount = mDatabaseConnection.update(tableName, values, selection, selectionArgs);
         getContext().getContentResolver().notifyChange(uri, null);
 
         return rowsUpdatedCount;
     }
 
     private void establishDatabaseConnection() {
-        if ( databaseConnection == null ) {
+        if ( mDatabaseConnection == null ) {
             try {
-                databaseConnection = dbHandler.getDatabaseConnection();
+                mDatabaseConnection = mDbHandler.getDatabaseConnection();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new Error("Error during database connection establishing");
@@ -150,7 +160,9 @@ public class ReaderContentProvider extends ContentProvider {
         public static final String ITEM_PUBDATE_LONG = Item.PUBDATE_LONG;
         public static final String ITEM_THUMBNAIL = Item.THUMBNAIL;
 
-        public static final Uri CHANNEL_CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + CHANNEL_TABLE);
-        public static final Uri ITEM_CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + ITEM_TABLE);
+        public static final Uri CHANNEL_CONTENT_URI = Uri.parse(
+                "content://" + AUTHORITY + "/" + CHANNEL_TABLE);
+        public static final Uri ITEM_CONTENT_URI = Uri.parse(
+                "content://" + AUTHORITY + "/" + ITEM_TABLE);
     }
 }
