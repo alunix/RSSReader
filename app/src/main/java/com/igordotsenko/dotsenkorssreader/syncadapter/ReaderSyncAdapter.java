@@ -30,7 +30,7 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
             "content://" + AUTHORITY + "/" + ContractClass.Channel.TABLE);
 
     private static final Uri ITEM_CONTENT_URI = Uri.parse(
-            "content://" + AUTHORITY + "/" + ContractClass.ITEM_TABLE);
+            "content://" + AUTHORITY + "/" + ContractClass.Item.TABLE);
 
     private Context mContext;
     private ContentResolver mContentResolver;
@@ -67,6 +67,7 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
+    //TODO move these methods to DBHandler
     private List<Integer> getChannelIds() {
         String projection[] = { ContractClass.Channel.ID };
         Cursor cursor = mContext.getContentResolver()
@@ -164,8 +165,8 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private long getLastItemPubdateLong() {
-        String projection[] = { ContractClass.ITEM_PUBDATE_LONG };
-        String order = ContractClass.ITEM_PUBDATE_LONG + " DESC";
+        String projection[] = { ContractClass.Item.PUBDATE_LONG };
+        String order = ContractClass.Item.PUBDATE_LONG + " DESC";
         long lastItemPubdateLong = 0;
 
         Cursor cursor = mContext.getContentResolver().query(
@@ -173,7 +174,7 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
 
         if ( cursor.moveToFirst() ) {
             int pubdateIndex = cursor.getColumnIndex(
-                    ContractClass.ITEM_PUBDATE_LONG);
+                    ContractClass.Item.PUBDATE_LONG);
 
             lastItemPubdateLong = cursor.getLong(pubdateIndex);
         }
@@ -184,15 +185,15 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private long getLastItemId() {
-        String projection[] = { ContractClass.ITEM_ID };
-        String order = ContractClass.ITEM_ID + " DESC";
+        String projection[] = { ContractClass.Item.ID };
+        String order = ContractClass.Item.ID + " DESC";
         long lastItemPubdateLong = 0;
 
         Cursor cursor = mContext.getContentResolver().query(
                 ITEM_CONTENT_URI, projection, null, null, order);
 
         if ( cursor.moveToFirst() ) {
-            int pubdateIndex = cursor.getColumnIndex(ContractClass.ITEM_ID);
+            int pubdateIndex = cursor.getColumnIndex(ContractClass.Item.ID);
             lastItemPubdateLong = cursor.getLong(pubdateIndex);
         }
 
@@ -224,29 +225,29 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
 
         for ( Item item : newItemList ) {
             contentValues.put(
-                    ContractClass.ITEM_ID, item.getId());
+                    ContractClass.Item.ID, item.getId());
 
             contentValues.put(
-                    ContractClass.ITEM_CHANNEL_ID, channelId);
+                    ContractClass.Item.CHANNEL_ID, channelId);
 
             contentValues.put(
-                    ContractClass.ITEM_TITLE, item.getTitle());
+                    ContractClass.Item.TITLE, item.getTitle());
 
             contentValues.put(
-                    ContractClass.ITEM_LINK, item.getLink());
+                    ContractClass.Item.LINK, item.getLink());
 
             contentValues.put(
-                    ContractClass.ITEM_DESCRIPTION, item.getContent());
+                    ContractClass.Item.DESCRIPTION, item.getContent());
 
             contentValues.put(
-                    ContractClass.ITEM_PUBDATE, item.getPubDate());
+                    ContractClass.Item.PUBDATE, item.getPubDate());
 
             contentValues.put(
-                    ContractClass.ITEM_PUBDATE_LONG, item.getPubDateLong());
+                    ContractClass.Item.PUBDATE_LONG, item.getPubDateLong());
 
             if ( item.getThumbNailUrl() != null ) {
                 contentValues.put(
-                        ContractClass.ITEM_THUMBNAIL, item.getThumbNailUrl());
+                        ContractClass.Item.THUMBNAIL, item.getThumbNailUrl());
             }
 
             mContentResolver.insert(ITEM_CONTENT_URI, contentValues);

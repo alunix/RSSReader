@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 import com.igordotsenko.dotsenkorssreader.entities.Item;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -47,13 +48,13 @@ public class ItemContentActivity extends AppCompatActivity {
         });
 
         //Setting views' mContent
-        mTitle.setText(intent.getStringExtra(Item.TITLE));
-        mSubtitle.setText(intent.getStringExtra(Item.SUBTITLE));
-        mPubdate.setText(intent.getStringExtra(Item.PUBDATE));
-        mContent.setText(intent.getStringExtra(Item.DESCRIPTION));
+        mTitle.setText(intent.getStringExtra(ContractClass.Item.TITLE));
+        mSubtitle.setText(intent.getStringExtra(ContractClass.Item.SUBTITLE));
+        mPubdate.setText(intent.getStringExtra(ContractClass.Item.PUBDATE));
+        mContent.setText(intent.getStringExtra(ContractClass.Item.DESCRIPTION));
 
         //Setting mThumbnail
-        String thumbnailUrl = intent.getStringExtra(Item.THUMBNAIL);
+        String thumbnailUrl = intent.getStringExtra(ContractClass.Item.THUMBNAIL);
         if ( thumbnailUrl != null) {
             imageLoader.displayImage(thumbnailUrl, mThumbnail);
         }

@@ -14,17 +14,6 @@ import java.util.Locale;
 
 @XStreamAlias("item")
 public class Item implements Comparable<Item> {
-    public static final String TABLE = "item";
-    public static final String ID = "_ID";
-    public static final String CHANNEL_ID = "item_channel_id";
-    public static final String TITLE = "item_title";
-    public static final String LINK = "item_link";
-    public static final String DESCRIPTION = "item_description";
-    public static final String PUBDATE = "item_pubdate";
-    public static final String PUBDATE_LONG = "item_pubdate_long";
-    public static final String THUMBNAIL = "item_thumbnail_url";
-    public static final String SUBTITLE = "item_subtitle";
-
 	private long mId;
     private long mChannel;
 

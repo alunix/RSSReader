@@ -25,7 +25,7 @@ public class ReaderContentProvider extends ContentProvider {
 
     static {
         sUriMatcher.addURI(ContractClass.AUTHORITY, ContractClass.Channel.TABLE, CHANNEL);
-        sUriMatcher.addURI(ContractClass.AUTHORITY, ContractClass.ITEM_TABLE, ITEM);
+        sUriMatcher.addURI(ContractClass.AUTHORITY, ContractClass.Item.TABLE, ITEM);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ReaderContentProvider extends ContentProvider {
                 contentUri = ContractClass.CHANNEL_CONTENT_URI;
                 break;
             case ITEM:
-                tableName = ContractClass.ITEM_TABLE;
+                tableName = ContractClass.Item.TABLE;
                 contentUri = ContractClass.ITEM_CONTENT_URI;
                 break;
             default:
@@ -93,7 +93,7 @@ public class ReaderContentProvider extends ContentProvider {
                 notificationTarget = ContractClass.CHANNEL_CONTENT_URI;
                 break;
             case ITEM:
-                tableName = ContractClass.ITEM_TABLE;
+                tableName = ContractClass.Item.TABLE;
                 notificationTarget = ContractClass.ITEM_CONTENT_URI;
                 break;
             default:
@@ -120,7 +120,7 @@ public class ReaderContentProvider extends ContentProvider {
                 tableName = ContractClass.Channel.TABLE;
                 break;
             case ITEM:
-                tableName = ContractClass.ITEM_TABLE;
+                tableName = ContractClass.Item.TABLE;
                 break;
             default:
                 throw new IllegalArgumentException("Wrong URI: " + uri);
@@ -140,7 +140,7 @@ public class ReaderContentProvider extends ContentProvider {
 
         switch (sUriMatcher.match(uri)) {
             case ITEM: {
-                tableName = ContractClass.ITEM_TABLE;
+                tableName = ContractClass.Item.TABLE;
                 break;
             }
             default:
@@ -167,6 +167,12 @@ public class ReaderContentProvider extends ContentProvider {
     public static class ContractClass {
         public static final String AUTHORITY = "com.igordotsenko.dotsenkorssreader";
 
+        public static final Uri CHANNEL_CONTENT_URI = Uri.parse(
+                "content://" + AUTHORITY + "/" + Channel.TABLE);
+
+        public static final Uri ITEM_CONTENT_URI = Uri.parse(
+                "content://" + AUTHORITY + "/" + Item.TABLE);
+
         public static class Channel {
             public static String TABLE = "channel";
             public static final String ID = "_ID";
@@ -176,19 +182,18 @@ public class ReaderContentProvider extends ContentProvider {
             public static final String LAST_BUILD_DATE_LONG = "channel_last_build_date_long";
         }
 
-        public static final String ITEM_TABLE = Item.TABLE;
-        public static final String ITEM_ID = Item.ID;
-        public static final String ITEM_CHANNEL_ID = Item.CHANNEL_ID;
-        public static final String ITEM_TITLE = Item.TITLE;
-        public static final String ITEM_LINK = Item.LINK;
-        public static final String ITEM_DESCRIPTION = Item.DESCRIPTION;
-        public static final String ITEM_PUBDATE = Item.PUBDATE;
-        public static final String ITEM_PUBDATE_LONG = Item.PUBDATE_LONG;
-        public static final String ITEM_THUMBNAIL = Item.THUMBNAIL;
+        public static class Item {
+            public static final String TABLE = "item";
+            public static final String ID = "_ID";
+            public static final String CHANNEL_ID = "item_channel_id";
+            public static final String TITLE = "item_title";
+            public static final String LINK = "item_link";
+            public static final String DESCRIPTION = "item_description";
+            public static final String PUBDATE = "item_pubdate";
+            public static final String PUBDATE_LONG = "item_pubdate_long";
+            public static final String THUMBNAIL = "item_thumbnail_url";
+            public static final String SUBTITLE = "item_subtitle";
+        }
 
-        public static final Uri CHANNEL_CONTENT_URI = Uri.parse(
-                "content://" + AUTHORITY + "/" + Channel.TABLE);
-        public static final Uri ITEM_CONTENT_URI = Uri.parse(
-                "content://" + AUTHORITY + "/" + ITEM_TABLE);
     }
 }

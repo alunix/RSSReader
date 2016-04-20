@@ -54,7 +54,7 @@ public class ItemListActivity extends AppCompatActivity
                 bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
                 ContentResolver.requestSync(
                         MainActivity.sAccount,
-                        ReaderContentProvider.ContractClass.AUTHORITY,
+                        ContractClass.AUTHORITY,
                         Bundle.EMPTY);
                 mSwipeRefreshLayout.setRefreshing(false);
             }
@@ -116,22 +116,22 @@ public class ItemListActivity extends AppCompatActivity
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String selection;
         String[] selectionArgs = { "" + mCurrentChannelId};
-        String order = ReaderContentProvider.ContractClass.ITEM_PUBDATE_LONG + " DESC";
+        String order = ContractClass.Item.PUBDATE_LONG + " DESC";
 
         switch (id) {
             case LOADER_ITEM_LIST:
-                selection = ReaderContentProvider.ContractClass.ITEM_CHANNEL_ID + " = ?";
+                selection = ContractClass.Item.CHANNEL_ID + " = ?";
 
                 return new CursorLoader(
-                        this, ReaderContentProvider.ContractClass.ITEM_CONTENT_URI,
+                        this, ContractClass.ITEM_CONTENT_URI,
                         null, selection, selectionArgs, order);
             case LOADER_ITEM_LIST_REFRESH:
-                selection = ReaderContentProvider.ContractClass.ITEM_CHANNEL_ID + " = ? AND "
-                        + ReaderContentProvider.ContractClass.ITEM_TITLE
+                selection = ContractClass.Item.CHANNEL_ID + " = ? AND "
+                        + ContractClass.Item.TITLE
                         + " LIKE '%" + args.getString(QUERY_TEXT) + "%'";
 
                 return new CursorLoader(
-                        this, ReaderContentProvider.ContractClass.ITEM_CONTENT_URI,
+                        this, ContractClass.ITEM_CONTENT_URI,
                         null, selection, selectionArgs, order);
         }
         return null;
@@ -165,11 +165,11 @@ public class ItemListActivity extends AppCompatActivity
     }
 
     private void handleWelcomeMessage() {
-        String selection = Item.CHANNEL_ID + " = ?";
+        String selection = ContractClass.Item.CHANNEL_ID + " = ?";
         String[] selectionArgs = { "" + mCurrentChannelId};
 
         Cursor cursor = getContentResolver().query(
-                ReaderContentProvider.ContractClass.ITEM_CONTENT_URI,
+                ContractClass.ITEM_CONTENT_URI,
                 null, selection, selectionArgs, null);
 
         if ( cursor.getCount() == 0 ) {

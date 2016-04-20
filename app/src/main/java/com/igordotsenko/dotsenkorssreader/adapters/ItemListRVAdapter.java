@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 import com.igordotsenko.dotsenkorssreader.ItemContentActivity;
 import com.igordotsenko.dotsenkorssreader.R;
 import com.igordotsenko.dotsenkorssreader.ReaderContentProvider;
@@ -78,7 +79,7 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
 
         public void bindData(final Cursor cursor) {
             final String thumbnailUrl = cursor.getString(cursor.getColumnIndex(
-                    ReaderContentProvider.ContractClass.ITEM_THUMBNAIL));
+                    ContractClass.Item.THUMBNAIL));
 
             if (thumbnailUrl != null) {
                 mImageLoader.displayImage(thumbnailUrl, this.itemThumbnail, mDisplayImageOptions);
@@ -87,11 +88,11 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
             //Format pubdate to readable
             PrettyTime dateFormatter = new PrettyTime();
             Date pubdate = new Date(cursor.getString(cursor.getColumnIndex(
-                    ReaderContentProvider.ContractClass.ITEM_PUBDATE)));
+                    ContractClass.Item.PUBDATE)));
 
             //Content setting
             this.itemTitle.setText(cursor.getString(cursor.getColumnIndex(
-                    ReaderContentProvider.ContractClass.ITEM_TITLE)));
+                    ContractClass.Item.TITLE)));
 
             this.itemPubdate.setText(dateFormatter.format(pubdate));
         }
@@ -105,27 +106,27 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
 
         public  ItemOnClickListener(Cursor cursor) {
             this.thumbnailURL = cursor.getString(cursor.getColumnIndex(
-                    ReaderContentProvider.ContractClass.ITEM_THUMBNAIL));
+                    ContractClass.Item.THUMBNAIL));
 
             this.subtitle = cursor.getString(cursor.getColumnIndex(
-                    ReaderContentProvider.ContractClass.ITEM_TITLE));
+                    ContractClass.Item.TITLE));
 
             this.pubdate = cursor.getString(cursor.getColumnIndex(
-                    ReaderContentProvider.ContractClass.ITEM_PUBDATE));
+                    ContractClass.Item.PUBDATE));
 
             this.description = cursor.getString(cursor.getColumnIndex(
-                    ReaderContentProvider.ContractClass.ITEM_DESCRIPTION));
+                    ContractClass.Item.DESCRIPTION));
         }
 
         @Override
         public void onClick(View v) {
             //Starting ItemContentActivity
             Intent intent = new Intent(mContext, ItemContentActivity.class);
-            intent.putExtra(Item.TITLE, mParentChannelTitle);
-            intent.putExtra(Item.THUMBNAIL, thumbnailURL);
-            intent.putExtra(Item.SUBTITLE, subtitle);
-            intent.putExtra(Item.PUBDATE, pubdate);
-            intent.putExtra(Item.DESCRIPTION, description);
+            intent.putExtra(ContractClass.Item.TITLE, mParentChannelTitle);
+            intent.putExtra(ContractClass.Item.THUMBNAIL, thumbnailURL);
+            intent.putExtra(ContractClass.Item.SUBTITLE, subtitle);
+            intent.putExtra(ContractClass.Item.PUBDATE, pubdate);
+            intent.putExtra(ContractClass.Item.DESCRIPTION, description);
             mContext.startActivity(intent);
         }
     }

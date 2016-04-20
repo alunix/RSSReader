@@ -34,16 +34,16 @@ public class DBHandler extends SQLiteOpenHelper {
                 + ContractClass.Channel.LAST_BUILD_DATE_LONG + " INTEGER, "
                 + "unique(channel_link));";
 
-        String createItemTable = "CREATE TABLE " + Item.TABLE + "("
-                + Item.ID + " INTEGER PRIMARY KEY, "
-                + Item.CHANNEL_ID + " INTEGER NOT NULL, "
-                + Item.TITLE + " TEXT NOT NULL, "
-                + Item.LINK + " TEXT NOT NULL, "
-                + Item.DESCRIPTION + " TEXT NOT NULL, "
-                + Item.PUBDATE + " TEXT, "
-                + Item.PUBDATE_LONG + " INTEGER, "
-                + Item.THUMBNAIL + " TEXT, "
-                + "FOREIGN KEY("+ Item.CHANNEL_ID + ") REFERENCES "
+        String createItemTable = "CREATE TABLE " + ContractClass.Item.TABLE + "("
+                + ContractClass.Item.ID + " INTEGER PRIMARY KEY, "
+                + ContractClass.Item.CHANNEL_ID + " INTEGER NOT NULL, "
+                + ContractClass.Item.TITLE + " TEXT NOT NULL, "
+                + ContractClass.Item.LINK + " TEXT NOT NULL, "
+                + ContractClass.Item.DESCRIPTION + " TEXT NOT NULL, "
+                + ContractClass.Item.PUBDATE + " TEXT, "
+                + ContractClass.Item.PUBDATE_LONG + " INTEGER, "
+                + ContractClass.Item.THUMBNAIL + " TEXT, "
+                + "FOREIGN KEY("+ ContractClass.Item.CHANNEL_ID + ") REFERENCES "
                 + ContractClass.Channel.TABLE + "(" + ContractClass.Channel.ID +"));";
 
         String inserIntoChannel = "INSERT INTO " + ContractClass.Channel.TABLE
@@ -131,12 +131,12 @@ public class DBHandler extends SQLiteOpenHelper {
     private static ContentValues itemToContentValues(Item item, long channelId) {
         ContentValues cv = new ContentValues();
 
-        cv.put(Item.CHANNEL_ID, channelId);
-        cv.put(Item.LINK, item.getLink());
-        cv.put(Item.TITLE, item.getTitle());
-        cv.put(Item.DESCRIPTION, item.getContent());
-        cv.put(Item.PUBDATE, item.getPubDate());
-        cv.put(Item.PUBDATE_LONG, item.getPubDateLong());
+        cv.put(ContractClass.Item.CHANNEL_ID, channelId);
+        cv.put(ContractClass.Item.LINK, item.getLink());
+        cv.put(ContractClass.Item.TITLE, item.getTitle());
+        cv.put(ContractClass.Item.DESCRIPTION, item.getContent());
+        cv.put(ContractClass.Item.PUBDATE, item.getPubDate());
+        cv.put(ContractClass.Item.PUBDATE_LONG, item.getPubDateLong());
 
         return cv;
     }
