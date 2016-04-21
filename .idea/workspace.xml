@@ -61,7 +61,6 @@
       <change type="DELETED" beforePath="D:\Android\AndroidProjects\DotsenkoRSSReader2.1\RSSReader\.idea\runConfigurations.xml" afterPath="" />
       <change type="DELETED" beforePath="D:\Android\AndroidProjects\DotsenkoRSSReader2.1\RSSReader\.idea\vcs.xml" afterPath="" />
       <change type="DELETED" beforePath="D:\Android\AndroidProjects\DotsenkoRSSReader2.1\RSSReader\.idea\workspace.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
     </list>
     <ignored path="RSSReader.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -2316,7 +2315,13 @@
       <option name="project" value="LOCAL" />
       <updated>1461230238451</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Git issue fixed">
+      <created>1461230732283</created>
+      <option name="number" value="00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1461230732283</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2378,7 +2383,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="DBHandler's method which are needed for AddChannelFragment activity reimplementd with using of SQLiteDatabase" />
     <MESSAGE value="DBHandler's method which are needed for ItemListActivity and RefreshService reimplementd with using of SQLiteDatabase" />
     <MESSAGE value="Item update bug fixed" />
     <MESSAGE value="Some changes at database design" />
@@ -2403,7 +2407,8 @@
     <MESSAGE value="Third part of pull request comments processed" />
     <MESSAGE value="Fourth part of pull request comments processed: DBHandler's method enhanced" />
     <MESSAGE value="Pull request comments processed: activities code enhaned, git issue fixed, code cleaned" />
-    <option name="LAST_COMMIT_MESSAGE" value="Pull request comments processed: activities code enhaned, git issue fixed, code cleaned" />
+    <MESSAGE value="Git issue fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Git issue fixed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
