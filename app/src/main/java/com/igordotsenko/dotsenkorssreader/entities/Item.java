@@ -1,8 +1,5 @@
 package com.igordotsenko.dotsenkorssreader.entities;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.jsoup.Jsoup;
@@ -15,64 +12,57 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-@Table(name = "item")
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
+
 @XStreamAlias("item")
-public class Item extends Model implements Comparable<Item> {
-    public static final String ID = "id";
-    public static final String CHANNEL_ID = "item_channel_id";
-    public static final String TITLE = "item_title";
-    public static final String LINK = "item_link";
-    public static final String DESCRIPTION = "item_description";
-    public static final String PUBDATE = "item_pubdate";
-    public static final String PUBDATE_LONG = "item_pubdate_long";
-    public static final String THUMBNAIL = "item_thumbnail_url";
-    public static final String SUBTITLE = "item_subtitle";
+public class Item implements Comparable<Item> {
+    public static final String createItemTable = "CREATE TABLE " + ContractClass.Item.TABLE + "("
+            + ContractClass.Item.ID + " INTEGER PRIMARY KEY, "
+            + ContractClass.Item.CHANNEL_ID + " INTEGER NOT NULL, "
+            + ContractClass.Item.TITLE + " TEXT NOT NULL, "
+            + ContractClass.Item.LINK + " TEXT NOT NULL, "
+            + ContractClass.Item.DESCRIPTION + " TEXT NOT NULL, "
+            + ContractClass.Item.PUBDATE + " TEXT, "
+            + ContractClass.Item.PUBDATE_LONG + " INTEGER, "
+            + ContractClass.Item.THUMBNAIL + " TEXT, "
+            + "FOREIGN KEY("+ ContractClass.Item.CHANNEL_ID + ") REFERENCES "
+            + ContractClass.Channel.TABLE + "(" + ContractClass.Channel.ID +"));";
 
-    @Column(name = ID)
-	private long id;
+	private long mId;
+    private long mChannel;
 
-    @Column(name = CHANNEL_ID)
-    private long channel;
-
-    @Column(name = TITLE)
     @XStreamAlias("title")
-	private String title;
+	private String mTitle;
 
-    @Column(name = LINK)
     @XStreamAlias("link")
-    private String link;
+    private String mLink;
 
-    @Column(name = DESCRIPTION)
     @XStreamAlias("description")
-    private String description;
+    private String mDescription;
 
-    @Column(name = PUBDATE)
     @XStreamAlias("pubDate")
-    private String pubdate;
+    private String mPubDate;
 
-    @Column(name = PUBDATE_LONG)
-    private long pubdateLong;
+    private long mPubDateLong;
+    private String mThumbnailUrl;
 
-    @Column(name = THUMBNAIL)
-    private String thumbNailURL;
-
+    // Needed for XStream normal work
     public Item() {}
 
-    public Item(String title, String link, String description, String pubdate, String thumbNailURL) {
-        this.title = title;
-        this.link = link;
-        this.description = description;
-        this.pubdate = pubdate;
-        this.thumbNailURL = thumbNailURL;
-    }
-    public Item(Item item) {
-        this.id = item.id;
-        this.title = item.title;
-        this.link = item.link;
-        this.description = item.description;
-        this.pubdate = item.pubdate;
-        this.pubdateLong = item.pubdateLong;
-        this.thumbNailURL = item.thumbNailURL;
+    public Item(
+            String title,
+            String link,
+            String description,
+            String pubdate,
+            long pubdateLong,
+            String thumbnailUrl) {
+
+        this.mTitle = title;
+        this.mLink = link;
+        this.mDescription = description;
+        this.mPubDate = pubdate;
+        this.mPubDateLong = pubdateLong;
+        this.mThumbnailUrl = thumbnailUrl;
     }
 
     public void finishInitialization() {
@@ -81,50 +71,54 @@ public class Item extends Model implements Comparable<Item> {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        //Parsing html parts for image link and item decritpion
+        //Parsing html parts for image mLink and item decritpion
         parseDescription();
     }
 
-    public long getID() {
-        return id;
+    public long getId() {
+        return mId;
     }
 
-    public void setID(long id) { this.id = id; }
+    public void setId(long id) { this.mId = id; }
+
+    public long getChannel() {
+        return mChannel;
+    }
 
     public void setChannel(long channel) {
-        this.channel = channel;
+        this.mChannel = channel;
     }
 
     public String getTitle() {
-    	return title;
+    	return mTitle;
     }
 
     public String getLink() {
-    	return link;
+    	return mLink;
     }
 
     public String getContent() {
-    	return description;
+    	return mDescription;
     }
 
-    public String getPubdate(){
-    	return pubdate;
+    public String getPubDate(){
+    	return mPubDate;
     }
 
-    public long getPubdateLong() {
-    	return pubdateLong;
+    public long getPubDateLong() {
+    	return mPubDateLong;
     }
 
-    public String getThumbNailURL() {
-    	return thumbNailURL;
+    public String getThumbNailUrl() {
+    	return mThumbnailUrl;
     }
 
     @Override
     public int compareTo(Item another) {
-        if ( pubdateLong < another.pubdateLong ) {
+        if ( mPubDateLong < another.mPubDateLong ) {
             return 1;
         }
-        if ( pubdateLong > another.pubdateLong ) {
+        if ( mPubDateLong > another.mPubDateLong ) {
             return -1;
         }
         return 0;
@@ -138,39 +132,43 @@ public class Item extends Model implements Comparable<Item> {
 
         Item another = (Item) obj;
 
-        return id == another.id || ( channel == another.channel &&  link.equals(another.link));
+        return mId == another.mId || ( mChannel == another.mChannel &&  mLink.equals(another.mLink));
     }
 
     @Override
     public String toString() {
         return "Item{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", link='" + link + '\'' +
-                ", description='" + description + '\'' +
-                ", pubdate='" + pubdate + '\'' +
-                ", pubdateLong=" + pubdateLong +
-                ", thumbNailURL='" + thumbNailURL + '\'' +
+                "id=" + mId +
+                ", title='" + mTitle + '\'' +
+                ", link='" + mLink + '\'' +
+                ", description='" + mDescription + '\'' +
+                ", pubdate='" + mPubDate + '\'' +
+                ", pubdateLong=" + mPubDateLong +
+                ", thumbNailURL='" + mThumbnailUrl + '\'' +
                 '}';
     }
 
     private void pubdateToLong() throws ParseException {
-        if ( pubdate != null ) {
-            DateFormat forLongFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
-            DateFormat forStringFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy hh:mm a", Locale.ENGLISH);
-            pubdateLong = forLongFormat.parse(pubdate).getTime();
-            pubdate = forStringFormat.format(new Date(pubdateLong));
+        if ( mPubDate != null ) {
+            DateFormat forLongFormat =
+                    new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+
+            DateFormat forStringFormat =
+                    new SimpleDateFormat("EEEE, MMMM d, yyyy hh:mm a", Locale.ENGLISH);
+
+            mPubDateLong = forLongFormat.parse(mPubDate).getTime();
+            mPubDate = forStringFormat.format(new Date(mPubDateLong));
         }
     }
 
     private void parseDescription() {
-        if ( description != null ) {
-            Document doc = Jsoup.parse(description);
+        if ( mDescription != null ) {
+            Document doc = Jsoup.parse(mDescription);
             Element link = doc.select("img").first();
             if ( link != null) {
-                thumbNailURL = link.attr("src");
+                mThumbnailUrl = link.attr("src");
             }
-            description = doc.body().text();
+            mDescription = doc.body().text();
         }
     }
 }

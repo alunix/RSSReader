@@ -1,8 +1,5 @@
 package com.igordotsenko.dotsenkorssreader.entities;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
@@ -13,109 +10,107 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-@Table(name = "channel")
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
+
 @XStreamAlias("channel")
-public class Channel extends Model {
-    public static final String ID = "id";
-    public static final String TITLE = "channel_title";
-    public static final String LINK = "channel_link";
-    public static final String LAST_BUILD_DATE = "channel_last_build_date_long";
-    public static final String LAST_BUILD_DATE_LONG = "channel_last_build_date_long";
+public class Channel {
+    public static final String createChannelTable = "CREATE TABLE " + ContractClass.Channel.TABLE + "("
+            + ContractClass.Channel.ID + " INTEGER PRIMARY KEY, "
+            + ContractClass.Channel.TITLE + " TEXT NOT NULL, "
+            + ContractClass.Channel.LINK + " TEXT NOT NULL, "
+            + ContractClass.Channel.LAST_BUILD_DATE + " TEXT,"
+            + ContractClass.Channel.LAST_BUILD_DATE_LONG + " INTEGER, "
+            + "unique(channel_link));";
 
-    @Column(name = ID)
-	private long id;
+    public static final String inserIntoChannel = "INSERT INTO " + ContractClass.Channel.TABLE
+            + "(" + ContractClass.Channel.ID + ", "
+            + ContractClass.Channel.TITLE + ", "
+            + ContractClass.Channel.LINK + ") "
+            + "VALUES (1, \"BBC NEWS\", \"http://feeds.bbci.co.uk/news/rss.xml\");";
 
-    @Column(name = TITLE, notNull = true)
+	private long mId;
+
     @XStreamAlias("title")
-	private String title;
+	private String mTitle;
 
-    @Column(name = LINK, notNull = true)
     @XStreamAlias("link")
-    private String link;
+    private String mLink;
 
-    @Column(name = LAST_BUILD_DATE)
     @XStreamAlias("lastBuildDate")
-    private String lastBuildDate;
+    private String mLastBuildDate;
 
-    @Column(name = LAST_BUILD_DATE_LONG)
-    private long lastBuildDateLong;
+    private long mLastBuildDateLong;
 
     @XStreamImplicit
-    private List<Item> items;
+    private List<Item> mItems;
 
-    public Channel() {
-        // call of activeandroid.Model constructor
-        super();
-    }
+    // Needed for XStream normal work
+    public Channel() {}
 
     public Channel(String title, String link, String lastBuildDate) {
-    	this.title = title;
-        this.link = link;
-        this.lastBuildDate = lastBuildDate;
+    	this.mTitle = title;
+        this.mLink = link;
+        this.mLastBuildDate = lastBuildDate;
         lastBuildDateToLong();
-        this.items = new ArrayList<Item>();
-    }
-
-    public Channel(Channel channel) {
-        this.title = channel.title;
-        this.link = channel.link;
-        this.lastBuildDate = channel.lastBuildDate;
-        this.lastBuildDateLong = channel.lastBuildDateLong;
-        this.items = new ArrayList<>(channel.items);
+        this.mItems = new ArrayList<Item>();
     }
 
     public void finishItemsInitializtion() {
-        for ( Item item : items ) {
+        for ( Item item : mItems) {
             //Converting items' pubdate to long, parsing items' description
             item.finishInitialization();
             lastBuildDateToLong();
         }
     }
 
-    public long getID() {
-    	return id;
+    public long getId() {
+    	return mId;
     }
 
     public String getTitle() {
-    	return title;
+    	return mTitle;
     }
 
     public String getLink() {
-    	return link;
+    	return mLink;
     }
 
     public String getLastBuildDate() {
-    	return lastBuildDate;
+    	return mLastBuildDate;
     }
 
     public long getLastBuildDateLong() {
-    	return lastBuildDateLong;
+    	return mLastBuildDateLong;
     }
 
     public List<Item> getItems() {
-        return items;
+        return mItems;
+    }
+
+    public void setId(long id) {
+        this.mId = id;
     }
 
     public void setLink(String link) {
-        this.link = link;
+        this.mLink = link;
     }
 
     @Override
     public String toString() {
         return "Channel{" +
-                "ID=" + id +
-                ", title='" + title + '\'' +
-                ", link='" + link + '\'' +
-                ", lastBuildDate='" + lastBuildDate + '\'' +
-                ", lastBuildDateLong=" + lastBuildDateLong +
+                "ID=" + mId +
+                ", title='" + mTitle + '\'' +
+                ", link='" + mLink + '\'' +
+                ", lastBuildDate='" + mLastBuildDate + '\'' +
+                ", lastBuildDateLong=" + mLastBuildDateLong +
                 '}';
     }
 
     private void lastBuildDateToLong() {
-        if ( lastBuildDate != null ) {
+        if ( mLastBuildDate != null ) {
             DateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
             try {
-                lastBuildDateLong = format.parse(lastBuildDate).getTime();
+                mLastBuildDateLong = format.parse(mLastBuildDate).getTime();
             } catch (ParseException e) {
                 e.printStackTrace();
             }

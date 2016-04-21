@@ -2,6 +2,7 @@ package com.igordotsenko.dotsenkorssreader.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,80 +12,54 @@ import android.widget.TextView;
 
 import com.igordotsenko.dotsenkorssreader.ItemContentActivity;
 import com.igordotsenko.dotsenkorssreader.R;
-import com.igordotsenko.dotsenkorssreader.entities.Item;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ocpsoft.pretty.time.PrettyTime;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-public class ItemListRVAdapter extends RecyclerView.Adapter<ItemListRVAdapter.ItemViewHolder> {
-    private Context context;
-    private List<Item> items;
-    private ImageLoader imageLoader;
-    private DisplayImageOptions displayImageOptions;
-    private String parentChannelTitle;
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
-    public ItemListRVAdapter(Context context, List<Item> items, String channelTitle) {
-        this.context = context;
-        this.items = new ArrayList<>(items);
-        this.imageLoader = ImageLoader.getInstance();
-        this.displayImageOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
-        this.parentChannelTitle = channelTitle;
+public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapter.ItemViewHolder> {
+    private Context mContext;
+    private ImageLoader mImageLoader;
+    private DisplayImageOptions mDisplayImageOptions;
+    private String mParentChannelTitle;
+
+    public ItemListRVAdapter(Context context, String channelTitle) {
+        this.mContext = context;
+        this.mImageLoader = ImageLoader.getInstance();
+        this.mDisplayImageOptions = new DisplayImageOptions
+                .Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+
+        this.mParentChannelTitle = channelTitle;
     }
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.cardview_item, parent, false);
+
         return new ItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ItemViewHolder viewHodler, int position) {
-        //Thumbnail downloading, saving it in memory and disk cache
-        String thumbnailUrl = items.get(position).getThumbNailURL();
-        if ( thumbnailUrl != null) {
-            imageLoader.displayImage(thumbnailUrl, viewHodler.itemThumbnail, displayImageOptions);
-        }
+    public void onBindViewHolder(final ItemViewHolder holder, final Cursor cursor) {
+        holder.bindData(cursor);
 
-        //Format pubdate to readable
-        PrettyTime dateFormatter = new PrettyTime();
-        Date pubdate = new Date(items.get(position).getPubdateLong());
-
-        //Content setting
-        viewHodler.itemTitle.setText(items.get(position).getTitle());
-        viewHodler.itemPubdate.setText(dateFormatter.format(pubdate));
-
-        //Seting OnClickListeners
-        viewHodler.itemThumbnail.setOnClickListener(new ItemOnClickListener(position));
-        viewHodler.itemTitle.setOnClickListener(new ItemOnClickListener(position));
-        viewHodler.itemPubdate.setOnClickListener(new ItemOnClickListener(position));
-        viewHodler.navigationImage.setOnClickListener(new ItemOnClickListener(position));
+        //Setting OnClickListeners
+        holder.itemThumbnail.setOnClickListener(new ItemOnClickListener(cursor));
+        holder.itemTitle.setOnClickListener(new ItemOnClickListener(cursor));
+        holder.itemPubdate.setOnClickListener(new ItemOnClickListener(cursor));
+        holder.navigationImage.setOnClickListener(new ItemOnClickListener(cursor));
     }
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-    }
-
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
-
-    public void setItemsList(List<Item> items) {
-        this.items = new ArrayList(items);
-    }
-    //This method can be called from different threads: when refreshing by pull and autorefreshinsh by service
-    public synchronized void addItems(List<Item> items) {
-        for ( int i = items.size()-1; i >= 0; i-- ) {
-            //Check if item has been added from another thread
-            if ( !this.items.contains(items.get(i)) ) {
-                this.items.add(0, items.get(i));
-            }
-        }
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -100,25 +75,58 @@ public class ItemListRVAdapter extends RecyclerView.Adapter<ItemListRVAdapter.It
             itemPubdate = (TextView) view.findViewById(R.id.item_pubdate);
             navigationImage = (ImageView) view.findViewById(R.id.item_navigate_right_image);
         }
+
+        public void bindData(final Cursor cursor) {
+            final String thumbnailUrl = cursor.getString(cursor.getColumnIndex(
+                    ContractClass.Item.THUMBNAIL));
+
+            if (thumbnailUrl != null) {
+                mImageLoader.displayImage(thumbnailUrl, this.itemThumbnail, mDisplayImageOptions);
+            }
+
+            //Format pubdate to readable
+            PrettyTime dateFormatter = new PrettyTime();
+            Date pubdate = new Date(cursor.getString(cursor.getColumnIndex(
+                    ContractClass.Item.PUBDATE)));
+
+            //Content setting
+            this.itemTitle.setText(cursor.getString(cursor.getColumnIndex(
+                    ContractClass.Item.TITLE)));
+
+            this.itemPubdate.setText(dateFormatter.format(pubdate));
+        }
     }
 
     private class ItemOnClickListener implements View.OnClickListener {
-        private final int position;
+        private String thumbnailURL;
+        private String subtitle;
+        private String pubdate;
+        private String description;
 
-        public  ItemOnClickListener(int position) {
-            this.position = position;
+        public  ItemOnClickListener(Cursor cursor) {
+            this.thumbnailURL = cursor.getString(cursor.getColumnIndex(
+                    ContractClass.Item.THUMBNAIL));
+
+            this.subtitle = cursor.getString(cursor.getColumnIndex(
+                    ContractClass.Item.TITLE));
+
+            this.pubdate = cursor.getString(cursor.getColumnIndex(
+                    ContractClass.Item.PUBDATE));
+
+            this.description = cursor.getString(cursor.getColumnIndex(
+                    ContractClass.Item.DESCRIPTION));
         }
 
         @Override
         public void onClick(View v) {
             //Starting ItemContentActivity
-            Intent intent = new Intent(context, ItemContentActivity.class);
-            intent.putExtra(Item.TITLE, parentChannelTitle);
-            intent.putExtra(Item.THUMBNAIL, items.get(position).getThumbNailURL());
-            intent.putExtra(Item.SUBTITLE, items.get(position).getTitle());
-            intent.putExtra(Item.PUBDATE, items.get(position).getPubdate());
-            intent.putExtra(Item.DESCRIPTION, items.get(position).getContent());
-            context.startActivity(intent);
+            Intent intent = new Intent(mContext, ItemContentActivity.class);
+            intent.putExtra(ContractClass.Item.TITLE, mParentChannelTitle);
+            intent.putExtra(ContractClass.Item.THUMBNAIL, thumbnailURL);
+            intent.putExtra(ContractClass.Item.SUBTITLE, subtitle);
+            intent.putExtra(ContractClass.Item.PUBDATE, pubdate);
+            intent.putExtra(ContractClass.Item.DESCRIPTION, description);
+            mContext.startActivity(intent);
         }
     }
 }

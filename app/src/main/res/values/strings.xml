@@ -4,4 +4,5 @@
     <string name="action_add_channel">add_channel</string>
     <string name="add_feed_dialog_title">Add Feed</string>
     <string name="no_data_available">Welcome to Dotsenko RSS Feed! News will appear here soon</string>
+    <string name="authrority">com.igordotsenko.dotsenkorssreader</string>
 </resources>

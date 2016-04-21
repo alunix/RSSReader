@@ -18,26 +18,21 @@ import android.widget.Toast;
 
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
 import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
-import com.igordotsenko.dotsenkorssreader.entities.Item;
 import com.igordotsenko.dotsenkorssreader.entities.Parser;
 
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class AddChannelFragment extends DialogFragment  {
     private final String NO_URL_MESSAGE = "Enter url";
     private final String FEED_EXIST_MESSAGE = "Feed has been added already";
     private final String INTERNET_UNAVAILABLE_MESSAGE = "Internet connection is not available";
 
-    private MainActivity activity;
+    private MainActivity mActivity;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity = (MainActivity) activity;
+        this.mActivity = (MainActivity) activity;
     }
 
     @Nullable
@@ -45,13 +40,15 @@ public class AddChannelFragment extends DialogFragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_add_channel, null);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        final TextView addChannelTextView = (TextView) layout.findViewById(R.id.add_channel_url_edit_view);
+        final TextView addChannelTextView =
+                (TextView) layout.findViewById(R.id.add_channel_url_edit_view);
 
         //Implementing addChannel TextView
         addChannelTextView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ClipboardManager cm = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipboardManager cm =
+                        (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
                 return false;
             }
         });
@@ -74,18 +71,22 @@ public class AddChannelFragment extends DialogFragment  {
                 }
 
                 //Check if feed has been already added
-                if ( DBHandler.channelIsAlreadyAdded(url) ) {
-                    Toast.makeText(activity, FEED_EXIST_MESSAGE, Toast.LENGTH_SHORT).show();
+                if ( DBHandler.channelIsAlreadyAdded(url, mActivity) ) {
+                    Toast.makeText(mActivity, FEED_EXIST_MESSAGE, Toast.LENGTH_SHORT).show();
                     addChannelTextView.setText("");
                     dismiss();
                     return;
                 }
 
                 //Check if internet connection is active
-                ConnectivityManager connectivityManager
-                        = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+                ConnectivityManager connectivityManager =
+                        (ConnectivityManager) mActivity
+                                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
                 if ( connectivityManager.getActiveNetworkInfo() == null ) {
-                    Toast.makeText(activity, INTERNET_UNAVAILABLE_MESSAGE, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            mActivity, INTERNET_UNAVAILABLE_MESSAGE, Toast.LENGTH_SHORT).show();
+
                     return;
                 }
 
@@ -115,7 +116,7 @@ public class AddChannelFragment extends DialogFragment  {
         private ProgressDialog progressDialog;
 
         public DownloadNewChannelTask() {
-            progressDialog = new ProgressDialog(activity);
+            progressDialog = new ProgressDialog(mActivity);
         }
 
         @Override
@@ -129,29 +130,29 @@ public class AddChannelFragment extends DialogFragment  {
         protected String doInBackground(String... params) {
             Parser parser = new Parser();
             Channel newChannel;
+            String channelUrl = params[0];
 
             //Start downloading and parsing
             try {
-                newChannel = parser.parseNewChannel(params[0]);
+                newChannel = parser.parseNewChannel(channelUrl);
             } catch ( IOException e ) {
                 if ( !e.getMessage().equals("")) {
                     return e.getMessage();
                 }
                 return ERROR_MESSAGE;
             }
+
             if ( newChannel != null ) {
                 //Check if channel has been already added
-                if ( DBHandler.channelIsAlreadyAdded(newChannel) ) {
+                if ( DBHandler.channelIsAlreadyAdded(newChannel, mActivity) ) {
                     return FEED_EXIST_MESSAGE;
                 }
 
-                //Saving channel and item in db
-                List<Item> items = new ArrayList<>(newChannel.getItems());
-                newChannel = DBHandler.insertIntoChannel(newChannel);
-                DBHandler.insertIntoItem(items, newChannel.getID());
+                //Saving channel (returns the same channel with id set) and item in db.
+                newChannel = DBHandler.insertIntoChannel(newChannel, mActivity.getContentResolver());
+                DBHandler.insertIntoItem(newChannel.getItems(), newChannel.getId(), mActivity);
 
                 //Update recyclerview
-                activity.addToChannelList(newChannel);
                 return SUCCESS_MESSAGE;
             }
 
@@ -163,8 +164,7 @@ public class AddChannelFragment extends DialogFragment  {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             progressDialog.dismiss();
-            activity.updateChannelList();
-            Toast.makeText(activity, result, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, result, Toast.LENGTH_SHORT).show();
         }
     }
 }

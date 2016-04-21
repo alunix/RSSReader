@@ -1,8 +1,12 @@
 package com.igordotsenko.dotsenkorssreader;
 
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,22 +15,25 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
-import com.igordotsenko.dotsenkorssreader.entities.Channel;
-import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
+import com.igordotsenko.dotsenkorssreader.syncadapter.ReaderSyncAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
+public class MainActivity extends AppCompatActivity
+        implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
+    
+    private static final String QUERY_TEXT = "query text";
+    private static final int LOADER_CHANNEL_LIST = 1;
+    private static final int LOADER_CHANNEL_LIST_REFRESH = 2;
+    public static final String LOG_TAG = "rss_reader_log";
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
-    private DialogFragment dialogFragment;
-    private RecyclerView recyclerView;
-    private SearchView searchView;
-    private ImageButton addChannelButton;
-    private List<Channel> channelList;
-    private ChannelListRVAdapter rvAdapter;
+    private DialogFragment mDialogFragment;
+    private RecyclerView mRecyclerView;
+    private SearchView mSearchView;
+    private ImageButton mAddChannelButton;
+    private ChannelListRVAdapter mRvAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,44 +41,49 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        //Initialiazing image loader for thumbnails downloading
-        ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(MainActivity.this)
-                .memoryCacheSize(2 * 1024 * 1024)
-                .diskCacheSize(50 * 1024 * 1024)
-                .build();
-        ImageLoader.getInstance().init(imageLoaderConfiguration);
+        ReaderSyncAdapter.initializeSyncAdapter(this);
 
-        dialogFragment = new AddChannelFragment();
+        initializeImageLoader();
+
+        mDialogFragment = new AddChannelFragment();
 
         //SearchView initialization
-        searchView = (SearchView) findViewById(R.id.channel_list_search_view);
-        searchView.setOnQueryTextListener(this);
-        searchView.setIconifiedByDefault(false);
+        mSearchView = (SearchView) findViewById(R.id.channel_list_search_view);
+        mSearchView.setOnQueryTextListener(this);
+        mSearchView.setIconifiedByDefault(false);
 
         //AddChannelButton initialization
-        addChannelButton = (ImageButton) findViewById(R.id.channel_list_add_button);
-        addChannelButton.setOnClickListener(new View.OnClickListener() {
+        mAddChannelButton = (ImageButton) findViewById(R.id.channel_list_add_button);
+        mAddChannelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogFragment.show(getSupportFragmentManager(), "add feed");
+                mDialogFragment.show(getSupportFragmentManager(), "add feed");
             }
         });
 
         //RecyclerView initialization
-        recyclerView = (RecyclerView)findViewById(R.id.channel_list_recyclerview);
-        LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
-        recyclerView.setLayoutManager(llm);
+        mRecyclerView = (RecyclerView)findViewById(R.id.channel_list_recyclerview);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
 
-        channelList = DBHandler.selectAllChannels();
-        rvAdapter = new ChannelListRVAdapter(this, channelList);
-        recyclerView.setAdapter(rvAdapter);
+        // Retrieve channel list from database and set adapter
+        mRvAdapter = new ChannelListRVAdapter(this);
+        mRecyclerView.setAdapter(mRvAdapter);
+
+        //Start Loader
+        this.getSupportLoaderManager().initLoader(LOADER_CHANNEL_LIST, null, this).forceLoad();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        searchView.clearFocus();
-        recyclerView.requestFocus();
+        mSearchView.clearFocus();
+        mRecyclerView.requestFocus();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -81,39 +93,56 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextChange(String queryText) {
-        //Filtration of channel by titles and recyclerView updating
-        List<Channel> filteredChannelsList = new ArrayList<>();
-        filterByQuery(filteredChannelsList, queryText);
-        updateChannelList(filteredChannelsList);
+        Bundle bundle = new Bundle();
+        bundle.putString(QUERY_TEXT, queryText);
+        this.getSupportLoaderManager()
+                .restartLoader(LOADER_CHANNEL_LIST_REFRESH, bundle, this).forceLoad();
+
         return false;
     }
 
-    public void updateChannelList(List<Channel> channelsList) {
-        rvAdapter.setChannelList(channelsList);
-        updateChannelList();
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String order = ContractClass.Channel.ID + " ASC";
+
+        switch (id) {
+            case LOADER_CHANNEL_LIST:
+                return new CursorLoader(
+                        this, ContractClass.CHANNEL_CONTENT_URI,
+                        null, null, null, order);
+
+            case LOADER_CHANNEL_LIST_REFRESH:
+                String selection = ContractClass.Channel.TITLE
+                        + " LIKE '%" + args.getString(QUERY_TEXT) + "%'";
+
+                return new CursorLoader(
+                        this, ContractClass.CHANNEL_CONTENT_URI,
+                        null, selection, null, order);
+        }
+        return null;
     }
 
-    public void updateChannelList(Channel channel) {
-        rvAdapter.addChannel(channel);
-        updateChannelList();
-    }
-
-    public void updateChannelList() {
-        rvAdapter.notifyDataSetChanged();
-        recyclerView.scrollToPosition(0);
-    }
-
-    public void addToChannelList(Channel channel) {
-        channelList.add(channel);
-        rvAdapter.addChannel(channel);
-    }
-
-    private void filterByQuery(List<Channel> filteredChannelsList, String queryText) {
-        for ( Channel ch : channelList ) {
-            if ( ch.getTitle().toLowerCase().contains(queryText.toLowerCase()) ) {
-                filteredChannelsList.add(ch);
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+            if ( loader.getId() == LOADER_CHANNEL_LIST
+                    || loader.getId() == LOADER_CHANNEL_LIST_REFRESH ) {
+                this.mRvAdapter.swapCursor(data);
             }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        if ( loader.getId() == LOADER_CHANNEL_LIST ) {
+            this.mRvAdapter.swapCursor(null);
         }
     }
-}
 
+    private void initializeImageLoader() {
+        ImageLoaderConfiguration imageLoaderConfiguration =
+                new ImageLoaderConfiguration.Builder(MainActivity.this)
+                        .memoryCacheSize(2 * 1024 * 1024)
+                        .diskCacheSize(50 * 1024 * 1024)
+                        .build();
+        ImageLoader.getInstance().init(imageLoaderConfiguration);
+    }
+}

@@ -18,8 +18,7 @@ public class Parser {
         return channel;
     }
 
-    public Channel updateExistChannel(long channelId) throws IOException {
-        Channel currentChannel = DBHandler.selectChannelById(channelId);
+    public Channel updateExistChannel(Channel currentChannel) throws IOException {
         Channel newChannel = parseXML(downloadXML(currentChannel.getLink()));
         long currentChannelBuildDate = currentChannel.getLastBuildDateLong();
         long newChannelBuildDate = newChannel.getLastBuildDateLong();
@@ -70,7 +69,7 @@ public class Parser {
         }
 
         // Converting last channel's pubdate to long, finalization on item creation
-        rss.finisihInitialization();
+        rss.finishInitialization();
 
         return rss.getChannel();
     }
