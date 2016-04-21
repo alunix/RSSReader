@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity
 
         //RecyclerView initialization
         mRecyclerView = (RecyclerView)findViewById(R.id.channel_list_recyclerview);
-        LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
-        mRecyclerView.setLayoutManager(llm);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
 
         // Retrieve channel list from database and set adapter
         mRvAdapter = new ChannelListRVAdapter(this);

@@ -28,35 +28,9 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createChannelTable = "CREATE TABLE " + ContractClass.Channel.TABLE + "("
-                + ContractClass.Channel.ID + " INTEGER PRIMARY KEY, "
-                + ContractClass.Channel.TITLE + " TEXT NOT NULL, "
-                + ContractClass.Channel.LINK + " TEXT NOT NULL, "
-                + ContractClass.Channel.LAST_BUILD_DATE + " TEXT,"
-                + ContractClass.Channel.LAST_BUILD_DATE_LONG + " INTEGER, "
-                + "unique(channel_link));";
-
-        String createItemTable = "CREATE TABLE " + ContractClass.Item.TABLE + "("
-                + ContractClass.Item.ID + " INTEGER PRIMARY KEY, "
-                + ContractClass.Item.CHANNEL_ID + " INTEGER NOT NULL, "
-                + ContractClass.Item.TITLE + " TEXT NOT NULL, "
-                + ContractClass.Item.LINK + " TEXT NOT NULL, "
-                + ContractClass.Item.DESCRIPTION + " TEXT NOT NULL, "
-                + ContractClass.Item.PUBDATE + " TEXT, "
-                + ContractClass.Item.PUBDATE_LONG + " INTEGER, "
-                + ContractClass.Item.THUMBNAIL + " TEXT, "
-                + "FOREIGN KEY("+ ContractClass.Item.CHANNEL_ID + ") REFERENCES "
-                + ContractClass.Channel.TABLE + "(" + ContractClass.Channel.ID +"));";
-
-        String inserIntoChannel = "INSERT INTO " + ContractClass.Channel.TABLE
-                + "(" + ContractClass.Channel.ID + ", "
-                + ContractClass.Channel.TITLE + ", "
-                + ContractClass.Channel.LINK + ") "
-                + "VALUES (1, \"BBC NEWS\", \"http://feeds.bbci.co.uk/news/rss.xml\");";
-
-        db.execSQL(createChannelTable);
-        db.execSQL(createItemTable);
-        db.execSQL(inserIntoChannel);
+        db.execSQL(Channel.createChannelTable);
+        db.execSQL(Channel.inserIntoChannel);
+        db.execSQL(Item.createItemTable);
     }
 
     @Override
@@ -267,26 +241,7 @@ public class DBHandler extends SQLiteOpenHelper {
         Collections.sort(newItemList);
 
         for ( Item item : newItemList ) {
-            contentValues.put(
-                    ContractClass.Item.ID, item.getId());
-
-            contentValues.put(
-                    ContractClass.Item.CHANNEL_ID, channelId);
-
-            contentValues.put(
-                    ContractClass.Item.TITLE, item.getTitle());
-
-            contentValues.put(
-                    ContractClass.Item.LINK, item.getLink());
-
-            contentValues.put(
-                    ContractClass.Item.DESCRIPTION, item.getContent());
-
-            contentValues.put(
-                    ContractClass.Item.PUBDATE, item.getPubDate());
-
-            contentValues.put(
-                    ContractClass.Item.PUBDATE_LONG, item.getPubDateLong());
+            contentValues = itemToContentValues(item, channelId);
 
             if ( item.getThumbNailUrl() != null ) {
                 contentValues.put(
@@ -320,6 +275,10 @@ public class DBHandler extends SQLiteOpenHelper {
         cv.put(ContractClass.Item.DESCRIPTION, item.getContent());
         cv.put(ContractClass.Item.PUBDATE, item.getPubDate());
         cv.put(ContractClass.Item.PUBDATE_LONG, item.getPubDateLong());
+
+        if ( item.getThumbNailUrl() != null ) {
+            cv.put(ContractClass.Item.THUMBNAIL, item.getThumbNailUrl());
+        }
 
         return cv;
     }

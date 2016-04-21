@@ -1,5 +1,8 @@
 package com.igordotsenko.dotsenkorssreader.entities;
 
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
+
+import com.igordotsenko.dotsenkorssreader.ReaderContentProvider;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
@@ -12,6 +15,20 @@ import java.util.Locale;
 
 @XStreamAlias("channel")
 public class Channel {
+    public static final String createChannelTable = "CREATE TABLE " + ContractClass.Channel.TABLE + "("
+            + ContractClass.Channel.ID + " INTEGER PRIMARY KEY, "
+            + ContractClass.Channel.TITLE + " TEXT NOT NULL, "
+            + ContractClass.Channel.LINK + " TEXT NOT NULL, "
+            + ContractClass.Channel.LAST_BUILD_DATE + " TEXT,"
+            + ContractClass.Channel.LAST_BUILD_DATE_LONG + " INTEGER, "
+            + "unique(channel_link));";
+
+    public static final String inserIntoChannel = "INSERT INTO " + ContractClass.Channel.TABLE
+            + "(" + ContractClass.Channel.ID + ", "
+            + ContractClass.Channel.TITLE + ", "
+            + ContractClass.Channel.LINK + ") "
+            + "VALUES (1, \"BBC NEWS\", \"http://feeds.bbci.co.uk/news/rss.xml\");";
+
 	private long mId;
 
     @XStreamAlias("title")

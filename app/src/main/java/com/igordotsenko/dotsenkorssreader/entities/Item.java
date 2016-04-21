@@ -1,5 +1,7 @@
 package com.igordotsenko.dotsenkorssreader.entities;
 
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
+import com.igordotsenko.dotsenkorssreader.ReaderContentProvider;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.jsoup.Jsoup;
@@ -14,6 +16,18 @@ import java.util.Locale;
 
 @XStreamAlias("item")
 public class Item implements Comparable<Item> {
+    public static final String createItemTable = "CREATE TABLE " + ContractClass.Item.TABLE + "("
+            + ContractClass.Item.ID + " INTEGER PRIMARY KEY, "
+            + ContractClass.Item.CHANNEL_ID + " INTEGER NOT NULL, "
+            + ContractClass.Item.TITLE + " TEXT NOT NULL, "
+            + ContractClass.Item.LINK + " TEXT NOT NULL, "
+            + ContractClass.Item.DESCRIPTION + " TEXT NOT NULL, "
+            + ContractClass.Item.PUBDATE + " TEXT, "
+            + ContractClass.Item.PUBDATE_LONG + " INTEGER, "
+            + ContractClass.Item.THUMBNAIL + " TEXT, "
+            + "FOREIGN KEY("+ ContractClass.Item.CHANNEL_ID + ") REFERENCES "
+            + ContractClass.Channel.TABLE + "(" + ContractClass.Channel.ID +"));";
+
 	private long mId;
     private long mChannel;
 
