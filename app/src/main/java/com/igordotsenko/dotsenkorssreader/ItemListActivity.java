@@ -16,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.igordotsenko.dotsenkorssreader.adapters.ItemListRVAdapter;
-import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
 import com.igordotsenko.dotsenkorssreader.syncadapter.ReaderSyncAdapter;
 
 import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
@@ -73,9 +72,7 @@ public class ItemListActivity extends AppCompatActivity
             }
         });
 
-        //Welcome Message textView initializtion
         mWelcomeMessage = (TextView) findViewById(R.id.item_list_empty_view);
-        handleWelcomeMessage();
 
         //Setting adapter on mRecyclerView
         mRvAdapter = new ItemListRVAdapter(
@@ -133,9 +130,7 @@ public class ItemListActivity extends AppCompatActivity
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if ( loader.getId() == LOADER_ITEM_LIST || loader.getId() == LOADER_ITEM_LIST_REFRESH ) {
-            if ( data.getCount() > 0 ) {
-                setRecyclerViewVisible();
-            }
+            handleWelcomeMessage(data);
             this.mRvAdapter.swapCursor(data);
         }
     }
@@ -159,9 +154,11 @@ public class ItemListActivity extends AppCompatActivity
         }
     }
 
-    private void handleWelcomeMessage() {
-        if ( DBHandler.itemListIsEmpty(getContentResolver()) ) {
+    private void handleWelcomeMessage(Cursor data) {
+        if ( data.getCount() == 0 ) {
             setWelcomeMessageVisible();
+            return;
         }
+        setRecyclerViewVisible();
     }
 }

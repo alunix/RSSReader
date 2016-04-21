@@ -7,8 +7,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-
-import com.igordotsenko.dotsenkorssreader.ReaderContentProvider;
 import com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
 import java.io.IOException;
@@ -70,8 +68,7 @@ public class DBHandler extends SQLiteOpenHelper {
             values[i] = cv;
         }
 
-        context.getContentResolver().bulkInsert(
-                ReaderContentProvider.ContractClass.ITEM_CONTENT_URI, values);
+        context.getContentResolver().bulkInsert(ContractClass.ITEM_CONTENT_URI, values);
     }
 
     public static List<Integer> getChannelIds(Context context) {
@@ -107,10 +104,6 @@ public class DBHandler extends SQLiteOpenHelper {
             // Filter newItemsList by publication date, insert them into DB
             handleNewItems(updatedChannel, channelId, contentResolver);
         }
-    }
-
-    public static boolean itemListIsEmpty(ContentResolver contentResolver) {
-        return getLastItemId(contentResolver) == 0;
     }
 
     private static Channel selectCurrentChannel(long channelId, ContentResolver contentResolver) {
@@ -289,8 +282,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     private static boolean checkChannel(Context context, String selection, String[] selectionArgs) {
         Cursor cursor = context.getContentResolver().query(
-                ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI,
-                null, selection, selectionArgs, null);
+                ContractClass.CHANNEL_CONTENT_URI, null, selection, selectionArgs, null);
 
         // If records exists - cursor has more than 0 rows
         boolean recordExists = cursor.getCount() > 0;
