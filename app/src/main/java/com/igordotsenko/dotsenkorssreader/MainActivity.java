@@ -1,12 +1,12 @@
 package com.igordotsenko.dotsenkorssreader;
 
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView.setAdapter(mRvAdapter);
 
         //Start Loader
-        this.getLoaderManager().initLoader(LOADER_CHANNEL_LIST, null, this).forceLoad();
+        this.getSupportLoaderManager().initLoader(LOADER_CHANNEL_LIST, null, this).forceLoad();
     }
 
     @Override
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onQueryTextChange(String queryText) {
         Bundle bundle = new Bundle();
         bundle.putString(QUERY_TEXT, queryText);
-        this.getLoaderManager()
+        this.getSupportLoaderManager()
                 .restartLoader(LOADER_CHANNEL_LIST_REFRESH, bundle, this).forceLoad();
 
         return false;

@@ -1,5 +1,7 @@
 package com.igordotsenko.dotsenkorssreader.entities;
 
+//import android.content.ContentResolver;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+
 import com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
 import java.io.IOException;
@@ -74,7 +77,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public static List<Integer> getChannelIds(Context context) {
         String projection[] = { ContractClass.Channel.ID };
         Cursor cursor = context.getContentResolver()
-                .query(ContractClass.CHANNEL_CONTENT_URI, projection, null, null, null, null);
+                .query(ContractClass.CHANNEL_CONTENT_URI, projection, null, null, null);
 
         List<Integer> ids = new ArrayList<Integer>();
 

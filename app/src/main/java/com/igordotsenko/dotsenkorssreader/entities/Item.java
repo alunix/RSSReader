@@ -46,6 +46,9 @@ public class Item implements Comparable<Item> {
     private long mPubDateLong;
     private String mThumbnailUrl;
 
+    // Needed for XStream normal work
+    public Item() {}
+
     public Item(
             String title,
             String link,

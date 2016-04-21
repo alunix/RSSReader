@@ -7,7 +7,6 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SyncResult;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -24,11 +23,6 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final String ACCOUNT_TYPE = "com.igordotsenko.dotsenkorssreader";
     public static final String ACCOUNT = "dummyaccount";
     private static final String AUTHORITY = ContractClass.AUTHORITY;
-    private static final Uri CHANNEL_CONTENT_URI = Uri.parse(
-            "content://" + AUTHORITY + "/" + ContractClass.Channel.TABLE);
-
-    private static final Uri ITEM_CONTENT_URI = Uri.parse(
-            "content://" + AUTHORITY + "/" + ContractClass.Item.TABLE);
 
     private static Account sAccount;
 

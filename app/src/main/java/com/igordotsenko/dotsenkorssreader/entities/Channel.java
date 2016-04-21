@@ -44,6 +44,9 @@ public class Channel {
     @XStreamImplicit
     private List<Item> mItems;
 
+    // Needed for XStream normal work
+    public Channel() {}
+
     public Channel(String title, String link, String lastBuildDate) {
     	this.mTitle = title;
         this.mLink = link;
