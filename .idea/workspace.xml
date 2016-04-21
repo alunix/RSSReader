@@ -62,24 +62,6 @@
       <change type="DELETED" beforePath="D:\Android\AndroidProjects\DotsenkoRSSReader2.1\RSSReader\.idea\vcs.xml" afterPath="" />
       <change type="DELETED" beforePath="D:\Android\AndroidProjects\DotsenkoRSSReader2.1\RSSReader\.idea\workspace.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/Cache.java" afterPath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/Cache.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Channel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/Configuration.java" afterPath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/Configuration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/tests/src/com/activeandroid/test/ConfigurationTest.java" afterPath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/tests/src/com/activeandroid/test/ConfigurationTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/content/ContentProvider.java" afterPath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/content/ContentProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/DBHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/DatabaseHelper.java" afterPath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/DatabaseHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/util/IOUtils.java" afterPath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/util/IOUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Item.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/entities/Item.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ItemListActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/widget/ModelAdapter.java" afterPath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/widget/ModelAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/ModelInfo.java" afterPath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/ModelInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/ReaderContentProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/igordotsenko/dotsenkorssreader/syncadapter/ReaderSyncAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/util/ReflectionUtils.java" afterPath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/util/ReflectionUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/util/SQLiteUtils.java" afterPath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/util/SQLiteUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/TableInfo.java" afterPath="$PROJECT_DIR$/app/libs/pardom-ActiveAndroid-3.0-254-g08c6335/pardom-ActiveAndroid-08c6335/src/com/activeandroid/TableInfo.java" />
     </list>
     <ignored path="RSSReader.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -149,7 +131,7 @@
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.06439394">
-              <caret line="1" column="3" selection-start-line="1" selection-start-column="3" selection-end-line="1" selection-end-column="3" />
+              <caret line="1" column="6" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -2328,7 +2310,13 @@
       <option name="project" value="LOCAL" />
       <updated>1461225323274</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Pull request comments processed: activities code enhaned, git issue fixed, code cleaned">
+      <created>1461230238451</created>
+      <option name="number" value="00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1461230238451</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2390,7 +2378,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="selectAllChannels method fixed" />
     <MESSAGE value="DBHandler's method which are needed for AddChannelFragment activity reimplementd with using of SQLiteDatabase" />
     <MESSAGE value="DBHandler's method which are needed for ItemListActivity and RefreshService reimplementd with using of SQLiteDatabase" />
     <MESSAGE value="Item update bug fixed" />
@@ -2415,7 +2402,8 @@
     <MESSAGE value="Second part of pull request comments processed" />
     <MESSAGE value="Third part of pull request comments processed" />
     <MESSAGE value="Fourth part of pull request comments processed: DBHandler's method enhanced" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fourth part of pull request comments processed: DBHandler's method enhanced" />
+    <MESSAGE value="Pull request comments processed: activities code enhaned, git issue fixed, code cleaned" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pull request comments processed: activities code enhaned, git issue fixed, code cleaned" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2923,7 +2911,7 @@
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.06439394">
-          <caret line="1" column="3" selection-start-line="1" selection-start-column="3" selection-end-line="1" selection-end-column="3" />
+          <caret line="1" column="6" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
           <folding />
         </state>
       </provider>
