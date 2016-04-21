@@ -109,6 +109,10 @@ public class DBHandler extends SQLiteOpenHelper {
         }
     }
 
+    public static boolean itemListIsEmpty(ContentResolver contentResolver) {
+        return getLastItemId(contentResolver) == 0;
+    }
+
     private static Channel selectCurrentChannel(long channelId, ContentResolver contentResolver) {
         String selection = ContractClass.Channel.ID + " = ?";
         String[] selectionArgs = { "" + channelId};

@@ -1,8 +1,5 @@
 package com.igordotsenko.dotsenkorssreader.entities;
 
-import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
-
-import com.igordotsenko.dotsenkorssreader.ReaderContentProvider;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
@@ -12,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
 @XStreamAlias("channel")
 public class Channel {

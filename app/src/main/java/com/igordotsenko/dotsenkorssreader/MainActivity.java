@@ -1,9 +1,6 @@
 package com.igordotsenko.dotsenkorssreader;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.LoaderManager;
-import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.content.pm.ActivityInfo;
@@ -18,6 +15,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
+import com.igordotsenko.dotsenkorssreader.syncadapter.ReaderSyncAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -25,17 +23,11 @@ import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractC
 
 public class MainActivity extends AppCompatActivity
         implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
-
+    
     private static final String QUERY_TEXT = "query text";
     private static final int LOADER_CHANNEL_LIST = 1;
     private static final int LOADER_CHANNEL_LIST_REFRESH = 2;
     public static final String LOG_TAG = "rss_reader_log";
-    public static final String DB_NAME = "rss_reader.db";
-    public static final int DB_VERSION = 1;
-    public static final String ACCOUNT_TYPE = "com.igordotsenko.dotsenkorssreader";
-    public static final String ACCOUNT = "dummyaccount";
-
-    public static Account sAccount;
 
     private DialogFragment mDialogFragment;
     private RecyclerView mRecyclerView;
@@ -49,23 +41,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        // Creating sAccount for SyncAdapter
-        sAccount = new Account(ACCOUNT, ACCOUNT_TYPE);
-        AccountManager accountManager =
-                (AccountManager) MainActivity.this.getSystemService(ACCOUNT_SERVICE);
-        accountManager.addAccountExplicitly(sAccount, null, null);
+        ReaderSyncAdapter.initializeSyncAdapter(this);
 
-        ContentResolver.setIsSyncable(sAccount, ContractClass.AUTHORITY, 1);
-        ContentResolver.setSyncAutomatically(sAccount, ContractClass.AUTHORITY, true);
-        ContentResolver.addPeriodicSync(sAccount, ContractClass.AUTHORITY, Bundle.EMPTY, 120);
-
-        //Initialiazing image loader for thumbnails downloading
-        ImageLoaderConfiguration imageLoaderConfiguration =
-                new ImageLoaderConfiguration.Builder(MainActivity.this)
-                .memoryCacheSize(2 * 1024 * 1024)
-                .diskCacheSize(50 * 1024 * 1024)
-                .build();
-        ImageLoader.getInstance().init(imageLoaderConfiguration);
+        initializeImageLoader();
 
         mDialogFragment = new AddChannelFragment();
 
@@ -157,5 +135,14 @@ public class MainActivity extends AppCompatActivity
         if ( loader.getId() == LOADER_CHANNEL_LIST ) {
             this.mRvAdapter.swapCursor(null);
         }
+    }
+
+    private void initializeImageLoader() {
+        ImageLoaderConfiguration imageLoaderConfiguration =
+                new ImageLoaderConfiguration.Builder(MainActivity.this)
+                        .memoryCacheSize(2 * 1024 * 1024)
+                        .diskCacheSize(50 * 1024 * 1024)
+                        .build();
+        ImageLoader.getInstance().init(imageLoaderConfiguration);
     }
 }

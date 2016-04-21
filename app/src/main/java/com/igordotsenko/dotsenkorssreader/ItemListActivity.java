@@ -1,7 +1,6 @@
 package com.igordotsenko.dotsenkorssreader;
 
 import android.app.LoaderManager;
-import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.content.pm.ActivityInfo;
@@ -17,6 +16,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.igordotsenko.dotsenkorssreader.adapters.ItemListRVAdapter;
+import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
+import com.igordotsenko.dotsenkorssreader.syncadapter.ReaderSyncAdapter;
 
 import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
@@ -48,13 +49,7 @@ public class ItemListActivity extends AppCompatActivity
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Bundle bundle = new Bundle();
-                bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-                bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-                ContentResolver.requestSync(
-                        MainActivity.sAccount,
-                        ContractClass.AUTHORITY,
-                        Bundle.EMPTY);
+                ReaderSyncAdapter.startSync();
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -121,8 +116,7 @@ public class ItemListActivity extends AppCompatActivity
             case LOADER_ITEM_LIST:
                 selection = ContractClass.Item.CHANNEL_ID + " = ?";
 
-                return new CursorLoader(
-                        this, ContractClass.ITEM_CONTENT_URI,
+                return new CursorLoader(this, ContractClass.ITEM_CONTENT_URI,
                         null, selection, selectionArgs, order);
             case LOADER_ITEM_LIST_REFRESH:
                 selection = ContractClass.Item.CHANNEL_ID + " = ? AND "
@@ -159,24 +153,15 @@ public class ItemListActivity extends AppCompatActivity
     }
 
     private void setRecyclerViewVisible() {
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mWelcomeMessage.setVisibility(View.GONE);
+        if ( mRecyclerView.getVisibility() != View.VISIBLE ) {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mWelcomeMessage.setVisibility(View.GONE);
+        }
     }
 
     private void handleWelcomeMessage() {
-        String selection = ContractClass.Item.CHANNEL_ID + " = ?";
-        String[] selectionArgs = { "" + mCurrentChannelId};
-
-        Cursor cursor = getContentResolver().query(
-                ContractClass.ITEM_CONTENT_URI,
-                null, selection, selectionArgs, null);
-
-        if ( cursor.getCount() == 0 ) {
+        if ( DBHandler.itemListIsEmpty(getContentResolver()) ) {
             setWelcomeMessageVisible();
-        } else {
-            setRecyclerViewVisible();
         }
-
-        cursor.close();
     }
 }

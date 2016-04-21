@@ -1,10 +1,10 @@
 package com.activeandroid.test;
 
+import android.test.AndroidTestCase;
+
 import com.activeandroid.Configuration;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Table;
-
-import android.test.AndroidTestCase;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,7 +1,5 @@
 package com.igordotsenko.dotsenkorssreader.entities;
 
-import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
-import com.igordotsenko.dotsenkorssreader.ReaderContentProvider;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.jsoup.Jsoup;
@@ -13,6 +11,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
 @XStreamAlias("item")
 public class Item implements Comparable<Item> {

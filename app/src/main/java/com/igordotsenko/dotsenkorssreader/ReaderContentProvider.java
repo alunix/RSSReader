@@ -16,6 +16,8 @@ public class ReaderContentProvider extends ContentProvider {
     private static final int CHANNEL = 1;
     private static final int ITEM = 2;
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+    private static final String DB_NAME = "rss_reader.db";
+    public static final int DB_VERSION = 1;
 
     private DBHandler mDbHandler;
     private SQLiteDatabase mDatabase;
@@ -65,7 +67,7 @@ public class ReaderContentProvider extends ContentProvider {
     public boolean onCreate() {
         try {
             mDbHandler = new DBHandler(
-                    getContext(), MainActivity.DB_NAME, null, MainActivity.DB_VERSION);
+                    getContext(), DB_NAME, null, DB_VERSION);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
