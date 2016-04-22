@@ -27,13 +27,7 @@ public class AddChannelFragment extends DialogFragment  {
     private final String FEED_EXIST_MESSAGE = "Feed has been added already";
     private final String INTERNET_UNAVAILABLE_MESSAGE = "Internet connection is not available";
 
-    private MainActivity mActivity;
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.mActivity = (MainActivity) activity;
-    }
+    private Context mContext;
 
     @Nullable
     @Override
@@ -48,7 +42,7 @@ public class AddChannelFragment extends DialogFragment  {
             @Override
             public boolean onLongClick(View v) {
                 ClipboardManager cm =
-                        (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
+                        (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
                 return false;
             }
         });
@@ -71,8 +65,8 @@ public class AddChannelFragment extends DialogFragment  {
                 }
 
                 //Check if feed has been already added
-                if ( DBHandler.channelIsAlreadyAdded(url, mActivity) ) {
-                    Toast.makeText(mActivity, FEED_EXIST_MESSAGE, Toast.LENGTH_SHORT).show();
+                if ( DBHandler.channelIsAlreadyAdded(url, mContext) ) {
+                    Toast.makeText(mContext, FEED_EXIST_MESSAGE, Toast.LENGTH_SHORT).show();
                     addChannelTextView.setText("");
                     dismiss();
                     return;
@@ -80,12 +74,12 @@ public class AddChannelFragment extends DialogFragment  {
 
                 //Check if internet connection is active
                 ConnectivityManager connectivityManager =
-                        (ConnectivityManager) mActivity
+                        (ConnectivityManager) mContext
                                 .getSystemService(Context.CONNECTIVITY_SERVICE);
 
                 if ( connectivityManager.getActiveNetworkInfo() == null ) {
                     Toast.makeText(
-                            mActivity, INTERNET_UNAVAILABLE_MESSAGE, Toast.LENGTH_SHORT).show();
+                            mContext, INTERNET_UNAVAILABLE_MESSAGE, Toast.LENGTH_SHORT).show();
 
                     return;
                 }
@@ -108,6 +102,10 @@ public class AddChannelFragment extends DialogFragment  {
         return layout;
     }
 
+    public void setContext(Context context) {
+        mContext = context;
+    }
+
     private class DownloadNewChannelTask extends AsyncTask<String, Void, String> {
         private final String ERROR_MESSAGE = "Cannot add feed";
         private final String SUCCESS_MESSAGE = "Feed added";
@@ -116,7 +114,7 @@ public class AddChannelFragment extends DialogFragment  {
         private ProgressDialog progressDialog;
 
         public DownloadNewChannelTask() {
-            progressDialog = new ProgressDialog(mActivity);
+            progressDialog = new ProgressDialog(mContext);
         }
 
         @Override
@@ -144,13 +142,13 @@ public class AddChannelFragment extends DialogFragment  {
 
             if ( newChannel != null ) {
                 //Check if channel has been already added
-                if ( DBHandler.channelIsAlreadyAdded(newChannel, mActivity) ) {
+                if ( DBHandler.channelIsAlreadyAdded(newChannel, mContext) ) {
                     return FEED_EXIST_MESSAGE;
                 }
 
                 //Saving channel (returns the same channel with id set) and item in db.
-                newChannel = DBHandler.insertIntoChannel(newChannel, mActivity.getContentResolver());
-                DBHandler.insertIntoItem(newChannel.getItems(), newChannel.getId(), mActivity);
+                newChannel = DBHandler.insertIntoChannel(newChannel, mContext.getContentResolver());
+                DBHandler.insertIntoItem(newChannel.getItems(), newChannel.getId(), mContext);
 
                 //Update recyclerview
                 return SUCCESS_MESSAGE;
@@ -163,8 +161,14 @@ public class AddChannelFragment extends DialogFragment  {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            progressDialog.dismiss();
-            Toast.makeText(mActivity, result, Toast.LENGTH_SHORT).show();
+            dismissProgressDialog();
+            Toast.makeText(mContext, result, Toast.LENGTH_SHORT).show();
+        }
+
+        private void dismissProgressDialog() {
+            if (progressDialog != null && progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
         }
     }
 }

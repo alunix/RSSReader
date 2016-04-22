@@ -32,7 +32,7 @@ public class ChannelListFragment extends Fragment
     private static final int LOADER_CHANNEL_LIST_REFRESH = 2;
 
     private int mCurrentItemList = -1;
-    private DialogFragment mDialogFragment;
+    private AddChannelFragment mDialogFragment;
     private RecyclerView mRecyclerView;
     private SearchView mSearchView;
     private ImageButton mAddChannelButton;
@@ -69,12 +69,10 @@ public class ChannelListFragment extends Fragment
 
         //RecyclerView initialization
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.channel_list_recyclerview);
-        //TODO could be a problem because of getContext?
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
         // Retrieve channel list from database and set adapter
-        //TODO could be a problem beacuse of getContext?
         mRvAdapter = new ChannelListRVAdapter(getContext());
         mRecyclerView.setAdapter(mRvAdapter);
 
@@ -86,6 +84,7 @@ public class ChannelListFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
 
         mDialogFragment = new AddChannelFragment();
+        mDialogFragment.setContext(getContext());
 
         //Start Loader
         this.getLoaderManager().initLoader(LOADER_CHANNEL_LIST, null, this).forceLoad();
