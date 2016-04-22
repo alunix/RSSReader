@@ -21,13 +21,13 @@ import java.util.Date;
 import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
 public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapter.ItemViewHolder> {
-    private Context mContext;
+    private static Context sContext;
     private ImageLoader mImageLoader;
     private DisplayImageOptions mDisplayImageOptions;
     private String mParentChannelTitle;
 
     public ItemListRVAdapter(Context context, String channelTitle) {
-        this.mContext = context;
+        this.sContext = context;
         this.mImageLoader = ImageLoader.getInstance();
         this.mDisplayImageOptions = new DisplayImageOptions
                 .Builder()
@@ -49,12 +49,6 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
     @Override
     public void onBindViewHolder(final ItemViewHolder holder, final Cursor cursor) {
         holder.bindData(cursor);
-
-        //Setting OnClickListeners
-        holder.itemThumbnail.setOnClickListener(new ItemOnClickListener(cursor));
-        holder.itemTitle.setOnClickListener(new ItemOnClickListener(cursor));
-        holder.itemPubdate.setOnClickListener(new ItemOnClickListener(cursor));
-        holder.navigationImage.setOnClickListener(new ItemOnClickListener(cursor));
     }
 
     @Override
@@ -62,72 +56,67 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder {
-        ImageView itemThumbnail;
-        TextView itemTitle;
-        TextView itemPubdate;
-        ImageView navigationImage;
+    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
+        private String mThumbnailUrl;
+        private String mItemTitle;
+        private String mPubDate;
+        private String mDescription;
+
+        private ImageView mItemThumbnailImageView;
+        private TextView mItemTitleTextView;
+        private TextView mItemPubdateTextView;
+        private ImageView mNavigationImageView;
 
         ItemViewHolder(View view) {
             super(view);
 
-            itemThumbnail = (ImageView) view.findViewById(R.id.item_thumbnail);
-            itemTitle = (TextView) view.findViewById(R.id.item_title);
-            itemPubdate = (TextView) view.findViewById(R.id.item_pubdate);
-            navigationImage = (ImageView) view.findViewById(R.id.item_navigate_right_image);
+            mItemThumbnailImageView = (ImageView) view.findViewById(R.id.item_thumbnail);
+            mItemTitleTextView = (TextView) view.findViewById(R.id.item_title);
+            mItemPubdateTextView = (TextView) view.findViewById(R.id.item_pubdate);
+            mNavigationImageView = (ImageView) view.findViewById(R.id.item_navigate_right_image);
+            setOnClickListeners();
         }
 
         public void bindData(final Cursor cursor) {
-            final String thumbnailUrl = cursor.getString(cursor.getColumnIndex(
-                    ContractClass.Item.THUMBNAIL));
+            initializeFieldFromCursor(cursor);
+            showThumbnail();
 
-            if (thumbnailUrl != null) {
-                mImageLoader.displayImage(thumbnailUrl, this.itemThumbnail, mDisplayImageOptions);
-            }
-
-            //Format pubdate to readable
-            PrettyTime dateFormatter = new PrettyTime();
-            Date pubdate = new Date(cursor.getString(cursor.getColumnIndex(
-                    ContractClass.Item.PUBDATE)));
-
-            //Content setting
-            this.itemTitle.setText(cursor.getString(cursor.getColumnIndex(
-                    ContractClass.Item.TITLE)));
-
-            this.itemPubdate.setText(dateFormatter.format(pubdate));
-        }
-    }
-
-    private class ItemOnClickListener implements View.OnClickListener {
-        private String thumbnailURL;
-        private String subtitle;
-        private String pubdate;
-        private String description;
-
-        public  ItemOnClickListener(Cursor cursor) {
-            this.thumbnailURL = cursor.getString(cursor.getColumnIndex(
-                    ContractClass.Item.THUMBNAIL));
-
-            this.subtitle = cursor.getString(cursor.getColumnIndex(
-                    ContractClass.Item.TITLE));
-
-            this.pubdate = cursor.getString(cursor.getColumnIndex(
-                    ContractClass.Item.PUBDATE));
-
-            this.description = cursor.getString(cursor.getColumnIndex(
-                    ContractClass.Item.DESCRIPTION));
+            // Format pubdate to readable and set up content
+            mItemPubdateTextView.setText(new PrettyTime().format(new Date(mPubDate)));
+            mItemTitleTextView.setText(mItemTitle);
         }
 
         @Override
         public void onClick(View v) {
             //Starting ItemContentActivity
-            Intent intent = new Intent(mContext, ItemContentActivity.class);
+            Intent intent = new Intent(sContext, ItemContentActivity.class);
             intent.putExtra(ContractClass.Item.TITLE, mParentChannelTitle);
-            intent.putExtra(ContractClass.Item.THUMBNAIL, thumbnailURL);
-            intent.putExtra(ContractClass.Item.SUBTITLE, subtitle);
-            intent.putExtra(ContractClass.Item.PUBDATE, pubdate);
-            intent.putExtra(ContractClass.Item.DESCRIPTION, description);
-            mContext.startActivity(intent);
+            intent.putExtra(ContractClass.Item.THUMBNAIL, mThumbnailUrl);
+            intent.putExtra(ContractClass.Item.SUBTITLE, mItemTitle);
+            intent.putExtra(ContractClass.Item.PUBDATE, mPubDate);
+            intent.putExtra(ContractClass.Item.DESCRIPTION, mDescription);
+            sContext.startActivity(intent);
+        }
+
+        private void setOnClickListeners() {
+            mItemThumbnailImageView.setOnClickListener(this);
+            mItemTitleTextView.setOnClickListener(this);
+            mItemPubdateTextView.setOnClickListener(this);
+            mNavigationImageView.setOnClickListener(this);
+        }
+
+        private void initializeFieldFromCursor(Cursor cursor) {
+            mThumbnailUrl = cursor.getString(cursor.getColumnIndex(ContractClass.Item.THUMBNAIL));
+            mItemTitle = cursor.getString(cursor.getColumnIndex(ContractClass.Item.TITLE));
+            mPubDate = cursor.getString(cursor.getColumnIndex(ContractClass.Item.PUBDATE));
+            mDescription = cursor.getString(cursor.getColumnIndex(ContractClass.Item.DESCRIPTION));
+        }
+
+        private void showThumbnail() {
+            if (mThumbnailUrl != null) {
+                mImageLoader.displayImage(
+                        mThumbnailUrl, this.mItemThumbnailImageView, mDisplayImageOptions);
+            }
         }
     }
 }
