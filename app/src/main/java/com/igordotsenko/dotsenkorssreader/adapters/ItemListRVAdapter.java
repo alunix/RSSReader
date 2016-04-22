@@ -70,6 +70,7 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
 
         ItemViewHolder(View view) {
             super(view);
+
             itemThumbnail = (ImageView) view.findViewById(R.id.item_thumbnail);
             itemTitle = (TextView) view.findViewById(R.id.item_title);
             itemPubdate = (TextView) view.findViewById(R.id.item_pubdate);

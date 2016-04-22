@@ -12,17 +12,16 @@ import android.widget.TextView;
 
 import com.igordotsenko.dotsenkorssreader.ItemListActivity;
 import com.igordotsenko.dotsenkorssreader.R;
-import com.igordotsenko.dotsenkorssreader.ReaderContentProvider;
 
 import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
 public class ChannelListRVAdapter
         extends RecyclerViewCursorAdapter<ChannelListRVAdapter.ChannelViewHolder>{
 
-    private Context mContext;
+    private static Context sContext;
 
     public ChannelListRVAdapter(Context context) {
-        this.mContext = context;
+        this.sContext = context;
     }
 
     @Override
@@ -41,46 +40,44 @@ public class ChannelListRVAdapter
     @Override
     public void onBindViewHolder(ChannelListRVAdapter.ChannelViewHolder holder, Cursor cursor) {
         holder.bindData(cursor);
-
-        //Setting OnClickListeners
-        holder.layout.setOnClickListener(new ChannelOnClickListener(cursor));
-        holder.channelTitle.setOnClickListener(new ChannelOnClickListener(cursor));
     }
 
 
-    public static class ChannelViewHolder extends RecyclerView.ViewHolder {
-        TextView channelTitle;
-        RelativeLayout layout;
+    public static class ChannelViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
+
+        private long mId;
+        private String mTitle;
+        private TextView mChannelTitleTextView;
+        private RelativeLayout mLayout;
 
         ChannelViewHolder(View view) {
             super(view);
-            layout = (RelativeLayout) view.findViewById(R.id.channel_card_layout);
-            channelTitle = (TextView) view.findViewById(R.id.channel_title);
+
+            mLayout = (RelativeLayout) view.findViewById(R.id.channel_card_layout);
+            mChannelTitleTextView = (TextView) view.findViewById(R.id.channel_title);
+            setOnClickListeners();
         }
 
         public void bindData(final Cursor cursor) {
-            channelTitle.setText(cursor.getString(
-                    cursor.getColumnIndex(ReaderContentProvider.ContractClass.Channel.TITLE)));
-        }
-    }
+            this.mId = cursor.getLong(cursor.getColumnIndex(ContractClass.Channel.ID));
+            this.mTitle = cursor.getString(cursor.getColumnIndex(ContractClass.Channel.TITLE));
 
-    private class ChannelOnClickListener implements View.OnClickListener {
-//        private final int position;
-        private long id;
-        private String title;
-
-        public  ChannelOnClickListener(Cursor cursor) {
-            this.id = cursor.getLong(cursor.getColumnIndex(ContractClass.Channel.ID));
-            this.title = cursor.getString(cursor.getColumnIndex(ContractClass.Channel.TITLE));
+            mChannelTitleTextView.setText(mTitle);
         }
 
         @Override
         public void onClick(View v) {
             //Start ItemListActivity
-            Intent intent = new Intent(mContext, ItemListActivity.class);
-            intent.putExtra(ContractClass.Channel.ID, id);
-            intent.putExtra(ContractClass.Channel.TITLE, title);
-            mContext.startActivity(intent);
+            Intent intent = new Intent(sContext, ItemListActivity.class);
+            intent.putExtra(ContractClass.Channel.ID, mId);
+            intent.putExtra(ContractClass.Channel.TITLE, mTitle);
+            sContext.startActivity(intent);
+        }
+
+        private void setOnClickListeners() {
+            mLayout.setOnClickListener(this);
+            mChannelTitleTextView.setOnClickListener(this);
         }
     }
 }
