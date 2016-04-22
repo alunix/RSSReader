@@ -1,7 +1,5 @@
 package com.igordotsenko.dotsenkorssreader.adapters;
 
-import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.igordotsenko.dotsenkorssreader.ItemListActivity;
 import com.igordotsenko.dotsenkorssreader.R;
 
 import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;

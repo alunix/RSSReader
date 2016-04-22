@@ -11,15 +11,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 import com.igordotsenko.dotsenkorssreader.adapters.ItemListRVAdapter;
 import com.igordotsenko.dotsenkorssreader.syncadapter.ReaderSyncAdapter;
 
@@ -42,15 +41,6 @@ public class ItemListFragment extends Fragment
 
 
     public ItemListFragment() {}
-
-
-
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        setRetainInstance(true);
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,7 +73,7 @@ public class ItemListFragment extends Fragment
             mBackButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    closefragment();
+                    closeFragment();
                 }
             });
         }
@@ -134,21 +124,20 @@ public class ItemListFragment extends Fragment
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String selection;
         String[] selectionArgs = { "" + mCurrentChannelId};
-        String order = ReaderContentProvider.ContractClass.Item.PUBDATE_LONG + " DESC";
+        String order = ContractClass.Item.PUBDATE_LONG + " DESC";
 
         switch (id) {
             case LOADER_ITEM_LIST:
-                selection = ReaderContentProvider.ContractClass.Item.CHANNEL_ID + " = ?";
-                //TODO remove ReaderContentProvider prefix
-                return new CursorLoader(getContext(), ReaderContentProvider.ContractClass.ITEM_CONTENT_URI,
+                selection = ContractClass.Item.CHANNEL_ID + " = ?";
+                return new CursorLoader(getContext(), ContractClass.ITEM_CONTENT_URI,
                         null, selection, selectionArgs, order);
             case LOADER_ITEM_LIST_REFRESH:
-                selection = ReaderContentProvider.ContractClass.Item.CHANNEL_ID + " = ? AND "
-                        + ReaderContentProvider.ContractClass.Item.TITLE
+                selection = ContractClass.Item.CHANNEL_ID + " = ? AND "
+                        + ContractClass.Item.TITLE
                         + " LIKE '%" + args.getString(QUERY_TEXT) + "%'";
 
                 return new CursorLoader(
-                        getContext(), ReaderContentProvider.ContractClass.ITEM_CONTENT_URI,
+                        getContext(), ContractClass.ITEM_CONTENT_URI,
                         null, selection, selectionArgs, order);
         }
         return null;
@@ -197,7 +186,7 @@ public class ItemListFragment extends Fragment
         setRecyclerViewVisible();
     }
 
-    private void closefragment() {
+    private void closeFragment() {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction().remove(this).commit();
         fragmentManager.popBackStackImmediate();

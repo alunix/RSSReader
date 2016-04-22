@@ -8,9 +8,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.igordotsenko.dotsenkorssreader.ItemListActivity;
 import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
 import com.igordotsenko.dotsenkorssreader.entities.Parser;
 

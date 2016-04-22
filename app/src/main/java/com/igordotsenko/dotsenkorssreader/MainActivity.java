@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity
         return findViewById(R.id.itemList_fragment_container) == null;
     }
 
-    //TODO check for duplicate with newxt method
     private void openItemListFragment(ItemListFragment itemListFragment) {
         Log.d(LOG_TAG, "openItemListFragment: started");
         getSupportFragmentManager()

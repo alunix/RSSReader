@@ -1,8 +1,6 @@
 package com.igordotsenko.dotsenkorssreader;
 
-import android.app.Activity;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -19,8 +17,6 @@ import android.widget.ImageButton;
 
 import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
 import com.igordotsenko.dotsenkorssreader.syncadapter.ReaderSyncAdapter;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class ChannelListFragment extends Fragment
         implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
