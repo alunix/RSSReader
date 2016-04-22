@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:id="@+id/relativeLayout"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -28,8 +28,8 @@
             android:layout_toStartOf="@+id/channel_list_add_button" />
 
         <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/channel_list_add_button"
             android:background="@drawable/add_new_channel_button_selector"
             android:layout_alignParentEnd="true"

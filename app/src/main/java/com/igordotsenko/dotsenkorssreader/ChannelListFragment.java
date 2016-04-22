@@ -1,7 +1,10 @@
 package com.igordotsenko.dotsenkorssreader;
 
+import android.app.Activity;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -16,6 +19,8 @@ import android.widget.ImageButton;
 
 import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
 import com.igordotsenko.dotsenkorssreader.syncadapter.ReaderSyncAdapter;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class ChannelListFragment extends Fragment
         implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -27,7 +32,7 @@ public class ChannelListFragment extends Fragment
     private static final int LOADER_CHANNEL_LIST_REFRESH = 2;
 
     private int mCurrentItemList = -1;
-    private AddChannelFragment mDialogFragment;
+    private DialogFragment mDialogFragment;
     private RecyclerView mRecyclerView;
     private SearchView mSearchView;
     private ImageButton mAddChannelButton;
@@ -64,11 +69,14 @@ public class ChannelListFragment extends Fragment
 
         //RecyclerView initialization
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.channel_list_recyclerview);
+        //TODO could be a problem because of getContext?
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
         // Retrieve channel list from database and set adapter
-        mRvAdapter = new ChannelListRVAdapter(getContext());
+        //TODO could be a problem beacuse of getContext?
+        mRvAdapter =
+                new ChannelListRVAdapter((ChannelListRVAdapter.OnItemSelectListener) getActivity());
         mRecyclerView.setAdapter(mRvAdapter);
 
         return layout;
@@ -79,7 +87,6 @@ public class ChannelListFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
 
         mDialogFragment = new AddChannelFragment();
-        mDialogFragment.setContext(getContext());
 
         //Start Loader
         this.getLoaderManager().initLoader(LOADER_CHANNEL_LIST, null, this).forceLoad();

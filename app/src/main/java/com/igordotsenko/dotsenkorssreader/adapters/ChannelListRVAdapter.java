@@ -18,10 +18,14 @@ import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractC
 public class ChannelListRVAdapter
         extends RecyclerViewCursorAdapter<ChannelListRVAdapter.ChannelViewHolder>{
 
-    private static Context sContext;
+    public interface OnItemSelectListener {
+        void onItemSelected(long selectedChannelId, String title);
+    }
 
-    public ChannelListRVAdapter(Context context) {
-        this.sContext = context;
+    private static OnItemSelectListener mOnItemSelectListener;
+
+    public ChannelListRVAdapter(OnItemSelectListener onItemSelectListener) {
+        this.mOnItemSelectListener = onItemSelectListener;
     }
 
     @Override
@@ -69,10 +73,11 @@ public class ChannelListRVAdapter
         @Override
         public void onClick(View v) {
             //Start ItemListActivity
-            Intent intent = new Intent(sContext, ItemListActivity.class);
-            intent.putExtra(ContractClass.Channel.ID, mId);
-            intent.putExtra(ContractClass.Channel.TITLE, mTitle);
-            sContext.startActivity(intent);
+//            Intent intent = new Intent(sContext, ItemListActivity.class);
+//            intent.putExtra(ContractClass.Channel.ID, mId);
+//            intent.putExtra(ContractClass.Channel.TITLE, mTitle);
+//            sContext.startActivity(intent);
+            mOnItemSelectListener.onItemSelected(mId, mTitle);
         }
 
         private void setOnClickListeners() {
