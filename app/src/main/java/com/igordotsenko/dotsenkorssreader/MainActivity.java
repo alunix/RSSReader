@@ -1,26 +1,11 @@
 package com.igordotsenko.dotsenkorssreader;
 
-import android.content.pm.ActivityInfo;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.view.View;
-import android.widget.ImageButton;
 
-import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
 import com.igordotsenko.dotsenkorssreader.syncadapter.ReaderSyncAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
-import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
 public class MainActivity extends AppCompatActivity {
     public static final String LOG_TAG = "rss_reader_log";
