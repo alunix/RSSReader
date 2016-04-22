@@ -40,7 +40,7 @@ public class ItemListActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mCurrentChannelId = getIntent().getLongExtra(ContractClass.Channel.ID, -1);
 
         //SwipeRefreshLayout initialization
