@@ -25,8 +25,7 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
     private static Context sContext;
     private ImageLoader mImageLoader;
     private DisplayImageOptions mDisplayImageOptions;
-//    private String mParentChannelTitle;
-    private Channel mParentChannell;
+    private Channel mParentChannel;
 
     public ItemListRVAdapter(Context context, Channel channel) {
         this.sContext = context;
@@ -36,8 +35,7 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .build();
-        this.mParentChannell = channel;
-//        this.mParentChannelTitle = channelTitle;
+        this.mParentChannel = channel;
     }
 
     @Override
@@ -56,10 +54,6 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-    }
-
-    public void setParentChannell(Channel channell) {
-        mParentChannell = channell;
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
@@ -96,7 +90,7 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
         public void onClick(View v) {
             //Starting ItemContentActivity
             Intent intent = new Intent(sContext, ItemContentActivity.class);
-            intent.putExtra(ContractClass.Item.TITLE, mParentChannell.getTitle());
+            intent.putExtra(ContractClass.Item.TITLE, mParentChannel.getTitle());
             intent.putExtra(ContractClass.Item.THUMBNAIL, mThumbnailUrl);
             intent.putExtra(ContractClass.Item.SUBTITLE, mItemTitle);
             intent.putExtra(ContractClass.Item.PUBDATE, mPubDate);

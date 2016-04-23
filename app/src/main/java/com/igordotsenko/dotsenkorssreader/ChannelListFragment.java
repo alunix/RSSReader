@@ -28,7 +28,6 @@ public class ChannelListFragment extends Fragment
     private static final int LOADER_CHANNEL_LIST = 1;
     private static final int LOADER_CHANNEL_LIST_REFRESH = 2;
 
-    private int mCurrentItemList = -1;
     private DialogFragment mDialogFragment;
     private RecyclerView mRecyclerView;
     private SearchView mSearchView;
@@ -67,12 +66,10 @@ public class ChannelListFragment extends Fragment
 
         //RecyclerView initialization
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.channel_list_recyclerview);
-        //TODO could be a problem because of getContext?
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
         // Retrieve channel list from database and set adapter
-        //TODO could be a problem beacuse of getContext?
         mRvAdapter =
                 new ChannelListRVAdapter((ChannelListRVAdapter.OnItemSelectListener) getActivity());
         mRecyclerView.setAdapter(mRvAdapter);
@@ -118,7 +115,6 @@ public class ChannelListFragment extends Fragment
 
         switch (id) {
             case LOADER_CHANNEL_LIST:
-                //TODO could be a problem because of getContext?
                 return new CursorLoader(
                         getContext(), ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI,
                         null, null, null, order);
@@ -128,7 +124,6 @@ public class ChannelListFragment extends Fragment
                         + " LIKE '%" + args.getString(QUERY_TEXT) + "%'";
 
                 return new CursorLoader(
-                        //TODO could be a problem because of getContext?
                         getContext(), ReaderContentProvider.ContractClass.CHANNEL_CONTENT_URI,
                         null, selection, null, order);
         }

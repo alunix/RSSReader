@@ -11,14 +11,10 @@ import android.widget.TextView;
 import com.igordotsenko.dotsenkorssreader.R;
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
 
-import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
-
 public class ChannelListRVAdapter
         extends RecyclerViewCursorAdapter<ChannelListRVAdapter.ChannelViewHolder>{
 
     public interface OnItemSelectListener {
-        // TODO remove
-//        void onItemSelected(long selectedChannelId, String title);
         void onItemSelected(Channel selectedChannel);
     }
 
@@ -58,9 +54,6 @@ public class ChannelListRVAdapter
 
     public static class ChannelViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
-        //TODO remove
-//        private long mId;
-//        private String mTitle;
         private Channel mChannel;
         private TextView mChannelTitleTextView;
         private RelativeLayout mLayout;
@@ -74,9 +67,6 @@ public class ChannelListRVAdapter
         }
 
         public void bindData(final Cursor cursor) {
-            //TODO remove
-//            this.mId = cursor.getLong(cursor.getColumnIndex(ContractClass.Channel.ID));
-//            this.mTitle = cursor.getString(cursor.getColumnIndex(ContractClass.Channel.TITLE));
             mChannel = new Channel(cursor);
             mChannelTitleTextView.setText(mChannel.getTitle());
         }

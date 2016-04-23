@@ -1,5 +1,6 @@
 package com.igordotsenko.dotsenkorssreader;
 
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,11 +19,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 import com.igordotsenko.dotsenkorssreader.adapters.ItemListRVAdapter;
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
-import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
 import com.igordotsenko.dotsenkorssreader.syncadapter.ReaderSyncAdapter;
+
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
 public class ItemListFragment extends Fragment
         implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -39,10 +40,6 @@ public class ItemListFragment extends Fragment
     private TextView mWelcomeMessage;
     private ItemListRVAdapter mRvAdapter;
     private Channel mSelectedChannel = new Channel();
-    //TODO remove
-//    private long mCurrentChannelId;
-//    private String mSelectedChannelTitle;
-
 
     public ItemListFragment() {}
 
@@ -77,6 +74,7 @@ public class ItemListFragment extends Fragment
             mBackButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
                     closeFragment();
                 }
             });
@@ -88,7 +86,6 @@ public class ItemListFragment extends Fragment
         //Setting adapter on mRecyclerView
         mRvAdapter = new ItemListRVAdapter(getContext(), mSelectedChannel);
         mRecyclerView.setAdapter(mRvAdapter);
-
 
         Log.d(MainActivity.LOG_TAG, "" + getClass().getName() + "onCreateView: finished");
         return layout;
@@ -127,9 +124,7 @@ public class ItemListFragment extends Fragment
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String selection;
-        // TODO CHANGE BACK!
         String[] selectionArgs = { "" + mSelectedChannel.getId()};
-//        String[] selectionArgs = { "" + 0};
         String order = ContractClass.Item.PUBDATE_LONG + " DESC";
 
         switch (id) {
@@ -168,25 +163,8 @@ public class ItemListFragment extends Fragment
         }
     }
 
-    // TODO remove
-//    public void finishInitialization(long selectedChannelId) {
-//        mCurrentChannelId = selectedChannelId;
-//        mSelectedChannelTitle = DBHandler.getChannelTitle(selectedChannelId, getContext().getContentResolver());
-//
-//    }
-
-//    public long getSelectedChannelId() {
-//        return mCurrentChannelId;
-//    }
-
-//    public void setSelectedChannelTitle() {
-//        mSelectedChannelTitle = selectedChannelTitle;
-//        mSelectedChannelTitle = DBHandler.getChannelTitle(selectedChannelId, getContext().getContentResolver());
-//    }
-
-    public void setSelectedChannel(Channel channel) {
+    public void setLastSelectedChannel(Channel channel) {
         mSelectedChannel = channel;
-//        mRvAdapter.setParentChannell(channel);
     }
 
     private void setWelcomeMessageVisible() {
