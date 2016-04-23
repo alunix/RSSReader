@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.igordotsenko.dotsenkorssreader.ItemContentActivity;
 import com.igordotsenko.dotsenkorssreader.R;
+import com.igordotsenko.dotsenkorssreader.entities.Channel;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ocpsoft.pretty.time.PrettyTime;
@@ -24,9 +25,10 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
     private static Context sContext;
     private ImageLoader mImageLoader;
     private DisplayImageOptions mDisplayImageOptions;
-    private String mParentChannelTitle;
+//    private String mParentChannelTitle;
+    private Channel mParentChannell;
 
-    public ItemListRVAdapter(Context context, String channelTitle) {
+    public ItemListRVAdapter(Context context, Channel channel) {
         this.sContext = context;
         this.mImageLoader = ImageLoader.getInstance();
         this.mDisplayImageOptions = new DisplayImageOptions
@@ -34,8 +36,8 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .build();
-
-        this.mParentChannelTitle = channelTitle;
+        this.mParentChannell = channel;
+//        this.mParentChannelTitle = channelTitle;
     }
 
     @Override
@@ -54,6 +56,10 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    public void setParentChannell(Channel channell) {
+        mParentChannell = channell;
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
@@ -90,7 +96,7 @@ public class ItemListRVAdapter extends RecyclerViewCursorAdapter<ItemListRVAdapt
         public void onClick(View v) {
             //Starting ItemContentActivity
             Intent intent = new Intent(sContext, ItemContentActivity.class);
-            intent.putExtra(ContractClass.Item.TITLE, mParentChannelTitle);
+            intent.putExtra(ContractClass.Item.TITLE, mParentChannell.getTitle());
             intent.putExtra(ContractClass.Item.THUMBNAIL, mThumbnailUrl);
             intent.putExtra(ContractClass.Item.SUBTITLE, mItemTitle);
             intent.putExtra(ContractClass.Item.PUBDATE, mPubDate);

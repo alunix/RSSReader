@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 import com.igordotsenko.dotsenkorssreader.adapters.ItemListRVAdapter;
+import com.igordotsenko.dotsenkorssreader.entities.Channel;
+import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
 import com.igordotsenko.dotsenkorssreader.syncadapter.ReaderSyncAdapter;
 
 public class ItemListFragment extends Fragment
@@ -36,8 +38,10 @@ public class ItemListFragment extends Fragment
     private ImageButton mBackButton;
     private TextView mWelcomeMessage;
     private ItemListRVAdapter mRvAdapter;
-    private long mCurrentChannelId;
-    private String mSelectedChannelTitle;
+    private Channel mSelectedChannel = new Channel();
+    //TODO remove
+//    private long mCurrentChannelId;
+//    private String mSelectedChannelTitle;
 
 
     public ItemListFragment() {}
@@ -82,7 +86,7 @@ public class ItemListFragment extends Fragment
         mWelcomeMessage = (TextView) layout.findViewById(R.id.item_list_empty_view);
 
         //Setting adapter on mRecyclerView
-        mRvAdapter = new ItemListRVAdapter(getContext(), mSelectedChannelTitle);
+        mRvAdapter = new ItemListRVAdapter(getContext(), mSelectedChannel);
         mRecyclerView.setAdapter(mRvAdapter);
 
 
@@ -123,7 +127,9 @@ public class ItemListFragment extends Fragment
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String selection;
-        String[] selectionArgs = { "" + mCurrentChannelId};
+        // TODO CHANGE BACK!
+        String[] selectionArgs = { "" + mSelectedChannel.getId()};
+//        String[] selectionArgs = { "" + 0};
         String order = ContractClass.Item.PUBDATE_LONG + " DESC";
 
         switch (id) {
@@ -143,6 +149,10 @@ public class ItemListFragment extends Fragment
         return null;
     }
 
+    public void onReplace() {
+        this.getLoaderManager().restartLoader(LOADER_ITEM_LIST, null, this).forceLoad();
+    }
+
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if ( loader.getId() == LOADER_ITEM_LIST || loader.getId() == LOADER_ITEM_LIST_REFRESH ) {
@@ -158,28 +168,44 @@ public class ItemListFragment extends Fragment
         }
     }
 
-    public void setSelectedChannelId(long selectedChannelId) {
-        mCurrentChannelId = selectedChannelId;
-    }
+    // TODO remove
+//    public void finishInitialization(long selectedChannelId) {
+//        mCurrentChannelId = selectedChannelId;
+//        mSelectedChannelTitle = DBHandler.getChannelTitle(selectedChannelId, getContext().getContentResolver());
+//
+//    }
 
-    public void setSelectedChannelTitle(String selectedChannelTitle) {
-        mSelectedChannelTitle = selectedChannelTitle;
+//    public long getSelectedChannelId() {
+//        return mCurrentChannelId;
+//    }
+
+//    public void setSelectedChannelTitle() {
+//        mSelectedChannelTitle = selectedChannelTitle;
+//        mSelectedChannelTitle = DBHandler.getChannelTitle(selectedChannelId, getContext().getContentResolver());
+//    }
+
+    public void setSelectedChannel(Channel channel) {
+        mSelectedChannel = channel;
+//        mRvAdapter.setParentChannell(channel);
     }
 
     private void setWelcomeMessageVisible() {
         mRecyclerView.setVisibility(View.GONE);
         mWelcomeMessage.setVisibility(View.VISIBLE);
+        Log.d(MainActivity.LOG_TAG, getClass().getSimpleName() + ": setWelcomeMessageVisible: finished");
     }
 
     private void setRecyclerViewVisible() {
         if ( mRecyclerView.getVisibility() != View.VISIBLE ) {
             mRecyclerView.setVisibility(View.VISIBLE);
             mWelcomeMessage.setVisibility(View.GONE);
+            Log.d(MainActivity.LOG_TAG, getClass().getSimpleName() + ": setRecyclerViewVisible: finished");
         }
     }
 
     private void handleWelcomeMessage(Cursor data) {
         if ( data.getCount() == 0 ) {
+
             setWelcomeMessageVisible();
             return;
         }

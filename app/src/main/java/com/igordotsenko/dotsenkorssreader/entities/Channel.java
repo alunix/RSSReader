@@ -1,5 +1,7 @@
 package com.igordotsenko.dotsenkorssreader.entities;
 
+import android.database.Cursor;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
@@ -53,6 +55,17 @@ public class Channel {
         this.mLastBuildDate = lastBuildDate;
         lastBuildDateToLong();
         this.mItems = new ArrayList<Item>();
+    }
+
+    public Channel(Cursor cursor) {
+        this.mId = cursor.getLong(cursor.getColumnIndex(ContractClass.Channel.ID));
+        this.mTitle = cursor.getString(cursor.getColumnIndex(ContractClass.Channel.TITLE));
+        this.mLink = cursor.getString(cursor.getColumnIndex(ContractClass.Channel.LINK));
+        this.mLastBuildDate = cursor.getString(cursor.getColumnIndex(ContractClass
+                .Channel.LAST_BUILD_DATE));
+
+        this.mLastBuildDateLong = cursor.getLong(cursor.getColumnIndex(ContractClass
+                .Channel.LAST_BUILD_DATE_LONG));
     }
 
     public void finishItemsInitializtion() {

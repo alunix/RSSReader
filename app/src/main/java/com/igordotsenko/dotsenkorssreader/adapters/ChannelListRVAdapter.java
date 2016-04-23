@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.igordotsenko.dotsenkorssreader.R;
+import com.igordotsenko.dotsenkorssreader.entities.Channel;
 
 import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
 
@@ -16,13 +17,17 @@ public class ChannelListRVAdapter
         extends RecyclerViewCursorAdapter<ChannelListRVAdapter.ChannelViewHolder>{
 
     public interface OnItemSelectListener {
-        void onItemSelected(long selectedChannelId, String title);
+        // TODO remove
+//        void onItemSelected(long selectedChannelId, String title);
+        void onItemSelected(Channel selectedChannel);
     }
 
-    private static OnItemSelectListener mOnItemSelectListener;
+    private static OnItemSelectListener sOnItemSelectListener;
+//    private static long sLastSelectedChannelId;
+    private static Channel sLastSelectedChannel;
 
     public ChannelListRVAdapter(OnItemSelectListener onItemSelectListener) {
-        this.mOnItemSelectListener = onItemSelectListener;
+        this.sOnItemSelectListener = onItemSelectListener;
     }
 
     @Override
@@ -40,15 +45,23 @@ public class ChannelListRVAdapter
 
     @Override
     public void onBindViewHolder(ChannelListRVAdapter.ChannelViewHolder holder, Cursor cursor) {
+        if ( cursor.getPosition() == 0 ) {
+            sLastSelectedChannel = new Channel(cursor);
+        }
         holder.bindData(cursor);
+    }
+
+    public Channel lastSelectedChannel() {
+        return sLastSelectedChannel;
     }
 
 
     public static class ChannelViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
-
-        private long mId;
-        private String mTitle;
+        //TODO remove
+//        private long mId;
+//        private String mTitle;
+        private Channel mChannel;
         private TextView mChannelTitleTextView;
         private RelativeLayout mLayout;
 
@@ -61,20 +74,18 @@ public class ChannelListRVAdapter
         }
 
         public void bindData(final Cursor cursor) {
-            this.mId = cursor.getLong(cursor.getColumnIndex(ContractClass.Channel.ID));
-            this.mTitle = cursor.getString(cursor.getColumnIndex(ContractClass.Channel.TITLE));
-
-            mChannelTitleTextView.setText(mTitle);
+            //TODO remove
+//            this.mId = cursor.getLong(cursor.getColumnIndex(ContractClass.Channel.ID));
+//            this.mTitle = cursor.getString(cursor.getColumnIndex(ContractClass.Channel.TITLE));
+            mChannel = new Channel(cursor);
+            mChannelTitleTextView.setText(mChannel.getTitle());
         }
 
         @Override
         public void onClick(View v) {
-            //Start ItemListActivity
-//            Intent intent = new Intent(sContext, ItemListActivity.class);
-//            intent.putExtra(ContractClass.Channel.ID, mId);
-//            intent.putExtra(ContractClass.Channel.TITLE, mTitle);
-//            sContext.startActivity(intent);
-            mOnItemSelectListener.onItemSelected(mId, mTitle);
+            //Open ItemListFragment
+            sLastSelectedChannel = mChannel;
+            sOnItemSelectListener.onItemSelected(mChannel);
         }
 
         private void setOnClickListeners() {
