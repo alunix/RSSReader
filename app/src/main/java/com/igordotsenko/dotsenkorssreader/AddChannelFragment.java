@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.ClipboardManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +27,10 @@ public class AddChannelFragment extends DialogFragment  {
     private final String FEED_EXIST_MESSAGE = "Feed has been added already";
     private final String INTERNET_UNAVAILABLE_MESSAGE = "Internet connection is not available";
 
-    private Context mContext;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + " onCreateView: started");
         View layout = inflater.inflate(R.layout.fragment_add_channel, null);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         final TextView addChannelTextView =
@@ -41,7 +41,7 @@ public class AddChannelFragment extends DialogFragment  {
             @Override
             public boolean onLongClick(View v) {
                 ClipboardManager cm =
-                        (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                        (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                 return false;
             }
         });
@@ -64,8 +64,8 @@ public class AddChannelFragment extends DialogFragment  {
                 }
 
                 //Check if feed has been already added
-                if ( DBHandler.channelIsAlreadyAdded(url, mContext) ) {
-                    Toast.makeText(mContext, FEED_EXIST_MESSAGE, Toast.LENGTH_SHORT).show();
+                if ( DBHandler.channelIsAlreadyAdded(url, getContext()) ) {
+                    Toast.makeText(getContext(), FEED_EXIST_MESSAGE, Toast.LENGTH_SHORT).show();
                     addChannelTextView.setText("");
                     dismiss();
                     return;
@@ -73,12 +73,12 @@ public class AddChannelFragment extends DialogFragment  {
 
                 //Check if internet connection is active
                 ConnectivityManager connectivityManager =
-                        (ConnectivityManager) mContext
+                        (ConnectivityManager) getContext()
                                 .getSystemService(Context.CONNECTIVITY_SERVICE);
 
                 if ( connectivityManager.getActiveNetworkInfo() == null ) {
                     Toast.makeText(
-                            mContext, INTERNET_UNAVAILABLE_MESSAGE, Toast.LENGTH_SHORT).show();
+                            getContext(), INTERNET_UNAVAILABLE_MESSAGE, Toast.LENGTH_SHORT).show();
 
                     return;
                 }
@@ -89,6 +89,8 @@ public class AddChannelFragment extends DialogFragment  {
                 dismiss();
             }
         });
+
+
 
         //Implementing "Cancel" button
         layout.findViewById(R.id.add_channel_cancel_button).setOnClickListener(new View.OnClickListener() {
@@ -101,19 +103,17 @@ public class AddChannelFragment extends DialogFragment  {
         return layout;
     }
 
-    public void setContext(Context context) {
-        mContext = context;
-    }
-
     private class DownloadNewChannelTask extends AsyncTask<String, Void, String> {
         private final String ERROR_MESSAGE = "Cannot add feed";
         private final String SUCCESS_MESSAGE = "Feed added";
         private final String FEED_EXIST_MESSAGE = "Feed has been added already";
 
+        private Context context;
         private ProgressDialog progressDialog;
 
         public DownloadNewChannelTask() {
-            progressDialog = new ProgressDialog(mContext);
+            context = getActivity();
+            progressDialog = new ProgressDialog(context);
         }
 
         @Override
@@ -141,13 +141,13 @@ public class AddChannelFragment extends DialogFragment  {
 
             if ( newChannel != null ) {
                 //Check if channel has been already added
-                if ( DBHandler.channelIsAlreadyAdded(newChannel, mContext) ) {
+                if ( DBHandler.channelIsAlreadyAdded(newChannel, context) ) {
                     return FEED_EXIST_MESSAGE;
                 }
 
                 //Saving channel (returns the same channel with id set) and item in db.
-                newChannel = DBHandler.insertIntoChannel(newChannel, mContext.getContentResolver());
-                DBHandler.insertIntoItem(newChannel.getItems(), newChannel.getId(), mContext);
+                newChannel = DBHandler.insertIntoChannel(newChannel, context.getContentResolver());
+                DBHandler.insertIntoItem(newChannel.getItems(), newChannel.getId(), context);
 
                 //Update recyclerview
                 return SUCCESS_MESSAGE;
@@ -161,7 +161,8 @@ public class AddChannelFragment extends DialogFragment  {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             dismissProgressDialog();
-            Toast.makeText(mContext, result, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+            context = null;
         }
 
         private void dismissProgressDialog() {

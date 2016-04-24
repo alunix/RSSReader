@@ -2,7 +2,6 @@ package com.igordotsenko.dotsenkorssreader;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -28,12 +27,12 @@ public class ChannelListFragment extends Fragment
     private static final int LOADER_CHANNEL_LIST = 1;
     private static final int LOADER_CHANNEL_LIST_REFRESH = 2;
 
-    private DialogFragment mDialogFragment;
+    private AddChannelFragment mDialogFragment;
     private RecyclerView mRecyclerView;
     private SearchView mSearchView;
     private ImageButton mAddChannelButton;
     private ChannelListRVAdapter mRvAdapter;
-    private Channel mLastSelectedChannel;
+    private Channel mLastSelectedChannel = new Channel();
 
     public ChannelListFragment() {}
 
