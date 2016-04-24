@@ -1,6 +1,6 @@
 package com.igordotsenko.dotsenkorssreader;
 
-import android.app.ProgressDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
@@ -23,9 +23,46 @@ import com.igordotsenko.dotsenkorssreader.entities.Parser;
 import java.io.IOException;
 
 public class AddChannelFragment extends DialogFragment  {
+    public interface DownloadChannelTaskListener {
+        void onDownloadFeedStarted();
+        void onDownloadFeedFinished();
+    }
+
+    public static final String FRAGMENT_TAG = "add_channel_fragment_tag";
+
     private final String NO_URL_MESSAGE = "Enter url";
     private final String FEED_EXIST_MESSAGE = "Feed has been added already";
     private final String INTERNET_UNAVAILABLE_MESSAGE = "Internet connection is not available";
+
+    private DownloadChannelTaskListener mDownloadChannelTaskListener;
+    private DownloadNewChannelTask mDownloadNewChannelTask;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onAttach: started: mDownloadChannelTaskListener = " + context);
+        mDownloadChannelTaskListener = (DownloadChannelTaskListener) context;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setRetainInstance(true);
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        Dialog dialog = getDialog();
+
+        // Work around bug: http://code.google.com/p/android/issues/detail?id=17423
+        if ((dialog != null) && getRetainInstance())
+            dialog.setDismissMessage(null);
+
+        super.onDestroyView();
+    }
+
 
     @Nullable
     @Override
@@ -67,7 +104,6 @@ public class AddChannelFragment extends DialogFragment  {
                 if ( DBHandler.channelIsAlreadyAdded(url, getContext()) ) {
                     Toast.makeText(getContext(), FEED_EXIST_MESSAGE, Toast.LENGTH_SHORT).show();
                     addChannelTextView.setText("");
-                    dismiss();
                     return;
                 }
 
@@ -84,9 +120,9 @@ public class AddChannelFragment extends DialogFragment  {
                 }
 
                 //Add feed
-                new DownloadNewChannelTask().execute(url);
-                addChannelTextView.setText("");
-                dismiss();
+                mDownloadNewChannelTask = new DownloadNewChannelTask();
+                mDownloadNewChannelTask.execute(url);
+//                dismiss();
             }
         });
 
@@ -103,24 +139,44 @@ public class AddChannelFragment extends DialogFragment  {
         return layout;
     }
 
-    private class DownloadNewChannelTask extends AsyncTask<String, Void, String> {
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onDetach: started");
+        mDownloadChannelTaskListener = null;
+        Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onDetach: finished");
+    }
+
+    public DownloadNewChannelTask getDownloadNewChannelTask() {
+        return mDownloadNewChannelTask;
+    }
+
+    class DownloadNewChannelTask extends AsyncTask<String, Void, String> {
+        public static final String PROGRESS_DIALOG_MESSAGE = "Adding new feed...";
+
         private final String ERROR_MESSAGE = "Cannot add feed";
         private final String SUCCESS_MESSAGE = "Feed added";
         private final String FEED_EXIST_MESSAGE = "Feed has been added already";
 
         private Context context;
-        private ProgressDialog progressDialog;
+//        private ProgressDialog progressDialog;
+//        private DownloadChannelTaskListener downloadChannelTaskListener;
 
         public DownloadNewChannelTask() {
             context = getActivity();
-            progressDialog = new ProgressDialog(context);
+//            progressDialog = new ProgressDialog(context);
+//            this.downloadChannelTaskListener = downloadChannelTaskListener;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog.setMessage("Adding feed...");
-            progressDialog.show();
+            //TODO remove after testing
+//            progressDialog.setMessage("Adding feed...");
+//            progressDialog.show();
+            if ( mDownloadChannelTaskListener != null ) {
+                mDownloadChannelTaskListener.onDownloadFeedStarted();
+            }
         }
 
         @Override
@@ -160,15 +216,21 @@ public class AddChannelFragment extends DialogFragment  {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            dismissProgressDialog();
-            Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+//            dismissProgressDialog();
+//            Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+            Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onPostExecute: started");
+            Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onPostExecute: mDownloadChannelTaskListener = " + mDownloadChannelTaskListener);
+            if ( mDownloadChannelTaskListener != null ) {
+                mDownloadChannelTaskListener.onDownloadFeedFinished();
+            }
             context = null;
+            Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onPostExecute: finished");
         }
 
-        private void dismissProgressDialog() {
-            if (progressDialog != null && progressDialog.isShowing()) {
-                progressDialog.dismiss();
-            }
-        }
+//        private void dismissProgressDialog() {
+//            if (progressDialog != null && progressDialog.isShowing()) {
+//                progressDialog.dismiss();
+//            }
+//        }
     }
 }

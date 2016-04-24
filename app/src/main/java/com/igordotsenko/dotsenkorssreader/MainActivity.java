@@ -1,6 +1,8 @@
 package com.igordotsenko.dotsenkorssreader;
 
+import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -14,7 +16,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class MainActivity extends AppCompatActivity
-        implements ChannelListRVAdapter.OnItemSelectListener {
+        implements ChannelListRVAdapter.OnItemSelectListener,
+        AddChannelFragment.DownloadChannelTaskListener {
 
 
     public static final String LOG_TAG = "rss_reader_log";
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity
     private ChannelListFragment mChannelListFragment;
     private ItemListFragment mItemListFragment;
     private long mCurrentChannelId;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,22 @@ public class MainActivity extends AppCompatActivity
             showItemListFragment();
         }
 
+        handleAddChannelFragment();
+//        handleProgressDialog();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        handleProgressDialog();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        removeProgressDialog();
     }
 
     @Override
@@ -60,6 +80,22 @@ public class MainActivity extends AppCompatActivity
             mItemListFragment.setLastSelectedChannel(selectedChannel);
             replaceItemListFragment();
         }
+    }
+
+    @Override
+    public void  onDownloadFeedStarted() {
+        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": onDownloadFeedStarted: started");
+        showProgressDialog();
+        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": onDownloadFeedStarted: finished");
+    }
+
+    @Override
+    public void onDownloadFeedFinished() {
+        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": onDownloadFeedFinished: started");
+        removeProgressDialog();
+        mChannelListFragment.getAddChannelFragment().dismiss();
+        mChannelListFragment.setAddChannelFragment(null);
+        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": onDownloadFeedFinished: finished");
     }
 
     private void initializeImageLoader() {
@@ -135,5 +171,47 @@ public class MainActivity extends AppCompatActivity
     private FragmentTransaction startReplaceFragmentTransaction(
             int contentViewId, Fragment fragment, String tag) {
         return getSupportFragmentManager().beginTransaction().replace(contentViewId, fragment, tag);
+    }
+
+    private void showProgressDialog() {
+        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": showProgressDialog: started");
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage(
+                AddChannelFragment.DownloadNewChannelTask.PROGRESS_DIALOG_MESSAGE);
+        mProgressDialog.show();
+        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": showProgressDialog: fininshed");
+    }
+
+    private void removeProgressDialog() {
+        if ( mProgressDialog != null && mProgressDialog.isShowing() ) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+    }
+
+    private void handleProgressDialog() {
+        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": handleProgressDialog: started");
+
+        if ( mChannelListFragment.getAddChannelFragment() != null && newChannelIsDowloading()) {
+            showProgressDialog();
+        }
+        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": handleProgressDialog: finished");
+    }
+
+    private void handleAddChannelFragment() {
+        getSupportFragmentManager().findFragmentByTag(AddChannelFragment.FRAGMENT_TAG);
+    }
+
+    private boolean newChannelIsDowloading() {
+        AddChannelFragment addChannelFragment = mChannelListFragment.getAddChannelFragment();
+        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": newChannelIsDowloading: addChannelFragment = " + addChannelFragment);
+        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": newChannelIsDowloading: DownloadTask = " + addChannelFragment.getDownloadNewChannelTask());
+        if ( addChannelFragment == null
+                || addChannelFragment.getDownloadNewChannelTask() == null ) {
+            return false;
+        }
+
+        return  mChannelListFragment.getAddChannelFragment().getDownloadNewChannelTask().getStatus()
+                == AsyncTask.Status.RUNNING;
     }
 }

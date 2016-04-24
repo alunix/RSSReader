@@ -9,6 +9,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,7 @@ public class ChannelListFragment extends Fragment
     private static final int LOADER_CHANNEL_LIST = 1;
     private static final int LOADER_CHANNEL_LIST_REFRESH = 2;
 
-    private AddChannelFragment mDialogFragment;
+    private AddChannelFragment mAddChannelFragment;
     private RecyclerView mRecyclerView;
     private SearchView mSearchView;
     private ImageButton mAddChannelButton;
@@ -42,6 +43,7 @@ public class ChannelListFragment extends Fragment
 
         setRetainInstance(true);
         ReaderSyncAdapter.initializeSyncAdapter(getContext());
+        Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onCreate: mAddChannelFragment = " + mAddChannelFragment);
     }
 
     @Override
@@ -59,7 +61,8 @@ public class ChannelListFragment extends Fragment
         mAddChannelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDialogFragment.show(getFragmentManager(), "add feed");
+                mAddChannelFragment = new AddChannelFragment();
+                mAddChannelFragment.show(getFragmentManager(), AddChannelFragment.FRAGMENT_TAG);
             }
         });
 
@@ -80,8 +83,6 @@ public class ChannelListFragment extends Fragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mDialogFragment = new AddChannelFragment();
-
         //Start Loader
         this.getLoaderManager().initLoader(LOADER_CHANNEL_LIST, null, this).forceLoad();
     }
@@ -91,6 +92,14 @@ public class ChannelListFragment extends Fragment
         super.onResume();
         mSearchView.clearFocus();
         mRecyclerView.requestFocus();
+        Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onResume: mAddChannelFragment = " + mAddChannelFragment);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mAddChannelFragment = null;
     }
 
     @Override
@@ -100,6 +109,8 @@ public class ChannelListFragment extends Fragment
 
     @Override
     public boolean onQueryTextChange(String queryText) {
+        //TODO remove
+        Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onResume: mAddChannelFragment = " + mAddChannelFragment);
         Bundle bundle = new Bundle();
         bundle.putString(QUERY_TEXT, queryText);
         this.getLoaderManager()
@@ -150,5 +161,13 @@ public class ChannelListFragment extends Fragment
 
     public void setLastSelectedChannel(Channel lastSelectedChannel) {
         this.mLastSelectedChannel = lastSelectedChannel;
+    }
+
+    public AddChannelFragment getAddChannelFragment() {
+        return mAddChannelFragment;
+    }
+
+    public void setAddChannelFragment(AddChannelFragment addChannelFragment) {
+        this.mAddChannelFragment = addChannelFragment;
     }
 }
