@@ -19,8 +19,6 @@ public class ChannelListRVAdapter
     }
 
     private static OnItemSelectListener sOnItemSelectListener;
-//    private static long sLastSelectedChannelId;
-    private static Channel sLastSelectedChannel;
 
     public ChannelListRVAdapter(OnItemSelectListener onItemSelectListener) {
         this.sOnItemSelectListener = onItemSelectListener;
@@ -41,16 +39,8 @@ public class ChannelListRVAdapter
 
     @Override
     public void onBindViewHolder(ChannelListRVAdapter.ChannelViewHolder holder, Cursor cursor) {
-        if ( cursor.getPosition() == 0 ) {
-            sLastSelectedChannel = new Channel(cursor);
-        }
         holder.bindData(cursor);
     }
-
-    public Channel lastSelectedChannel() {
-        return sLastSelectedChannel;
-    }
-
 
     public static class ChannelViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
@@ -74,7 +64,6 @@ public class ChannelListRVAdapter
         @Override
         public void onClick(View v) {
             //Open ItemListFragment
-            sLastSelectedChannel = mChannel;
             sOnItemSelectListener.onItemSelected(mChannel);
         }
 
