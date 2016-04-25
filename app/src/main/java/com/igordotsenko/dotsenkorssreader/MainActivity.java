@@ -43,7 +43,9 @@ public class MainActivity extends AppCompatActivity
                 showItemListFragment();
                 return;
             }
-            mChannelListFragment.setLastSelectedChannel(new Channel());
+            if ( mChannelListFragment != null ) {
+                mChannelListFragment.setLastSelectedChannel(new Channel());
+            }
             showChannelListFragment();
             return;
         }
@@ -135,8 +137,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void showItemListFragment() {
-        if ( mItemListFragment != null  ) {
-            onItemSelected(mChannelListFragment.getLastSelectedChannel());
+        if ( mItemListFragment != null ) {
+            if ( mChannelListFragment.getLastSelectedChannel().getId() != 0 ) {
+                onItemSelected(mChannelListFragment.getLastSelectedChannel());
+            }
             return;
         }
         mItemListFragment = new ItemListFragment();
