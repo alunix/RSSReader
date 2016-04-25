@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
-import com.igordotsenko.dotsenkorssreader.entities.Channel;
 import com.igordotsenko.dotsenkorssreader.syncadapter.ReaderSyncAdapter;
 
 public class ChannelListFragment extends Fragment
@@ -33,7 +32,6 @@ public class ChannelListFragment extends Fragment
     private SearchView mSearchView;
     private ImageButton mAddChannelButton;
     private ChannelListRVAdapter mRvAdapter;
-    private Channel mLastSelectedChannel = new Channel();
 
     public ChannelListFragment() {}
 
@@ -153,26 +151,11 @@ public class ChannelListFragment extends Fragment
         }
     }
 
-    public Channel getLastSelectedChannel() {
-        return mLastSelectedChannel;
-    }
-
-    public void setLastSelectedChannel(Channel lastSelectedChannel) {
-        this.mLastSelectedChannel = lastSelectedChannel;
-    }
-
     public AddChannelFragment getAddChannelFragment() {
         return mAddChannelFragment;
     }
 
     public void setAddChannelFragment(AddChannelFragment addChannelFragment) {
         this.mAddChannelFragment = addChannelFragment;
-    }
-
-    @Override
-    public String toString() {
-        return "ChannelListFragment{" +
-                "mLastSelectedChannel=" + mLastSelectedChannel +
-                '}';
     }
 }

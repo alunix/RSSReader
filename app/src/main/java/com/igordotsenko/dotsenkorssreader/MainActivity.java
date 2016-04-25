@@ -43,9 +43,6 @@ public class MainActivity extends AppCompatActivity
                 showItemListFragment();
                 return;
             }
-            if ( mChannelListFragment != null ) {
-                mChannelListFragment.setLastSelectedChannel(new Channel());
-            }
             showChannelListFragment();
             return;
         }
@@ -75,7 +72,6 @@ public class MainActivity extends AppCompatActivity
             if ( mItemListFragment == null ) {
                 mItemListFragment = new ItemListFragment();
             }
-            mChannelListFragment.setLastSelectedChannel(selectedChannel);
             mItemListFragment.setLastSelectedChannel(selectedChannel);
             openItemListFragmentLarge();
             return;
@@ -83,7 +79,6 @@ public class MainActivity extends AppCompatActivity
 
         if ( mCurrentChannelId != selectedChannel.getId() ) {
             mCurrentChannelId = selectedChannel.getId();
-            mChannelListFragment.setLastSelectedChannel(selectedChannel);
             mItemListFragment.setLastSelectedChannel(selectedChannel);
             replaceItemListFragment();
         }
@@ -139,13 +134,12 @@ public class MainActivity extends AppCompatActivity
     private void showItemListFragment() {
         if ( mItemListFragment != null ) {
             if ( mItemListFragment.getLastSelectedChannel().getId() != 0 ) {
+                // If channel was selected - show its items
                 onItemSelected(mItemListFragment.getLastSelectedChannel());
             }
-//            if ( mChannelListFragment.getLastSelectedChannel().getId() != 0 ) {
-//                onItemSelected(mChannelListFragment.getLastSelectedChannel());
-//            }
             return;
         }
+        // If channel was not selected or user exit last selected channel - show non-selected channel
         mItemListFragment = new ItemListFragment();
         openItemListFragmentSmall();
     }

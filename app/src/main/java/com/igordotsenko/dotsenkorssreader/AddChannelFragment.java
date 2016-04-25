@@ -122,7 +122,6 @@ public class AddChannelFragment extends DialogFragment  {
                 //Add feed
                 mDownloadNewChannelTask = new DownloadNewChannelTask();
                 mDownloadNewChannelTask.execute(url);
-//                dismiss();
             }
         });
 
@@ -159,13 +158,9 @@ public class AddChannelFragment extends DialogFragment  {
         private final String FEED_EXIST_MESSAGE = "Feed has been added already";
 
         private Context context;
-//        private ProgressDialog progressDialog;
-//        private DownloadChannelTaskListener downloadChannelTaskListener;
 
         public DownloadNewChannelTask() {
             context = getActivity();
-//            progressDialog = new ProgressDialog(context);
-//            this.downloadChannelTaskListener = downloadChannelTaskListener;
         }
 
         @Override
@@ -214,8 +209,7 @@ public class AddChannelFragment extends DialogFragment  {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-//            dismissProgressDialog();
-//            Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+
             Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onPostExecute: started");
             Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onPostExecute: mDownloadChannelTaskListener = " + mDownloadChannelTaskListener);
             if ( mDownloadChannelTaskListener != null ) {
@@ -224,11 +218,5 @@ public class AddChannelFragment extends DialogFragment  {
             context = null;
             Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onPostExecute: finished");
         }
-
-//        private void dismissProgressDialog() {
-//            if (progressDialog != null && progressDialog.isShowing()) {
-//                progressDialog.dismiss();
-//            }
-//        }
     }
 }

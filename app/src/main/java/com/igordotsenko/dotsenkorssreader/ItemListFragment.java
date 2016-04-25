@@ -80,6 +80,8 @@ public class ItemListFragment extends Fragment
             mBackButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // setting non-selected channel
+                    mSelectedChannel = new Channel();
                     closeFragment();
                 }
             });
@@ -203,12 +205,5 @@ public class ItemListFragment extends Fragment
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction().remove(this).commit();
         fragmentManager.popBackStackImmediate();
-    }
-
-    @Override
-    public String toString() {
-        return "ItemListFragment{" +
-                ", mSelectedChannel=" + mSelectedChannel +
-                '}';
     }
 }
