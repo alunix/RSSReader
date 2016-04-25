@@ -11,7 +11,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +50,6 @@ public class ItemListFragment extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(MainActivity.LOG_TAG, "" + getClass().getName() + "onCreateView: started");
         View layout = inflater.inflate(R.layout.fragement_item_list, container, false);
 
         //SwipeRefreshLayout initialization
@@ -94,18 +92,15 @@ public class ItemListFragment extends Fragment
         mRvAdapter = new ItemListRVAdapter(getContext(), mSelectedChannel);
         mRecyclerView.setAdapter(mRvAdapter);
 
-        Log.d(MainActivity.LOG_TAG, "" + getClass().getName() + "onCreateView: finished");
         return layout;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d(MainActivity.LOG_TAG, "" + getClass().getName() + "onActivityCreated: started");
 
         //Start Loader
         this.getLoaderManager().initLoader(LOADER_ITEM_LIST, null, this).forceLoad();
-        Log.d(MainActivity.LOG_TAG, "" + getClass().getName() + "onActivityCreated: finished");
     }
 
     @Override
@@ -177,14 +172,12 @@ public class ItemListFragment extends Fragment
     private void setWelcomeMessageVisible() {
         mRecyclerView.setVisibility(View.GONE);
         mWelcomeMessage.setVisibility(View.VISIBLE);
-        Log.d(MainActivity.LOG_TAG, getClass().getSimpleName() + ": setWelcomeMessageVisible: finished");
     }
 
     private void setRecyclerViewVisible() {
         if ( mRecyclerView.getVisibility() != View.VISIBLE ) {
             mRecyclerView.setVisibility(View.VISIBLE);
             mWelcomeMessage.setVisibility(View.GONE);
-            Log.d(MainActivity.LOG_TAG, getClass().getSimpleName() + ": setRecyclerViewVisible: finished");
         }
     }
 

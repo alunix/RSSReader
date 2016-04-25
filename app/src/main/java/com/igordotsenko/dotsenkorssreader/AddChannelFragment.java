@@ -23,6 +23,7 @@ import com.igordotsenko.dotsenkorssreader.entities.Parser;
 import java.io.IOException;
 
 public class AddChannelFragment extends DialogFragment  {
+
     public interface DownloadChannelTaskListener {
         void onDownloadFeedStarted();
         void onDownloadFeedFinished();
@@ -40,7 +41,7 @@ public class AddChannelFragment extends DialogFragment  {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onAttach: started: mDownloadChannelTaskListener = " + context);
+
         mDownloadChannelTaskListener = (DownloadChannelTaskListener) context;
     }
 
@@ -52,8 +53,7 @@ public class AddChannelFragment extends DialogFragment  {
     }
 
     @Override
-    public void onDestroyView()
-    {
+    public void onDestroyView() {
         Dialog dialog = getDialog();
 
         // Work around bug: http://code.google.com/p/android/issues/detail?id=17423
@@ -141,9 +141,7 @@ public class AddChannelFragment extends DialogFragment  {
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onDetach: started");
         mDownloadChannelTaskListener = null;
-        Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onDetach: finished");
     }
 
     public DownloadNewChannelTask getDownloadNewChannelTask() {
@@ -210,13 +208,10 @@ public class AddChannelFragment extends DialogFragment  {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onPostExecute: started");
-            Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onPostExecute: mDownloadChannelTaskListener = " + mDownloadChannelTaskListener);
             if ( mDownloadChannelTaskListener != null ) {
                 mDownloadChannelTaskListener.onDownloadFeedFinished();
             }
             context = null;
-            Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onPostExecute: finished");
         }
     }
 }

@@ -67,8 +67,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemSelected(Channel selectedChannel) {
         if ( isInSinglePaneMode() ) {
-            Log.d(LOG_TAG, "onItemSelected: isInSinglePaneMode");
-
             if ( mItemListFragment == null ) {
                 mItemListFragment = new ItemListFragment();
             }
@@ -77,6 +75,7 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
+        //If two pane mode
         if ( mCurrentChannelId != selectedChannel.getId() ) {
             mCurrentChannelId = selectedChannel.getId();
             mItemListFragment.setLastSelectedChannel(selectedChannel);
@@ -86,18 +85,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void  onDownloadFeedStarted() {
-        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": onDownloadFeedStarted: started");
         showProgressDialog();
-        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": onDownloadFeedStarted: finished");
     }
 
     @Override
     public void onDownloadFeedFinished() {
-        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": onDownloadFeedFinished: started");
         removeProgressDialog();
         mChannelListFragment.getAddChannelFragment().dismiss();
         mChannelListFragment.setAddChannelFragment(null);
-        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": onDownloadFeedFinished: finished");
     }
 
     private void initializeImageLoader() {
@@ -163,23 +158,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void openItemListFragmentLarge() {
-        Log.d(LOG_TAG, "openItemListFragmentLarge: started");
         startReplaceFragmentTransaction(
                 R.id.channelList_fragment_container, mItemListFragment, ItemListFragment.FRAGMENT_TAG)
                 .addToBackStack(null)
                 .commit();
         getSupportFragmentManager().executePendingTransactions();
-        Log.d(LOG_TAG, "openItemListFragmentLarge: finished");
     }
 
     private void replaceItemListFragment() {
-        Log.d(LOG_TAG, "replaceItemListFragment: started");
         startReplaceFragmentTransaction(
                 R.id.itemList_fragment_container, mItemListFragment, ItemListFragment.FRAGMENT_TAG)
                 .commit();
         getSupportFragmentManager().executePendingTransactions();
         mItemListFragment.onReplace();
-        Log.d(LOG_TAG, "replaceItemListFragment: finished");
     }
 
     private FragmentTransaction startReplaceFragmentTransaction(
@@ -204,18 +195,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void handleProgressDialog() {
-        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": handleProgressDialog: started");
-
         if ( mChannelListFragment.getAddChannelFragment() != null && newChannelIsDowloading()) {
             showProgressDialog();
         }
-        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": handleProgressDialog: finished");
     }
 
     private boolean newChannelIsDowloading() {
         AddChannelFragment addChannelFragment = mChannelListFragment.getAddChannelFragment();
-        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": newChannelIsDowloading: addChannelFragment = " + addChannelFragment);
-        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": newChannelIsDowloading: DownloadTask = " + addChannelFragment.getDownloadNewChannelTask());
         if ( addChannelFragment == null
                 || addChannelFragment.getDownloadNewChannelTask() == null ) {
             return false;

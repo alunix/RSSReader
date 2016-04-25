@@ -9,7 +9,6 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +40,6 @@ public class ChannelListFragment extends Fragment
 
         setRetainInstance(true);
         ReaderSyncAdapter.initializeSyncAdapter(getContext());
-        Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onCreate: mAddChannelFragment = " + mAddChannelFragment);
     }
 
     @Override
@@ -90,7 +88,6 @@ public class ChannelListFragment extends Fragment
         super.onResume();
         mSearchView.clearFocus();
         mRecyclerView.requestFocus();
-        Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onResume: mAddChannelFragment = " + mAddChannelFragment);
     }
 
     @Override
