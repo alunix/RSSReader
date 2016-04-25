@@ -138,9 +138,12 @@ public class MainActivity extends AppCompatActivity
 
     private void showItemListFragment() {
         if ( mItemListFragment != null ) {
-            if ( mChannelListFragment.getLastSelectedChannel().getId() != 0 ) {
-                onItemSelected(mChannelListFragment.getLastSelectedChannel());
+            if ( mItemListFragment.getLastSelectedChannel().getId() != 0 ) {
+                onItemSelected(mItemListFragment.getLastSelectedChannel());
             }
+//            if ( mChannelListFragment.getLastSelectedChannel().getId() != 0 ) {
+//                onItemSelected(mChannelListFragment.getLastSelectedChannel());
+//            }
             return;
         }
         mItemListFragment = new ItemListFragment();

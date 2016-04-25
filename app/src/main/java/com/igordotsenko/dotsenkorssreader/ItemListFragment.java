@@ -43,6 +43,13 @@ public class ItemListFragment extends Fragment
     public ItemListFragment() {}
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setRetainInstance(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(MainActivity.LOG_TAG, "" + getClass().getName() + "onCreateView: started");
         View layout = inflater.inflate(R.layout.fragement_item_list, container, false);
@@ -196,5 +203,12 @@ public class ItemListFragment extends Fragment
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction().remove(this).commit();
         fragmentManager.popBackStackImmediate();
+    }
+
+    @Override
+    public String toString() {
+        return "ItemListFragment{" +
+                ", mSelectedChannel=" + mSelectedChannel +
+                '}';
     }
 }

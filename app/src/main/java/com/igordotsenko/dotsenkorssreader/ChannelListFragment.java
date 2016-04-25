@@ -168,4 +168,11 @@ public class ChannelListFragment extends Fragment
     public void setAddChannelFragment(AddChannelFragment addChannelFragment) {
         this.mAddChannelFragment = addChannelFragment;
     }
+
+    @Override
+    public String toString() {
+        return "ChannelListFragment{" +
+                "mLastSelectedChannel=" + mLastSelectedChannel +
+                '}';
+    }
 }
