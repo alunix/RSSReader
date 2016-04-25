@@ -3,9 +3,7 @@
     <string name="action_search">action_search</string>
     <string name="action_add_channel">add_channel</string>
     <string name="add_feed_dialog_title">Add Feed</string>
+    <string name="adding_feed_message">Adding new feed...</string>
     <string name="no_data_available">Welcome to Dotsenko RSS Feed! News will appear here soon</string>
     <string name="authrority">com.igordotsenko.dotsenkorssreader</string>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -97,12 +97,6 @@ public class DBHandler extends SQLiteOpenHelper {
         return ids;
     }
 
-    public static String getChannelTitle(long channelId, ContentResolver contentResolver) {
-        Channel selectedChannel = selectCurrentChannel(channelId, contentResolver);
-
-        return selectedChannel.getTitle();
-    }
-
     public static void updateChannel(int channelId, Parser parser, ContentResolver contentResolver) throws IOException {
         Channel currentChannel = selectCurrentChannel(channelId, contentResolver);
         Channel updatedChannel = parser.updateExistChannel(currentChannel);

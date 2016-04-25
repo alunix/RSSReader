@@ -30,6 +30,8 @@ public class AddChannelFragment extends DialogFragment  {
     }
 
     public static final String FRAGMENT_TAG = "add_channel_fragment_tag";
+    public static final String PROGRESS_DIALOG_MESSAGE =
+            ReaderApplication.sAppContext.getResources().getString(R.string.adding_feed_message);
 
     private final String NO_URL_MESSAGE = "Enter url";
     private final String FEED_EXIST_MESSAGE = "Feed has been added already";
@@ -149,8 +151,6 @@ public class AddChannelFragment extends DialogFragment  {
     }
 
     class DownloadNewChannelTask extends AsyncTask<String, Void, String> {
-        public static final String PROGRESS_DIALOG_MESSAGE = "Adding new feed...";
-
         private final String ERROR_MESSAGE = "Cannot add feed";
         private final String SUCCESS_MESSAGE = "Feed added";
         private final String FEED_EXIST_MESSAGE = "Feed has been added already";

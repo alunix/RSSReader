@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
-import com.igordotsenko.dotsenkorssreader.syncadapter.ReaderSyncAdapter;
 
 public class ChannelListFragment extends Fragment
         implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -39,7 +38,6 @@ public class ChannelListFragment extends Fragment
         super.onCreate(savedInstanceState);
 
         setRetainInstance(true);
-        ReaderSyncAdapter.initializeSyncAdapter(getContext());
     }
 
     @Override
@@ -80,7 +78,8 @@ public class ChannelListFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
 
         //Start Loader
-        this.getLoaderManager().initLoader(LOADER_CHANNEL_LIST, null, this).forceLoad();
+        if (getLoaderManager().getLoader(LOADER_CHANNEL_LIST) == null)
+            getLoaderManager().initLoader(LOADER_CHANNEL_LIST, null, this).forceLoad();
     }
 
     @Override

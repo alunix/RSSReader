@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity
         Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": showProgressDialog: started");
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setMessage(
-                AddChannelFragment.DownloadNewChannelTask.PROGRESS_DIALOG_MESSAGE);
+                AddChannelFragment.PROGRESS_DIALOG_MESSAGE);
         mProgressDialog.show();
         Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": showProgressDialog: fininshed");
     }
