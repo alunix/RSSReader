@@ -109,8 +109,6 @@ public class ChannelListFragment extends Fragment
 
     @Override
     public boolean onQueryTextChange(String queryText) {
-        //TODO remove
-        Log.d(MainActivity.LOG_TAG, "" + getClass().getSimpleName() + ": onResume: mAddChannelFragment = " + mAddChannelFragment);
         Bundle bundle = new Bundle();
         bundle.putString(QUERY_TEXT, queryText);
         this.getLoaderManager()

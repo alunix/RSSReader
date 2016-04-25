@@ -1,6 +1,5 @@
 package com.igordotsenko.dotsenkorssreader;
 
-import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -74,7 +73,6 @@ public class ItemListFragment extends Fragment
             mBackButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
                     closeFragment();
                 }
             });
@@ -181,6 +179,10 @@ public class ItemListFragment extends Fragment
         }
     }
 
+    public Channel getLastSelectedChannel() {
+        return mSelectedChannel;
+    }
+
     private void handleWelcomeMessage(Cursor data) {
         if ( data.getCount() == 0 ) {
 
@@ -190,7 +192,7 @@ public class ItemListFragment extends Fragment
         setRecyclerViewVisible();
     }
 
-    private void closeFragment() {
+    public void closeFragment() {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction().remove(this).commit();
         fragmentManager.popBackStackImmediate();

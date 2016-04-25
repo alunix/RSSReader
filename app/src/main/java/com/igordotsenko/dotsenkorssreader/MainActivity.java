@@ -1,7 +1,6 @@
 package com.igordotsenko.dotsenkorssreader;
 
 import android.app.ProgressDialog;
-import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -36,15 +35,20 @@ public class MainActivity extends AppCompatActivity
 
         initializeImageLoader();
 
-        showChannelListFragment();
+        restoreFragments();
 
-        if ( !isInSinglePaneMode() ) {
-            showItemListFragment();
+        if ( isInSinglePaneMode() ) {
+            if ( mItemListFragment != null &&  mItemListFragment.isAdded() ) {
+                mItemListFragment.closeFragment();
+                showItemListFragment();
+                return;
+            }
+            showChannelListFragment();
+            return;
         }
 
-        handleAddChannelFragment();
-//        handleProgressDialog();
-
+        showChannelListFragment();
+        showItemListFragment();
     }
 
     @Override
@@ -107,9 +111,21 @@ public class MainActivity extends AppCompatActivity
         ImageLoader.getInstance().init(imageLoaderConfiguration);
     }
 
-    private void showChannelListFragment() {
+    private void restoreFragments() {
         mChannelListFragment = (ChannelListFragment) getSupportFragmentManager()
                 .findFragmentByTag(ChannelListFragment.FRAGMENT_TAG);
+
+        mItemListFragment = (ItemListFragment) getSupportFragmentManager()
+                .findFragmentByTag(ItemListFragment.FRAGMENT_TAG);
+
+        getSupportFragmentManager().findFragmentByTag(AddChannelFragment.FRAGMENT_TAG);
+    }
+
+    private void showChannelListFragment() {
+        // Check if ItemListFragment was opened in single pane mode before. If yes - remove it
+        if ( mItemListFragment != null && mItemListFragment.isAdded() && !isInSinglePaneMode()) {
+            mItemListFragment.closeFragment();
+        }
 
         if ( mChannelListFragment == null ) {
             mChannelListFragment = new ChannelListFragment();
@@ -118,9 +134,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void showItemListFragment() {
-        mItemListFragment = (ItemListFragment) getSupportFragmentManager()
-                .findFragmentByTag(ItemListFragment.FRAGMENT_TAG);
-
         if ( mItemListFragment != null  ) {
             onItemSelected(mChannelListFragment.getLastSelectedChannel());
             return;
@@ -154,7 +167,6 @@ public class MainActivity extends AppCompatActivity
                 .addToBackStack(null)
                 .commit();
         getSupportFragmentManager().executePendingTransactions();
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Log.d(LOG_TAG, "openItemListFragmentLarge: finished");
     }
 
@@ -196,10 +208,6 @@ public class MainActivity extends AppCompatActivity
             showProgressDialog();
         }
         Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": handleProgressDialog: finished");
-    }
-
-    private void handleAddChannelFragment() {
-        getSupportFragmentManager().findFragmentByTag(AddChannelFragment.FRAGMENT_TAG);
     }
 
     private boolean newChannelIsDowloading() {

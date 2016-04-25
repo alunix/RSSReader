@@ -171,9 +171,7 @@ public class AddChannelFragment extends DialogFragment  {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //TODO remove after testing
-//            progressDialog.setMessage("Adding feed...");
-//            progressDialog.show();
+
             if ( mDownloadChannelTaskListener != null ) {
                 mDownloadChannelTaskListener.onDownloadFeedStarted();
             }
