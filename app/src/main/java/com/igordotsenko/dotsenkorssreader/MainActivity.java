@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity
                 showItemListFragment();
                 return;
             }
+            mChannelListFragment.setLastSelectedChannel(new Channel());
             showChannelListFragment();
             return;
         }
