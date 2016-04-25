@@ -9,21 +9,37 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
 
+import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
+
 public class ChannelListFragment extends Fragment
-        implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
+        implements SearchView.OnQueryTextListener,
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String FRAGMENT_TAG = "channel_list_fragment_tag";
 
     private static final String QUERY_TEXT = "query text";
     private static final int LOADER_CHANNEL_LIST = 1;
     private static final int LOADER_CHANNEL_LIST_REFRESH = 2;
+
+    private static final String CONTEXT_MENU_HEADER =
+            ReaderApplication.sAppContext.getResources().getString(
+                    R.string.channel_list_fragment_context_menu_header);
+
+    private static final String CONTEXT_MENU_DELETE_CHANNEL =
+            ReaderApplication.sAppContext.getResources().getString(
+                    R.string.channel_list_fragment_context_menu_delete_channel);
+
+    private static final int CONTEXT_MENU_DELETE_ID = 1;
 
     private AddChannelFragment mAddChannelFragment;
     private RecyclerView mRecyclerView;
@@ -67,7 +83,8 @@ public class ChannelListFragment extends Fragment
 
         // Retrieve channel list from database and set adapter
         mRvAdapter =
-                new ChannelListRVAdapter((ChannelListRVAdapter.OnItemSelectListener) getActivity());
+                new ChannelListRVAdapter((ChannelListRVAdapter.OnItemSelectListener) getActivity(),
+                        (View.OnCreateContextMenuListener) this);
         mRecyclerView.setAdapter(mRvAdapter);
 
         return layout;
@@ -145,6 +162,32 @@ public class ChannelListFragment extends Fragment
         if ( loader.getId() == LOADER_CHANNEL_LIST ) {
             this.mRvAdapter.swapCursor(null);
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(
+            ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        menu.setHeaderTitle(CONTEXT_MENU_HEADER);
+        menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ID,
+                CONTEXT_MENU_DELETE_ID, CONTEXT_MENU_DELETE_CHANNEL);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch ( item.getItemId() ) {
+            case CONTEXT_MENU_DELETE_ID:
+                String selection = ContractClass.Channel.ID + " = ? ";
+                String[] selectionArgs = { "" + mRvAdapter.getLongClickedChannel() };
+
+                getContext().getContentResolver().delete(
+                        ContractClass.CHANNEL_CONTENT_URI, selection, selectionArgs);
+                break;
+
+        }
+        return super.onContextItemSelected(item);
     }
 
     public AddChannelFragment getAddChannelFragment() {

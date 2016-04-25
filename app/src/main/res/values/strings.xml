@@ -4,6 +4,8 @@
     <string name="action_add_channel">add_channel</string>
     <string name="add_feed_dialog_title">Add Feed</string>
     <string name="adding_feed_message">Adding new feed...</string>
+    <string name="channel_list_fragment_context_menu_header">Select action</string>
+    <string name="channel_list_fragment_context_menu_delete_channel">Delete channel</string>
     <string name="no_data_available">Welcome to Dotsenko RSS Feed! News will appear here soon</string>
     <string name="authrority">com.igordotsenko.dotsenkorssreader</string>
 </resources>

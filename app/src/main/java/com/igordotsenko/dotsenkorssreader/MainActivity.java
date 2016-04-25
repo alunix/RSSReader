@@ -210,4 +210,5 @@ public class MainActivity extends AppCompatActivity
         return  mChannelListFragment.getAddChannelFragment().getDownloadNewChannelTask().getStatus()
                 == AsyncTask.Status.RUNNING;
     }
+
 }

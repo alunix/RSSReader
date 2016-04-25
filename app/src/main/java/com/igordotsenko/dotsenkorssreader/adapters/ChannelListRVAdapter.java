@@ -12,16 +12,20 @@ import com.igordotsenko.dotsenkorssreader.R;
 import com.igordotsenko.dotsenkorssreader.entities.Channel;
 
 public class ChannelListRVAdapter
-        extends RecyclerViewCursorAdapter<ChannelListRVAdapter.ChannelViewHolder>{
+        extends RecyclerViewCursorAdapter<ChannelListRVAdapter.ChannelViewHolder> {
 
     public interface OnItemSelectListener {
         void onItemSelected(Channel selectedChannel);
     }
 
     private static OnItemSelectListener sOnItemSelectListener;
+    private static View.OnCreateContextMenuListener sOnCreateContextMenuListener;
+    private static long sLongClickedChannel;
 
-    public ChannelListRVAdapter(OnItemSelectListener onItemSelectListener) {
-        this.sOnItemSelectListener = onItemSelectListener;
+    public ChannelListRVAdapter(OnItemSelectListener onItemSelectListener,
+                                View.OnCreateContextMenuListener onCreateContextMenuListener) {
+        sOnItemSelectListener = onItemSelectListener;
+        sOnCreateContextMenuListener = onCreateContextMenuListener;
     }
 
     @Override
@@ -42,8 +46,13 @@ public class ChannelListRVAdapter
         holder.bindData(cursor);
     }
 
+    public long getLongClickedChannel() {
+        return sLongClickedChannel;
+    }
+
     public static class ChannelViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
+            implements View.OnClickListener, View.OnLongClickListener {
+
         private Channel mChannel;
         private TextView mChannelTitleTextView;
         private RelativeLayout mLayout;
@@ -67,9 +76,21 @@ public class ChannelListRVAdapter
             sOnItemSelectListener.onItemSelected(mChannel);
         }
 
+        @Override
+        public boolean onLongClick(View v) {
+            // Specify which channel was clicked to call context menu
+            sLongClickedChannel = mChannel.getId();
+            return false;
+        }
+
         private void setOnClickListeners() {
             mLayout.setOnClickListener(this);
             mChannelTitleTextView.setOnClickListener(this);
+
+            mLayout.setOnLongClickListener(this);
+            mChannelTitleTextView.setOnLongClickListener(this);
+
+            mChannelTitleTextView.setOnCreateContextMenuListener(sOnCreateContextMenuListener);
         }
     }
 }

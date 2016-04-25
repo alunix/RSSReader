@@ -29,7 +29,23 @@ public class ReaderContentProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        int rowDeleted = 0;
+
+        switch ( sUriMatcher.match(uri) ) {
+            case CHANNEL:
+                // Remove Channel
+                mDatabase = mDbHandler.getWritableDatabase();
+                rowDeleted = mDatabase.delete(ContractClass.Channel.TABLE, selection, selectionArgs);
+
+                //Remove items of this channel
+                selection = ContractClass.Item.CHANNEL_ID + " = ?";
+                mDatabase.delete(ContractClass.Item.TABLE, selection, selectionArgs);
+                getContext().getContentResolver().notifyChange(ContractClass.CHANNEL_CONTENT_URI, null);
+                getContext().getContentResolver().notifyChange(ContractClass.ITEM_CONTENT_URI, null);
+                break;
+        }
+
+        return rowDeleted;
     }
 
     @Override
