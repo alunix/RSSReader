@@ -100,8 +100,7 @@ public class ItemListFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
 
         //Start Loader
-        if (getLoaderManager().getLoader(LOADER_ITEM_LIST) == null)
-            getLoaderManager().initLoader(LOADER_ITEM_LIST, null, this).forceLoad();
+        getLoaderManager().initLoader(LOADER_ITEM_LIST, null, this).forceLoad();
     }
 
     @Override

@@ -95,8 +95,7 @@ public class ChannelListFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
 
         //Start Loader
-        if (getLoaderManager().getLoader(LOADER_CHANNEL_LIST) == null)
-            getLoaderManager().initLoader(LOADER_CHANNEL_LIST, null, this).forceLoad();
+        getLoaderManager().initLoader(LOADER_CHANNEL_LIST, null, this).forceLoad();
     }
 
     @Override
