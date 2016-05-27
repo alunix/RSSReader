@@ -1,140 +1,98 @@
 package com.igordotsenko.dotsenkorssreader;
 
-import android.content.pm.ActivityInfo;
-import android.database.Cursor;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.view.View;
-import android.widget.ImageButton;
+import android.util.Log;
 
 import com.igordotsenko.dotsenkorssreader.adapters.ChannelListRVAdapter;
+import com.igordotsenko.dotsenkorssreader.entities.Channel;
 import com.igordotsenko.dotsenkorssreader.syncadapter.ReaderSyncAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
-
 public class MainActivity extends AppCompatActivity
-        implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
-    
-    private static final String QUERY_TEXT = "query text";
-    private static final int LOADER_CHANNEL_LIST = 1;
-    private static final int LOADER_CHANNEL_LIST_REFRESH = 2;
+        implements ChannelListRVAdapter.OnItemSelectListener,
+        AddChannelFragment.DownloadChannelTaskListener {
+
+
     public static final String LOG_TAG = "rss_reader_log";
 
-    private DialogFragment mDialogFragment;
-    private RecyclerView mRecyclerView;
-    private SearchView mSearchView;
-    private ImageButton mAddChannelButton;
-    private ChannelListRVAdapter mRvAdapter;
+    private ChannelListFragment mChannelListFragment;
+    private ItemListFragment mItemListFragment;
+    private long mCurrentChannelId;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         ReaderSyncAdapter.initializeSyncAdapter(this);
 
         initializeImageLoader();
 
-        mDialogFragment = new AddChannelFragment();
+        restoreFragments();
 
-        //SearchView initialization
-        mSearchView = (SearchView) findViewById(R.id.channel_list_search_view);
-        mSearchView.setOnQueryTextListener(this);
-        mSearchView.setIconifiedByDefault(false);
-
-        //AddChannelButton initialization
-        mAddChannelButton = (ImageButton) findViewById(R.id.channel_list_add_button);
-        mAddChannelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialogFragment.show(getSupportFragmentManager(), "add feed");
+        if ( isInSinglePaneMode() ) {
+            if ( mItemListFragment != null &&  mItemListFragment.isAdded() ) {
+                mItemListFragment.closeFragment();
+                showItemListFragment();
+                return;
             }
-        });
+            showChannelListFragment();
+            return;
+        }
 
-        //RecyclerView initialization
-        mRecyclerView = (RecyclerView)findViewById(R.id.channel_list_recyclerview);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-
-        // Retrieve channel list from database and set adapter
-        mRvAdapter = new ChannelListRVAdapter(this);
-        mRecyclerView.setAdapter(mRvAdapter);
-
-        //Start Loader
-        this.getSupportLoaderManager().initLoader(LOADER_CHANNEL_LIST, null, this).forceLoad();
+        showChannelListFragment();
+        showItemListFragment();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mSearchView.clearFocus();
-        mRecyclerView.requestFocus();
+        handleProgressDialog();
     }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        removeProgressDialog();
     }
 
     @Override
-    public boolean onQueryTextSubmit(String query) {
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String queryText) {
-        Bundle bundle = new Bundle();
-        bundle.putString(QUERY_TEXT, queryText);
-        this.getSupportLoaderManager()
-                .restartLoader(LOADER_CHANNEL_LIST_REFRESH, bundle, this).forceLoad();
-
-        return false;
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String order = ContractClass.Channel.ID + " ASC";
-
-        switch (id) {
-            case LOADER_CHANNEL_LIST:
-                return new CursorLoader(
-                        this, ContractClass.CHANNEL_CONTENT_URI,
-                        null, null, null, order);
-
-            case LOADER_CHANNEL_LIST_REFRESH:
-                String selection = ContractClass.Channel.TITLE
-                        + " LIKE '%" + args.getString(QUERY_TEXT) + "%'";
-
-                return new CursorLoader(
-                        this, ContractClass.CHANNEL_CONTENT_URI,
-                        null, selection, null, order);
-        }
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-            if ( loader.getId() == LOADER_CHANNEL_LIST
-                    || loader.getId() == LOADER_CHANNEL_LIST_REFRESH ) {
-                this.mRvAdapter.swapCursor(data);
+    public void onItemSelected(Channel selectedChannel) {
+        if ( isInSinglePaneMode() ) {
+            if ( mItemListFragment == null ) {
+                mItemListFragment = new ItemListFragment();
             }
+            mItemListFragment.setLastSelectedChannel(selectedChannel);
+            openItemListFragmentLarge();
+            return;
+        }
+
+        //If two pane mode
+        if ( mCurrentChannelId != selectedChannel.getId() ) {
+            mCurrentChannelId = selectedChannel.getId();
+            mItemListFragment.setLastSelectedChannel(selectedChannel);
+            replaceItemListFragment();
+        }
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        if ( loader.getId() == LOADER_CHANNEL_LIST ) {
-            this.mRvAdapter.swapCursor(null);
-        }
+    public void  onDownloadFeedStarted() {
+        showProgressDialog();
+    }
+
+    @Override
+    public void onDownloadFeedFinished() {
+        removeProgressDialog();
+        mChannelListFragment.getAddChannelFragment().dismiss();
+        mChannelListFragment.setAddChannelFragment(null);
     }
 
     private void initializeImageLoader() {
@@ -145,4 +103,112 @@ public class MainActivity extends AppCompatActivity
                         .build();
         ImageLoader.getInstance().init(imageLoaderConfiguration);
     }
+
+    private void restoreFragments() {
+        mChannelListFragment = (ChannelListFragment) getSupportFragmentManager()
+                .findFragmentByTag(ChannelListFragment.FRAGMENT_TAG);
+
+        mItemListFragment = (ItemListFragment) getSupportFragmentManager()
+                .findFragmentByTag(ItemListFragment.FRAGMENT_TAG);
+
+        getSupportFragmentManager().findFragmentByTag(AddChannelFragment.FRAGMENT_TAG);
+    }
+
+    private void showChannelListFragment() {
+        // Check if ItemListFragment was opened in single pane mode before. If yes - remove it
+        if ( mItemListFragment != null && mItemListFragment.isAdded() && !isInSinglePaneMode()) {
+            mItemListFragment.closeFragment();
+        }
+
+        if ( mChannelListFragment == null ) {
+            mChannelListFragment = new ChannelListFragment();
+            openChannelListFragment();
+        }
+    }
+
+    private void showItemListFragment() {
+        if ( mItemListFragment != null ) {
+            if ( mItemListFragment.getLastSelectedChannel().getId() != 0 ) {
+                // If channel was selected - show its items
+                onItemSelected(mItemListFragment.getLastSelectedChannel());
+            }
+            return;
+        }
+        // If channel was not selected or user exit last selected channel - show non-selected channel
+        mItemListFragment = new ItemListFragment();
+        openItemListFragmentSmall();
+    }
+
+    private boolean isInSinglePaneMode() {
+        return findViewById(R.id.itemList_fragment_container) == null;
+    }
+
+    private void openChannelListFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.channelList_fragment_container,
+                        mChannelListFragment,
+                        ChannelListFragment.FRAGMENT_TAG)
+                .commit();
+    }
+
+    private void openItemListFragmentSmall() {
+        startReplaceFragmentTransaction(
+                R.id.itemList_fragment_container, mItemListFragment, ItemListFragment.FRAGMENT_TAG)
+                .commit();
+    }
+
+    private void openItemListFragmentLarge() {
+        startReplaceFragmentTransaction(
+                R.id.channelList_fragment_container, mItemListFragment, ItemListFragment.FRAGMENT_TAG)
+                .addToBackStack(null)
+                .commit();
+        getSupportFragmentManager().executePendingTransactions();
+    }
+
+    private void replaceItemListFragment() {
+        startReplaceFragmentTransaction(
+                R.id.itemList_fragment_container, mItemListFragment, ItemListFragment.FRAGMENT_TAG)
+                .commit();
+        getSupportFragmentManager().executePendingTransactions();
+        mItemListFragment.onReplace();
+    }
+
+    private FragmentTransaction startReplaceFragmentTransaction(
+            int contentViewId, Fragment fragment, String tag) {
+        return getSupportFragmentManager().beginTransaction().replace(contentViewId, fragment, tag);
+    }
+
+    private void showProgressDialog() {
+        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": showProgressDialog: started");
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage(
+                AddChannelFragment.PROGRESS_DIALOG_MESSAGE);
+        mProgressDialog.show();
+        Log.d(LOG_TAG, "" + getClass().getSimpleName() + ": showProgressDialog: fininshed");
+    }
+
+    private void removeProgressDialog() {
+        if ( mProgressDialog != null && mProgressDialog.isShowing() ) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+    }
+
+    private void handleProgressDialog() {
+        if ( mChannelListFragment.getAddChannelFragment() != null && newChannelIsDowloading()) {
+            showProgressDialog();
+        }
+    }
+
+    private boolean newChannelIsDowloading() {
+        AddChannelFragment addChannelFragment = mChannelListFragment.getAddChannelFragment();
+        if ( addChannelFragment == null
+                || addChannelFragment.getDownloadNewChannelTask() == null ) {
+            return false;
+        }
+
+        return  mChannelListFragment.getAddChannelFragment().getDownloadNewChannelTask().getStatus()
+                == AsyncTask.Status.RUNNING;
+    }
+
 }

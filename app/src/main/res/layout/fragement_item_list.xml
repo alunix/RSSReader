@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/item_list_swiperefresh_layout"
+    android:focusableInTouchMode="false"
+    android:focusable="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:clickable="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_list_action_bar_layout"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/colorBlue"
+            android:padding="10dp"
+            android:clickable="true">
+
+            <android.support.v7.widget.SearchView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_list_search_view"
+                android:background="@drawable/rectangle"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_toRightOf="@+id/item_list_back_button"
+                android:layout_toEndOf="@+id/item_list_back_button" />
+
+            <ImageButton
+                android:layout_width="120dp"
+                android:layout_height="45dp"
+                android:id="@+id/item_list_back_button"
+                android:background="@drawable/back_button_selector"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginRight="5dp" />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/item_list_recyclerview"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/item_list_empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="@string/no_data_available" />
+
+    </LinearLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

@@ -1,7 +1,5 @@
 package com.igordotsenko.dotsenkorssreader.adapters;
 
-import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,19 +8,24 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.igordotsenko.dotsenkorssreader.ItemListActivity;
 import com.igordotsenko.dotsenkorssreader.R;
-import com.igordotsenko.dotsenkorssreader.ReaderContentProvider;
-
-import static com.igordotsenko.dotsenkorssreader.ReaderContentProvider.ContractClass;
+import com.igordotsenko.dotsenkorssreader.entities.Channel;
 
 public class ChannelListRVAdapter
-        extends RecyclerViewCursorAdapter<ChannelListRVAdapter.ChannelViewHolder>{
+        extends RecyclerViewCursorAdapter<ChannelListRVAdapter.ChannelViewHolder> {
 
-    private Context mContext;
+    public interface OnItemSelectListener {
+        void onItemSelected(Channel selectedChannel);
+    }
 
-    public ChannelListRVAdapter(Context context) {
-        this.mContext = context;
+    private static OnItemSelectListener sOnItemSelectListener;
+    private static View.OnCreateContextMenuListener sOnCreateContextMenuListener;
+    private static long sLongClickedChannel;
+
+    public ChannelListRVAdapter(OnItemSelectListener onItemSelectListener,
+                                View.OnCreateContextMenuListener onCreateContextMenuListener) {
+        sOnItemSelectListener = onItemSelectListener;
+        sOnCreateContextMenuListener = onCreateContextMenuListener;
     }
 
     @Override
@@ -41,46 +44,53 @@ public class ChannelListRVAdapter
     @Override
     public void onBindViewHolder(ChannelListRVAdapter.ChannelViewHolder holder, Cursor cursor) {
         holder.bindData(cursor);
-
-        //Setting OnClickListeners
-        holder.layout.setOnClickListener(new ChannelOnClickListener(cursor));
-        holder.channelTitle.setOnClickListener(new ChannelOnClickListener(cursor));
     }
 
+    public long getLongClickedChannel() {
+        return sLongClickedChannel;
+    }
 
-    public static class ChannelViewHolder extends RecyclerView.ViewHolder {
-        TextView channelTitle;
-        RelativeLayout layout;
+    public static class ChannelViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnLongClickListener {
+
+        private Channel mChannel;
+        private TextView mChannelTitleTextView;
+        private RelativeLayout mLayout;
 
         ChannelViewHolder(View view) {
             super(view);
-            layout = (RelativeLayout) view.findViewById(R.id.channel_card_layout);
-            channelTitle = (TextView) view.findViewById(R.id.channel_title);
+
+            mLayout = (RelativeLayout) view.findViewById(R.id.channel_card_layout);
+            mChannelTitleTextView = (TextView) view.findViewById(R.id.channel_title);
+            setOnClickListeners();
         }
 
         public void bindData(final Cursor cursor) {
-            channelTitle.setText(cursor.getString(
-                    cursor.getColumnIndex(ReaderContentProvider.ContractClass.Channel.TITLE)));
-        }
-    }
-
-    private class ChannelOnClickListener implements View.OnClickListener {
-//        private final int position;
-        private long id;
-        private String title;
-
-        public  ChannelOnClickListener(Cursor cursor) {
-            this.id = cursor.getLong(cursor.getColumnIndex(ContractClass.Channel.ID));
-            this.title = cursor.getString(cursor.getColumnIndex(ContractClass.Channel.TITLE));
+            mChannel = new Channel(cursor);
+            mChannelTitleTextView.setText(mChannel.getTitle());
         }
 
         @Override
         public void onClick(View v) {
-            //Start ItemListActivity
-            Intent intent = new Intent(mContext, ItemListActivity.class);
-            intent.putExtra(ContractClass.Channel.ID, id);
-            intent.putExtra(ContractClass.Channel.TITLE, title);
-            mContext.startActivity(intent);
+            //Open ItemListFragment
+            sOnItemSelectListener.onItemSelected(mChannel);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            // Specify which channel was clicked to call context menu
+            sLongClickedChannel = mChannel.getId();
+            return false;
+        }
+
+        private void setOnClickListeners() {
+            mLayout.setOnClickListener(this);
+            mChannelTitleTextView.setOnClickListener(this);
+
+            mLayout.setOnLongClickListener(this);
+            mChannelTitleTextView.setOnLongClickListener(this);
+
+            mChannelTitleTextView.setOnCreateContextMenuListener(sOnCreateContextMenuListener);
         }
     }
 }

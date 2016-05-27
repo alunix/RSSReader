@@ -8,9 +8,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.igordotsenko.dotsenkorssreader.ItemListActivity;
 import com.igordotsenko.dotsenkorssreader.entities.DBHandler;
 import com.igordotsenko.dotsenkorssreader.entities.Parser;
 
@@ -56,7 +54,6 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
             Account account, Bundle extras, String authority,
             ContentProviderClient provider, SyncResult syncResult) {
 
-        Log.i(ItemListActivity.ITEM_LIST_TAG, "onPerformSync started");
         Parser parser = new Parser();
         List<Integer> ids;
 
@@ -67,7 +64,6 @@ public class ReaderSyncAdapter extends AbstractThreadedSyncAdapter {
         //Try to update feeds
         for ( int channelId : ids ) {
             try {
-                Log.i(ItemListActivity.ITEM_LIST_TAG, "try to update channel: " + channelId);
                 DBHandler.updateChannel(channelId, parser, mContentResolver);
             } catch (IOException e) {
                 e.printStackTrace();
